@@ -42,6 +42,8 @@ open class SttObservableCollection<T>: Collection {
     public var startIndex: Int { return datas.startIndex }
     public var endIndex: Int { return datas.endIndex }
     
+    public init() {}
+    
     open func index(after i: Int) -> Int {
         return datas.index(after: i)
     }

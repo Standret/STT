@@ -101,7 +101,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     
     // MARK: -- todo: write init for [cellIdentifiers]
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
@@ -115,7 +115,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView(tableView, didSelectRowAt: indexPath, with: collection[indexPath.row])
     }
     
@@ -127,7 +127,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     }
     
     private var inPosition: Bool = false
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let x = scrollView.contentOffset.y
         let width = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)

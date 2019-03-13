@@ -17,7 +17,7 @@ extension String: ParameterEncoding {
         return request
     }
     
-    func isAlpha() -> Bool {
+    public func isAlpha() -> Bool {
         if let character = self.unicodeScalars.first {
             return CharacterSet.letters.contains(character)
         }
@@ -25,12 +25,12 @@ extension String: ParameterEncoding {
     }
 }
 
-class SttString {
-    class func isEmpty(string: String?) -> Bool {
+public class SttString {
+    public class func isEmpty(string: String?) -> Bool {
         return (string ?? "").isEmpty
     }
     
-    class func isWhiteSpace(string: String?) -> Bool {
+    public class func isWhiteSpace(string: String?) -> Bool {
         return (string ?? "").trimmingCharacters(in: .whitespaces).isEmpty
     }
 }

@@ -89,7 +89,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
         })
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -103,11 +103,11 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
         return cell
     }
     
-    func collectionViewReusableCell(at indexPath: IndexPath) -> String {
+    open func collectionViewReusableCell(at indexPath: IndexPath) -> String {
         return _cellIdentifier.first!
     }
     
-    func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
+    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
         endScrollCallBack = { [weak delegate] in
             if let _delegate = delegate {
                 callback(_delegate)
@@ -117,7 +117,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
     
     // MARK: - implementation UICollectionViewDelegate
     private var inPosition: Bool = false
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let x = scrollView.contentOffset.y
         let width = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)

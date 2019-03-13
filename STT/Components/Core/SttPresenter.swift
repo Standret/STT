@@ -33,10 +33,10 @@ open class SttPresenter<TDelegate> : SttViewControllerInjector {
     private var _notificationError: SttNotificationErrorServiceType?
     private var messageDisposable: Disposable?
     
-    var disposableBag = DisposeBag()
-    var listenerDisposableBag = DisposeBag()
+    public var disposableBag = DisposeBag()
+    public var listenerDisposableBag = DisposeBag()
     
-    var delegate: TDelegate? { return _delegate as? TDelegate }
+    open var delegate: TDelegate? { return _delegate as? TDelegate }
     
     public init (notificationError: SttNotificationErrorServiceType?) {
         _notificationError = notificationError
