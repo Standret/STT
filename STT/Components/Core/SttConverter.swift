@@ -26,7 +26,7 @@
 
 import Foundation
 
-public class SttConverter<TIn, TOut>: SttConverterType {
+open class SttConverter<TIn, TOut>: SttConverterType {
     
     public required init() { }
     
@@ -38,7 +38,7 @@ public class SttConverter<TIn, TOut>: SttConverterType {
         return self.convertBack(value: value as! TOut, parametr: parametr)
     }
     
-    public func convert(value: TIn, parametr: Any?) -> TOut {
+    open func convert(value: TIn, parametr: Any?) -> TOut {
         notImplementException()
     }
     

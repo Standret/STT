@@ -27,6 +27,12 @@
 import Foundation
 
 public struct ServerError: Codable {
-    var code: Int
-    var description: String
+    public var code: Int
+    public var description: String
+    
+    public init(code: Int, description: String) {
+        self.code = code
+        self.description = description
+    }
+    
 }

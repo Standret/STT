@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.0"
+  s.version      = "1.0.2"
   s.summary      = "Test summary. Added Dynamic components for binding"
 
   s.description  = <<-DESC

@@ -37,7 +37,7 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
     
     private(set) var cellIdentifiers = [String]()
     
-    private(set) var collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>!
+    public private(set) var collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>!
     
     public var callBackEndPixel: Int = 150
     private var endScrollCallBack: (() -> Void)?
@@ -113,14 +113,14 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
     
     // MARK: - creation
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
     
@@ -128,7 +128,7 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
         return collection == nil ? 0 : collection[section].0.count
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    open func numberOfSections(in tableView: UITableView) -> Int {
         return collection == nil ? 0 : collection.count
     }
     
@@ -138,35 +138,35 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return nil
     }
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    open func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return nil
     }
     
     /// Method which return cell identifier to create reusable cell
-    func cellIdentifier(for indexPath: IndexPath) -> String {
+    open func cellIdentifier(for indexPath: IndexPath) -> String {
         return cellIdentifiers.first!
     }
     
     // MARK: - recognizer
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView(tableView, didSelectRowAt: indexPath, with: collection[indexPath.section].0[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, with presenter: TCell) { }
     
     private var inPosition: Bool = false
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let x = scrollView.contentOffset.y
         let width = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)

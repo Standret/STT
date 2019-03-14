@@ -33,6 +33,8 @@ public class SttNotificationErrorService: SttNotificationErrorServiceType {
     
     public var errorObservable: Observable<SttBaseError> { return subject }
     
+    public init() {}
+    
     public func useError<T>(observable: Observable<T>, ignoreBadRequest: Bool) -> Observable<T> {
         return observable.do(onError: { (error) in
             if let er = error as? SttBaseError {
