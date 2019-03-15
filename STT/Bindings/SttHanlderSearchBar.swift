@@ -70,11 +70,11 @@ public class SttHanlderSearchBar: NSObject, UISearchBarDelegate {
     }
     // MARK: implementation of protocol UISearchBarDelegate
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    open func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         handlers[.cancelClicked]?.forEach({ $0(searchBar) })
     }
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+    open func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         handlers[.shouldBeginEditing]?.forEach({ $0(searchBar) })
         
         return shouldHandlers[.shouldBeginEditing]?.map({ $0(searchBar) }).last ?? true

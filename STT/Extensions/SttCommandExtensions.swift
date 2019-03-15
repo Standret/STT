@@ -28,6 +28,13 @@ import Foundation
 import RxSwift
 import UIKit
 
+public extension Observable {
+    
+    public func useWork(_ command: SttCommandType) -> Observable<E> {
+        return command.useWork(observable: self)
+    }
+}
+
 public extension SttCommandType {
     
     @discardableResult

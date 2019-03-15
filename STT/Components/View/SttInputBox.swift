@@ -39,10 +39,9 @@ public enum TypeShpwPassword {
     case text
 }
 
-@IBDesignable
 public class SttInputBox: UIView, SttViewable {
     
-    private(set) public var textField: UITextField!
+    public private(set) var textField: UITextField!
     
     private var icon: UIImageView!
     private var showButton: SttButton!

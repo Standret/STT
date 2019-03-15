@@ -44,6 +44,7 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericB
         self.textField = textField
         
         super.init(vc: viewController)
+        super.withMode(.twoWayBind)
     }
     
     // MARK: - to
