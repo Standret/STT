@@ -71,7 +71,7 @@ public class SttBindingSet<TViewController: AnyObject> {
      
      */
     public func bind(_ textField: UITextField) -> SttTextFieldBindingContext<TViewController> {
-        
+
         var data: (SttHandlerTextField, UITextField)!
         
         if let handler = textField.delegate as? SttHandlerTextField {

@@ -104,7 +104,7 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
     
     // MARK: - implementation of UIImagePickerControllerDelegate
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         if let _image = image?.fixOrientation() {
             callBack(_image)

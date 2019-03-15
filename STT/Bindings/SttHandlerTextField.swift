@@ -50,22 +50,22 @@ public class SttHandlerTextField: NSObject, UITextFieldDelegate {
         handlers[type]!.append(SttDelegatedCall<UITextField>(to: delegate, with: handler))
     }
     
-    @objc func changing(_ textField: UITextField) {
+    @objc private func changing(_ textField: UITextField) {
         handlers[.editing]?.forEach({ $0.callback(textField) })
     }
     
     // implementation of protocol UITextFieldDelegate
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handlers[.shouldReturn]?.forEach({ $0.callback(textField) })
         return false
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    open func textFieldDidEndEditing(_ textField: UITextField) {
         handlers[.didEndEditing]?.forEach({ $0.callback(textField) })
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    open func textFieldDidBeginEditing(_ textField: UITextField) {
         handlers[.didStartEditing]?.forEach({ $0.callback(textField) })
     }
 }

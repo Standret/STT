@@ -50,19 +50,19 @@ public class SttHandlerTextView: NSObject, UITextViewDelegate {
     
     // implements protocol
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    open func textViewDidBeginEditing(_ textView: UITextView) {
         handlers[.didBeginEditing]?.forEach({ $0.callback(textView) })
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
+    open func textViewDidEndEditing(_ textView: UITextView) {
         handlers[.didEndEditing]?.forEach({ $0.callback(textView) })
     }
     
-    func textViewDidChange(_ textView: UITextView) {
+    open func textViewDidChange(_ textView: UITextView) {
         handlers[.editing]?.forEach({ $0.callback(textView) })
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         return numberOfChars <= maxCharacter    // 10 Limit Value

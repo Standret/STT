@@ -52,7 +52,7 @@ internal class DateConverter: SttConverter<Date, String> {
 
 open class SttLog {
     
-    open static var logInSystem = true
+    public static var logInSystem = true
     
     open class func trace(message: String, key: String) {
         log(type: "trace", message: message, key: key)

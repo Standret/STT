@@ -138,7 +138,7 @@ public class SttViewPager: UIView, UIScrollViewDelegate {
         scrollView.setContentOffset(CGPoint(x: position, y: 0), animated: true)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let page = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
         if page != segmentControl.selectedSegmentIndex {
             segmentControl.selectedSegmentIndex = page
