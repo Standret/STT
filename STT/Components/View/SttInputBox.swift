@@ -310,7 +310,7 @@ public class SttInputBox: UIView, SttViewable {
 
         cnstrtfToRight.isActive = false
         cnstrRightIconTF = icon.leftToRight(of: textField, offset: 2, priority: LayoutPriority(rawValue: 750))
-        icon.rightToSuperview(offset: -(textEdges.right + 2))
+        textsRight.append(icon.rightToSuperview(offset: -(textEdges.right + 2)))
     }
     private func initButtonShow() {
         showButton = SttButton()
@@ -325,7 +325,7 @@ public class SttInputBox: UIView, SttViewable {
         
         cnstrtfToRight.isActive = false
         cnstrRightButtonTF = showButton.leftToRight(of: textField, offset: 2, priority: LayoutPriority(rawValue: 750))
-        showButton.rightToSuperview(offset: -(textEdges.right + 2))
+        textsRight.append(showButton.rightToSuperview(offset: -(textEdges.right + 2)))
         
         showButton.addTarget(self, action: #selector(clickShowHandler(_:)), for: .touchUpInside)
     }
