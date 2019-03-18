@@ -122,7 +122,7 @@ open class SttCollectionViewWithSectionSource<TCell: SttViewInjector, TSection: 
         return view
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: _cellIdentifier.first!, for: indexPath) as! SttCollectionViewCell<TCell>
         cell.presenter = _collection![indexPath.section].0[indexPath.row]
         return cell

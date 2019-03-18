@@ -28,13 +28,13 @@ import Foundation
 import RxSwift
 import UIKit
 
-public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericBindingContext<TViewController, String?> {
+public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericTwoWayBindingContext<TViewController, String?> {
+    
+    override var canBindSpecial: Bool { return forTarget != nil }
     
     private let handler: SttHandlerTextField
-    private var forProperty: SttTypeActionTextField?
+    private var forTarget: SttTypeActionTextField?
     private var lazyWriterApply: ((String?) -> Void)!
-    
-    private var command: SttCommandType!
     
     weak private var target: Dynamic<String?>!
     unowned private var textField: UITextField
@@ -43,11 +43,9 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericB
         self.handler = handler
         self.textField = textField
         
-        super.init(vc: viewController)
+        super.init(viewController: viewController)
         super.withMode(.twoWayBind)
     }
-    
-    // MARK: - to
     
     @discardableResult
     override public func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, String?> {
@@ -55,74 +53,35 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericB
         return super.to(value)
     }
     
-    @discardableResult
-    public func to(_ value: SttCommandType) -> SttTextFieldBindingContext {
-        self.command = value
-        
-        return self
+    override public func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, String?> {
+        lazyWriterApply = { command.execute(parametr: $0) }
+        return super.to(command)
     }
     
     // MARK: - forTarget
     
     @discardableResult
     public func forTarget(_ value: SttTypeActionTextField) -> SttTextFieldBindingContext {
-        self.forProperty = value
+        self.forTarget = value
         
         return self
     }
 
     // MARK: - applier
-    
-    override public func apply() {
 
-        if let forProperty = forProperty, forProperty != .editing {
-            bindSpecial()
-        }
-        else {
-            bindEditing()
-        }
-    }
- 
-    private func bindSpecial() {
-        handler.addTarget(type: forProperty!, delegate: self,
+    internal override func bindSpecial() {
+        handler.addTarget(type: forTarget!, delegate: self,
                           handler: { (d,_) in d.command.execute(parametr: d.parametr) })
 
     }
-
-    private func bindEditing() {
-        switch bindMode {
-        case .write, .twoWayListener, .twoWayBind:
-            handler.addTarget(type: SttTypeActionTextField.editing, delegate: self,
-                              handler: {
-                                let value = $0.converter != nil ? $0.converter?.convertBack(value: $1.text, parametr: $0.parametr) : $1.text
-                                if let cvalue = value as? String {
-                                    $0.lazyWriterApply(cvalue)
-                                }
-                                else {
-                                    fatalError("Incorrect type, expected String?")
-                                }
-            }, textField: textField)
-        default: break
-        }
-        
-        super.forProperty({ [unowned self] (_, value) in
-            let cvalue = self.converter != nil ? self.converter?.convert(value: value, parametr: self.parametr) : value
-            if let _cvalue = cvalue as? String {
-                self.textField.text = _cvalue
-            }
-            else {
-                fatalError("Incorrect type, expected String?")
-            }
-        })
-
-        switch bindMode {
-
-        case .readListener, .twoWayListener:
-            super.apply()
-        case .readBind, .twoWayBind:
-            super.apply()
-        default: break
-        }
+    
+    override func bindWriting() {
+        handler.addTarget(type: SttTypeActionTextField.editing, delegate: self,
+                          handler: { $0.lazyWriterApply(super.convertBackValue($1.text)) })
+    }
+    
+    override func bindForProperty(_ value: String?) {
+        self.textField.text = super.convertValue(value)
     }
 }
 
@@ -132,28 +91,4 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericB
 public func => <TViewController>(left: SttTextFieldBindingContext<TViewController>,
                                       right: SttTypeActionTextField) -> SttTextFieldBindingContext<TViewController> {
     return left.forTarget(right)
-}
-
-@discardableResult
-public func ->> <TViewController>(left: SttTextFieldBindingContext<TViewController>,
-                                       right: Dynamic<String?>) -> SttGenericBindingContext<TViewController, String?> {
-    return left.withMode(.write).to(right)
-}
-
-@discardableResult
-public func ->> <TViewController>(left: SttTextFieldBindingContext<TViewController>,
-                                       right: SttCommandType) -> SttTextFieldBindingContext<TViewController> {
-    return left.to(right)
-}
-
-@discardableResult
-public func <->> <TViewController>(left: SttTextFieldBindingContext<TViewController>,
-                                        right: Dynamic<String?>) -> SttGenericBindingContext<TViewController, String?> {
-    return left.withMode(.twoWayListener).to(right)
-}
-
-@discardableResult
-public func <<->> <TViewController>(left: SttTextFieldBindingContext<TViewController>,
-                                         right: Dynamic<String?>) -> SttGenericBindingContext<TViewController, String?> {
-    return left.withMode(.twoWayBind).to(right)
 }

@@ -81,7 +81,7 @@ public class SttBindingSet<TViewController: AnyObject> {
             fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
         }
         else {
-            let handler = SttHandlerTextField()
+            let handler = SttHandlerTextField(textField)
             textField.delegate = handler
 
             data = (handler, textField)
@@ -96,6 +96,13 @@ public class SttBindingSet<TViewController: AnyObject> {
     public func bind(_ button: UIButton) -> SttButtonBindingSet {
         
         let set = SttButtonBindingSet(button: button)
+        sets.append(set)
+        return set
+    }
+    
+    public func bind(_ datePicker: UIDatePicker) -> SttDatePickerBindingContext<TViewController> {
+        
+        let set = SttDatePickerBindingContext(viewController: parent, handler: SttHandlerDatePicker(datePicker), datePicker: datePicker)
         sets.append(set)
         return set
     }

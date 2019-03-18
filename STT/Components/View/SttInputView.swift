@@ -190,21 +190,16 @@ public class SttInputView: UIView, SttViewable {
         textView.edgesToSuperview(excluding: .bottom, insets: .top(14) + .left(4) + .right(4))
         
         handlerTextView.addTarget(type: .didBeginEditing, delegate: self,
-                                  handler: { (v, _) in v.startEditing() },
-                                  textField: textView)
+                                  handler: { (v, _) in v.startEditing() })
         handlerTextView.addTarget(type: .didEndEditing, delegate: self,
-                                  handler: { (v, _) in v.endEditing() },
-                                  textField: textView)
+                                  handler: { (v, _) in v.endEditing() })
         handlerTextView.addTarget(type: .editing, delegate: self,
                                   handler: { (v, tv) in
                                     self.changeCounterValue(to: self.textView.text.count)
                                     self.layoutIfNeeded()
-                                    if !SttString.isEmpty(string: tv.text) {
-                                        v.startEditing()
-                                    }
-                                    if !tv.isFirstResponder {
-                                        v.endEditing()
-                                    } }, textField: textView)
+                                    
+                                    if !SttString.isEmpty(string: tv.text) { v.startEditing() }
+                                    if !tv.isFirstResponder { v.endEditing() } })
     }
     private func initLabel() {
         label = UILabel(frame: CGRect(x: 8, y: 25, width: 300, height: 22))

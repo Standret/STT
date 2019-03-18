@@ -107,7 +107,7 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
     
     // MARK: -- SttKeyboardNotificationDelegate
     
-    public func keyboardWillShow(height: CGFloat) {
+    open func keyboardWillShow(height: CGFloat) {
         if view != nil {
             scrollAmount = height - scrollAmountGeneral
             scrollAmountGeneral = height
@@ -117,7 +117,7 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
         }
         _isKeyboardShow = true
     }
-    public func keyboardWillHide(height: CGFloat) {
+    open func keyboardWillHide(height: CGFloat) {
         if moveViewUp {
             scrollTheView(move: false)
         }
