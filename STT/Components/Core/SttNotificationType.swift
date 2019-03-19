@@ -30,18 +30,18 @@ import RxSwift
 public protocol SttNotificationErrorServiceType: class {
     var errorObservable: Observable<SttBaseError> { get }
     
-    func useError<T>(observable: Observable<T>, ignoreBadRequest: Bool) -> Observable<T>
+    func useError<T>(observable: Observable<T>, ignoreBadRequest: Bool, customMessage: String?) -> Observable<T>
 }
 
 public extension SttNotificationErrorServiceType {
-    func useError<T>(observable: Observable<T>, ignoreBadRequest: Bool = false) -> Observable<T> {
-        return self.useError(observable: observable, ignoreBadRequest: ignoreBadRequest)
+    func useError<T>(observable: Observable<T>, ignoreBadRequest: Bool = false, customMessage: String? = nil) -> Observable<T> {
+        return self.useError(observable: observable, ignoreBadRequest: ignoreBadRequest, customMessage: customMessage)
     }
 }
 
 public extension Observable {
     
-    func useError(service: SttNotificationErrorServiceType, ignoreBadRequest: Bool = false) -> Observable<E> {
-        return service.useError(observable: self, ignoreBadRequest: ignoreBadRequest)
+    func useError(service: SttNotificationErrorServiceType, ignoreBadRequest: Bool = false, customMessage: String? = nil) -> Observable<E> {
+        return service.useError(observable: self, ignoreBadRequest: ignoreBadRequest, customMessage: customMessage)
     }
 }

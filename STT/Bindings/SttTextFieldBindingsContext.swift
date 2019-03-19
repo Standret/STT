@@ -53,6 +53,7 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericT
         return super.to(value)
     }
     
+    @discardableResult
     override public func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, String?> {
         lazyWriterApply = { command.execute(parametr: $0) }
         return super.to(command)
