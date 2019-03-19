@@ -61,6 +61,6 @@ public class SttDatePickerBindingContext<TViewController: AnyObject>: SttGeneric
     }
     
     override public func bindForProperty(_ value: Date) {
-        self.datePicker.date = super.convertValue(value)
+        self.datePicker.date = value
     }
 }

@@ -80,17 +80,17 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
         return value
     }
     
-    public func convertValue<TValue>(_ value: TValue) -> TValue {
+    public func convertValue<TValue>(_ value: TValue) -> TProperty {
         
         if let _converter = converter {
-            if let cvalue = _converter.convert(value: value, parametr: parametr) as? TValue {
+            if let cvalue = _converter.convert(value: value, parametr: parametr) as? TProperty {
                 return cvalue
             }
             else {
-                fatalError("Expected type is \(type(of: TValue.self))")
+                fatalError("Expected type is \(type(of: TProperty.self))")
             }
         }
         
-        return value
+        return value as! TProperty // TODO add handler
     }
 }

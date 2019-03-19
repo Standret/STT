@@ -84,4 +84,10 @@ public extension Date {
         return add(years: -years, months: -months, days: -days, hours: -hours, minutes: -minutes, seconds: -seconds)
     }
     
+    public func toString(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        
+        return dateFormatter.string(from: self)
+    }
 }

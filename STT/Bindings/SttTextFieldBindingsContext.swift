@@ -81,7 +81,7 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericT
     }
     
     override open func bindForProperty(_ value: String?) {
-        self.textField.text = super.convertValue(value)
+        self.textField.text = value
     }
 }
 
