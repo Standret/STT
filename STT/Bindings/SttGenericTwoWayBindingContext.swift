@@ -32,7 +32,7 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
     override open func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
         lazyWriterApply = { command.execute(parametr: $0) }
         
-        return self
+        return super.to(command)
     }
     
     override open func apply() {
