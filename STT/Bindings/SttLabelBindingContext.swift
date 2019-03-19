@@ -31,9 +31,7 @@ import UIKit
 public class SttLabelBindingContext<TViewController: AnyObject>: SttGenericBindingContext<TViewController, String?> {
     
     private var lazyWriterApply: ((String?) -> Void)!
-    
-    private var command: SttCommandType!
-    
+        
     weak private var target: Dynamic<String?>!
     unowned private var label: UILabel
     

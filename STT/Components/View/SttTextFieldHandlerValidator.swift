@@ -28,8 +28,14 @@ import Foundation
 
 public class SttTextFieldHandlerValidator {
     
+    private var onUpdateError: (() -> Void)!
+    
     public init<T: SttViewable>(delegate: T, inputBox: SttInputBox, handler: SttHandlerTextField, action: @escaping (T) -> Void) {
         var isError = false
+        
+        onUpdateError = {
+            isError = inputBox.isError
+        }
         
         handler.addTarget(type: .didStartEditing, delegate: delegate, handler: { (_,_) in isError = inputBox.isError })
         handler.addTarget(type: .editing, delegate: delegate,
@@ -37,6 +43,11 @@ public class SttTextFieldHandlerValidator {
                             if isError {
                                 action(d)
                             }
-            }, textField: inputBox.textField)
+            })
+    }
+    
+    @available(*, deprecated, message: "Will be remove in future release")
+    public func updateError() {
+        onUpdateError()
     }
 }

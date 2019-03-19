@@ -37,7 +37,7 @@ public class SttButtonBindingSet: SttBindingContextType {
 
     unowned private let button: UIButton
 
-    private var handler = SttHandlerButton()
+    private let handler: SttHandlerButton
     private var command: SttCommandType!
     private var parametr: Any?
     
@@ -45,6 +45,7 @@ public class SttButtonBindingSet: SttBindingContextType {
     
     init (button: UIButton) {
         
+        self.handler = SttHandlerButton(button)
         self.button = button
     }
     
@@ -67,7 +68,7 @@ public class SttButtonBindingSet: SttBindingContextType {
         command.observableCanNext
             .subscribe(onNext: { [unowned self] in self.button.isEnabled = $0 })
             .disposed(by: disposeBag)
-        handler.addTarget(type: .touchUpInside, delegate: self, handler: { (d,_) in d.command.execute(parametr: d.parametr) }, button: button)
+        handler.addTarget(type: .touchUpInside, delegate: self, handler: { (d,_) in d.command.execute(parametr: d.parametr) })
     }
 }
 

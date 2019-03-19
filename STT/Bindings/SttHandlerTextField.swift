@@ -33,24 +33,51 @@ public enum SttTypeActionTextField {
     case editing
 }
 
-public class SttHandlerTextField: NSObject, UITextFieldDelegate {
+open class SttHandlerTextField: NSObject, UITextFieldDelegate {
     
     // private property
     private var handlers = [SttTypeActionTextField: [SttDelegatedCall<UITextField>]]()
-    
+    private var shouldHandlers = [SttTypeActionTextField: [(UITextField) -> Bool]]()
+
     // method for add target
     
-    public func addTarget<T: AnyObject>(type: SttTypeActionTextField, delegate: T, handler: @escaping (T, UITextField) -> Void, textField: UITextField? = nil) {
-        switch type {
-        case .editing:
-            textField!.addTarget(self, action: #selector(changing), for: .editingChanged)
-        default: break
-        }
+    public init (_ textField: UITextField) {
+        super.init()
+        
+        textField.addTarget(self, action: #selector(changing(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(didStartEditing(_:)), for: .editingDidBegin)
+    }
+    
+    public func addTarget<T: AnyObject>(type: SttTypeActionTextField, delegate: T, handler: @escaping (T, UITextField) -> Void) {
+        
         handlers[type] = handlers[type] ?? [SttDelegatedCall<UITextField>]()
         handlers[type]!.append(SttDelegatedCall<UITextField>(to: delegate, with: handler))
     }
     
+    public func addShouldReturnTarget<T: AnyObject>(type: SttTypeActionTextField, delegate: T, handler: @escaping (T, UITextField) -> Bool) {
+        
+        if type != .shouldReturn { fatalError("IncorrectTypes") }
+        shouldHandlers[type] = shouldHandlers[type] ?? [(UITextField) -> Bool]()
+        shouldHandlers[type]!.append({ [weak delegate] textField in
+            
+            if let _delegate = delegate {
+                return handler(_delegate, textField)
+            }
+            
+            return false
+        })
+    }
+    
     @objc private func changing(_ textField: UITextField) {
+        handlers[.editing]?.forEach({ $0.callback(textField) })
+    }
+    
+    @objc private func didEndEditing(_ textField: UITextField) {
+        handlers[.editing]?.forEach({ $0.callback(textField) })
+    }
+    
+    @objc private func didStartEditing(_ textField: UITextField) {
         handlers[.editing]?.forEach({ $0.callback(textField) })
     }
     
@@ -59,14 +86,6 @@ public class SttHandlerTextField: NSObject, UITextFieldDelegate {
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handlers[.shouldReturn]?.forEach({ $0.callback(textField) })
         return false
-    }
-    
-    open func textFieldDidEndEditing(_ textField: UITextField) {
-        handlers[.didEndEditing]?.forEach({ $0.callback(textField) })
-    }
-    
-    open func textFieldDidBeginEditing(_ textField: UITextField) {
-        handlers[.didStartEditing]?.forEach({ $0.callback(textField) })
     }
 }
 

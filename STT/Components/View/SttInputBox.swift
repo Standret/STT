@@ -56,7 +56,7 @@ public class SttInputBox: UIView, SttViewable {
     private var textsRight = [NSLayoutConstraint]()
     private var cnstrtfToRight: NSLayoutConstraint!
     
-    public let textFieldHandler = SttHandlerTextField()
+    public private(set) lazy var textFieldHandler = SttHandlerTextField(self.textField)
     
     private var cnstrUnderlineHeight: NSLayoutConstraint!
     private var cnstrErrorHeight: NSLayoutConstraint!
@@ -230,7 +230,7 @@ public class SttInputBox: UIView, SttViewable {
         return textField.becomeFirstResponder()
     }
     
-    func setAttributedString(string: NSAttributedString) {
+    public func setAttributedString(string: NSAttributedString) {
         textField.attributedText = string
         if !SttString.isEmpty(string: text) {
             startEditing()
@@ -277,20 +277,13 @@ public class SttInputBox: UIView, SttViewable {
         textsRight.append(cnstrtfToRight)
         
         textFieldHandler.addTarget(type: .didStartEditing, delegate: self,
-                                   handler: { (v, _) in v.startEditing() },
-                                   textField: textField)
+                                   handler: { (v, _) in v.startEditing() })
         textFieldHandler.addTarget(type: .didEndEditing, delegate: self,
-                                   handler: { (v, _) in v.endEditing() },
-                                   textField: textField)
+                                   handler: { (v, _) in v.endEditing() })
         textFieldHandler.addTarget(type: .editing, delegate: self,
                                    handler: { (v, tf) in
-                                    if !SttString.isEmpty(string: tf.text) {
-                                        v.startEditing()
-                                    }
-                                    if !tf.isEditing {
-                                        v.endEditing()
-                                    } },
-                                   textField: textField)
+                                    if !SttString.isEmpty(string: tf.text) { v.startEditing() }
+                                    if !tf.isEditing { v.endEditing() } })
     }
     
     private func initIcon() {

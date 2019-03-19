@@ -35,26 +35,25 @@ public enum SttActionButton {
 public final class SttHandlerButton {
     
     private var handlers = [SttActionButton: [SttDelegatedCall<UIButton>]]()
-    private var isInited = false
     
-    public func addTarget<T: AnyObject>(type: SttActionButton, delegate: T, handler: @escaping (T, UIButton) -> Void, button: UIButton) {
+    public init(_ button: UIButton) {
+        button.addTarget(self, action: #selector(onTouchUpInside(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(onTouchUpOutside(_:)), for: .touchUpOutside)
+    }
+    
+    public func addTarget<T: AnyObject>(type: SttActionButton, delegate: T, handler: @escaping (T, UIButton) -> Void) {
         
         handlers[type] = handlers[type] ?? [SttDelegatedCall<UIButton>]()
         handlers[type]?.append(SttDelegatedCall<UIButton>(to: delegate, with: handler))
-        
-        if !isInited {
-            isInited = true
-            
-            button.addTarget(self, action: #selector(onTouchUpInside(_:)), for: .touchUpInside)
-            button.addTarget(self, action: #selector(onTouchUpOutside(_:)), for: .touchUpOutside)
-        }
     }
     
-    @objc func onTouchUpInside(_ sender: UIButton) {
+    @objc
+    private func onTouchUpInside(_ sender: UIButton) {
         handlers[.touchUpInside]?.forEach({ $0.callback(sender) })
     }
     
-    @objc func onTouchUpOutside(_ sender: UIButton) {
+    @objc
+    private func onTouchUpOutside(_ sender: UIButton) {
         handlers[.touchUpOutside]?.forEach({ $0.callback(sender) })
     }
 }

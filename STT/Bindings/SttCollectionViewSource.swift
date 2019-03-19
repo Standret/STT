@@ -38,8 +38,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
     private var _cellIdentifier: [String]
     var cellIdentifier: [String] { return _cellIdentifier }
     
-    private var _collection: SttObservableCollection<T>!
-    var collection: SttObservableCollection<T> { return _collection }
+    private(set) public var collection: SttObservableCollection<T>!
     
     private var disposables: Disposable?
     
@@ -64,11 +63,11 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
     }
     
     public func updateSource(collection: SttObservableCollection<T>) {
-        _collection = collection
+        self.collection = collection
         countData = collection.count
         _collectionView.reloadData()
         disposables?.dispose()
-        disposables = _collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
+        disposables = collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
             if type == .reload {
                 self?.countData = collection.count
                 self?._collectionView.reloadData()
@@ -99,7 +98,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = _collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewReusableCell(at: indexPath),
                                                        for: indexPath) as! SttCollectionViewCell<T>
-        cell.presenter = _collection[indexPath.row]
+        cell.presenter = collection[indexPath.row]
         return cell
     }
     

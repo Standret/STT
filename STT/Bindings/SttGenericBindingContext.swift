@@ -34,7 +34,7 @@ import RxSwift
  You should not create this class directly. Binding set create and provide it for you
  
  */
-public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttBindingContextType {
+open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttBindingContextType {
     
     public typealias PropertySetter = (_ vc: TViewController, _ property: TProperty) -> Void
     
@@ -45,6 +45,8 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
     
     private(set) var setter: PropertySetter!
     private(set) var parametr: Any?
+    private(set) var command: SttCommandType!
+
     
     private(set) var converter: SttConverterType?
     
@@ -66,7 +68,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func forProperty(_ setter: @escaping PropertySetter) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func forProperty(_ setter: @escaping PropertySetter) -> SttGenericBindingContext<TViewController, TProperty> {
         self.setter = setter
         
         return self
@@ -83,7 +85,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, TProperty> {
         
         lazyApply = { [unowned self] in
             switch self.bindMode {
@@ -103,6 +105,13 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
         }
         
         lazyDispose = { value.dispose() }
+        
+        return self
+    }
+    
+    @discardableResult
+    open func to(_ value: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
+        self.command = value
         
         return self
     }
@@ -148,7 +157,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func withConverter<T: SttConverterType>(_ _: T.Type) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func withConverter<T: SttConverterType>(_ _: T.Type) -> SttGenericBindingContext<TViewController, TProperty> {
         self.converter = T()
         
         return self
@@ -169,7 +178,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func withCommandParametr(_ parametr: Any) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func withCommandParametr(_ parametr: Any) -> SttGenericBindingContext<TViewController, TProperty> {
         self.parametr = parametr
         
         return self
@@ -225,6 +234,31 @@ public func <<- <TViewController, TProperty, TTarget>(left: SttGenericBindingCon
                                                right: Dynamic<TTarget>) -> SttGenericBindingContext<TViewController, TProperty> {
     return left.to(right).withMode(.readBind)
 }
+
+@discardableResult
+public func ->> <TViewController, TProperty, TTarget>(left: SttGenericBindingContext<TViewController, TProperty>,
+                                                      right: Dynamic<TTarget>) -> SttGenericBindingContext<TViewController, TProperty> {
+    return left.to(right).withMode(.write)
+}
+
+@discardableResult
+public func ->> <TViewController, TProperty>(left: SttGenericBindingContext<TViewController, TProperty>,
+                                                      right: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
+    return left.to(right)
+}
+
+@discardableResult
+public func <->> <TViewController, TProperty, TTarget>(left: SttGenericBindingContext<TViewController, TProperty>,
+                                                      right: Dynamic<TTarget>) -> SttGenericBindingContext<TViewController, TProperty> {
+    return left.to(right).withMode(.twoWayListener)
+}
+
+@discardableResult
+public func <<->> <TViewController, TProperty, TTarget>(left: SttGenericBindingContext<TViewController, TProperty>,
+                                                      right: Dynamic<TTarget>) -> SttGenericBindingContext<TViewController, TProperty> {
+    return left.to(right).withMode(.twoWayBind)
+}
+
 
 @discardableResult
 public func >-< <TViewController, TProperty, T: SttConverterType>(left: SttGenericBindingContext<TViewController, TProperty>,

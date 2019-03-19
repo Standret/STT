@@ -52,9 +52,16 @@ public class SttBindingSet<TViewController: AnyObject> {
         self.parent = parent
     }
     
-    public func bind(_ label: UILabel) -> SttLabelBindingContext<TViewController> {
+    public func bind(_ interactionData: SttBindingInteractionData) -> SttGenericBindingContext<TViewController, String?> {
         
-        let set = SttLabelBindingContext(viewController: parent, label: label)
+        let set = SttInteractionBindingContext(viewController: parent, data: interactionData)
+        sets.append(set)
+        return set
+    }
+    
+    public func bind(_ label: UILabel) -> SttGenericBindingContext<TViewController, String?> {
+        
+        let set = SttGenericBindingContext<TViewController, String?>(vc: parent)
         
         set.forProperty { (_,value) in label.text = value }
         sets.append(set)
@@ -81,7 +88,7 @@ public class SttBindingSet<TViewController: AnyObject> {
             fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
         }
         else {
-            let handler = SttHandlerTextField()
+            let handler = SttHandlerTextField(textField)
             textField.delegate = handler
 
             data = (handler, textField)
@@ -96,6 +103,13 @@ public class SttBindingSet<TViewController: AnyObject> {
     public func bind(_ button: UIButton) -> SttButtonBindingSet {
         
         let set = SttButtonBindingSet(button: button)
+        sets.append(set)
+        return set
+    }
+    
+    public func bind(_ datePicker: UIDatePicker) -> SttDatePickerBindingContext<TViewController> {
+        
+        let set = SttDatePickerBindingContext(viewController: parent, handler: SttHandlerDatePicker(datePicker), datePicker: datePicker)
         sets.append(set)
         return set
     }

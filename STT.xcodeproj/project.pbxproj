@@ -101,6 +101,10 @@
 		5016C3E522392AE80080BD63 /* SttNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E122392AE80080BD63 /* SttNetworking.swift */; };
 		5016C3E922392C460080BD63 /* SttStorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E722392C460080BD63 /* SttStorageType.swift */; };
 		5016C3EA22392C460080BD63 /* SttStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E822392C460080BD63 /* SttStorage.swift */; };
+		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
+		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
+		508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */; };
+		508D5FB82240E57D00F541B3 /* SttInteractionBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */; };
 		50F0CAB522394AA90034E1AA /* SttValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB122394AA90034E1AA /* SttValidationResult.swift */; };
 		50F0CAB622394AA90034E1AA /* SttValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB222394AA90034E1AA /* SttValidator.swift */; };
 		50F0CAB722394AA90034E1AA /* SttValidatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB322394AA90034E1AA /* SttValidatorType.swift */; };
@@ -217,6 +221,10 @@
 		5016C3E122392AE80080BD63 /* SttNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttNetworking.swift; sourceTree = "<group>"; };
 		5016C3E722392C460080BD63 /* SttStorageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttStorageType.swift; sourceTree = "<group>"; };
 		5016C3E822392C460080BD63 /* SttStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttStorage.swift; sourceTree = "<group>"; };
+		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
+		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
+		508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttGenericTwoWayBindingContext.swift; sourceTree = "<group>"; };
+		508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttInteractionBindingContext.swift; sourceTree = "<group>"; };
 		50F0CAB122394AA90034E1AA /* SttValidationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidationResult.swift; sourceTree = "<group>"; };
 		50F0CAB222394AA90034E1AA /* SttValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidator.swift; sourceTree = "<group>"; };
 		50F0CAB322394AA90034E1AA /* SttValidatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorType.swift; sourceTree = "<group>"; };
@@ -288,14 +296,13 @@
 		5016C3082238EF770080BD63 /* Bindings */ = {
 			isa = PBXGroup;
 			children = (
+				508D5FB2223FFB2500F541B3 /* Bindings */,
 				50F0CAED223951080034E1AA /* Sources */,
 				50F0CAEC223950FF0034E1AA /* Handlers */,
 				5016C31A2238FB750080BD63 /* SttPrecedenceGroups.swift */,
 				5016C3182238FB5A0080BD63 /* SttBindingsOperator.swift */,
-				5016C3122238F8910080BD63 /* SttTextFieldBindingsContext.swift */,
-				5016C3142238FAEC0080BD63 /* SttButtonBindingContext.swift */,
-				5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */,
 				5016C30F2238F0B30080BD63 /* SttGenericBindingContext.swift */,
+				508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */,
 				5016C30D2238F07B0080BD63 /* SttBindingMode.swift */,
 				5016C30B2238F0410080BD63 /* SttBindingContextType.swift */,
 				5016C3092238EF980080BD63 /* SttBindingSet.swift */,
@@ -356,6 +363,18 @@
 				5016C3C3223927F40080BD63 /* SttStringExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		508D5FB2223FFB2500F541B3 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				5016C3122238F8910080BD63 /* SttTextFieldBindingsContext.swift */,
+				5016C3142238FAEC0080BD63 /* SttButtonBindingContext.swift */,
+				5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */,
+				508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */,
+				508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */,
+			);
+			name = Bindings;
 			sourceTree = "<group>";
 		};
 		50F0CA9A223949170034E1AA /* ComponentExtensions */ = {
@@ -523,6 +542,7 @@
 				5016C3202238FD680080BD63 /* SttHandlerTextView.swift */,
 				5016C3222238FDDB0080BD63 /* SttHanlderSearchBar.swift */,
 				5016C3242238FE0F0080BD63 /* SttHandlerButton.swift */,
+				508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -700,6 +720,7 @@
 				5016C3322238FF1C0080BD63 /* Exceptions.swift in Sources */,
 				5016C3832239197C0080BD63 /* SttDisableButton.swift in Sources */,
 				5016C37822390AF70080BD63 /* SttButton.swift in Sources */,
+				508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */,
 				5016C3A4223926B40080BD63 /* SttCollectionReusableView.swift in Sources */,
 				5016C31B2238FB750080BD63 /* SttPrecedenceGroups.swift in Sources */,
 				50106A382237E578002C634A /* Dynamic.swift in Sources */,
@@ -740,6 +761,7 @@
 				5016C3D6223927F40080BD63 /* SttUIImageExtensions.swift in Sources */,
 				5016C3A6223927960080BD63 /* SttGlobalObserver.swift in Sources */,
 				5016C3E322392AE80080BD63 /* SttHttpService.swift in Sources */,
+				508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */,
 				5016C3DA223927F40080BD63 /* SttHttpServiceTypeExtensions.swift in Sources */,
 				5016C37422390A110080BD63 /* SttErrorLabel.swift in Sources */,
 				5016C3E222392AE80080BD63 /* SttHttpServiceType.swift in Sources */,
@@ -747,9 +769,11 @@
 				50F0CAB722394AA90034E1AA /* SttValidatorType.swift in Sources */,
 				5016C38F22391A8A0080BD63 /* SttCollectionViewWithSectionSource.swift in Sources */,
 				5016C3942239256F0080BD63 /* SttCamera.swift in Sources */,
+				508D5FB82240E57D00F541B3 /* SttInteractionBindingContext.swift in Sources */,
 				5016C3D2223927F40080BD63 /* SttUIStackViewExtensions.swift in Sources */,
 				5016C3132238F8910080BD63 /* SttTextFieldBindingsContext.swift in Sources */,
 				5016C350223902190080BD63 /* SttIdentifiers.swift in Sources */,
+				508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */,
 				5016C3D0223927F40080BD63 /* SttUITextFieldExtensions.swift in Sources */,
 				5016C34C223901F40080BD63 /* SttApiError.swift in Sources */,
 				5016C3232238FDDB0080BD63 /* SttHanlderSearchBar.swift in Sources */,

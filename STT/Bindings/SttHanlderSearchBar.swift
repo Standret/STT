@@ -52,21 +52,20 @@ public class SttHanlderSearchBar: NSObject, UISearchBarDelegate {
         })
     }
     
-    public func addTargetForShould<T: SttViewable>(type: TypeActionSearchbar, delegate: T, handler: @escaping (T, UISearchBar) -> Bool) {
+    public func addShouldReturnTarget<T: SttViewable>(type: TypeActionSearchbar, delegate: T, handler: @escaping (T, UISearchBar) -> Bool) {
         
-        switch type {
-        case .shouldBeginEditing:
-            shouldHandlers[type] = shouldHandlers[type] ?? [(UISearchBar) -> Bool]()
-            shouldHandlers[type]?.append({ [weak delegate] sb in
-                
-                if let _delegate = delegate {
-                    return handler(_delegate, sb)
-                }
-                
-                return true
-            })
-        default: fatalError("Unsupported type")
-        }
+        if type != .shouldBeginEditing { fatalError("Incorrect type")}
+        
+        shouldHandlers[type] = shouldHandlers[type] ?? [(UISearchBar) -> Bool]()
+        shouldHandlers[type]?.append({ [weak delegate] sb in
+            
+            if let _delegate = delegate {
+                return handler(_delegate, sb)
+            }
+            
+            return true
+        })
+
     }
     // MARK: implementation of protocol UISearchBarDelegate
     

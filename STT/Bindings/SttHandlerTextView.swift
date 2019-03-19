@@ -33,7 +33,7 @@ public enum TypeActionTextView {
     case editing
 }
 
-public class SttHandlerTextView: NSObject, UITextViewDelegate {
+open class SttHandlerTextView: NSObject, UITextViewDelegate {
     
     // private property
     private var handlers = [TypeActionTextView: [SttDelegatedCall<UITextView>]]()
@@ -42,7 +42,7 @@ public class SttHandlerTextView: NSObject, UITextViewDelegate {
     
     // method for add target
     
-    public func addTarget<T: SttViewable>(type: TypeActionTextView, delegate: T, handler: @escaping (T, UITextView) -> Void, textField: UITextView) {
+    public func addTarget<T: SttViewable>(type: TypeActionTextView, delegate: T, handler: @escaping (T, UITextView) -> Void) {
         
         handlers[type] = handlers[type] ?? [SttDelegatedCall<UITextView>]()
         handlers[type]?.append(SttDelegatedCall<UITextView>(to: delegate, with: handler))
