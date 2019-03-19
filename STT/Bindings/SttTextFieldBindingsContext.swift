@@ -69,18 +69,18 @@ public class SttTextFieldBindingContext<TViewController: AnyObject>: SttGenericT
 
     // MARK: - applier
 
-    internal override func bindSpecial() {
+    override open func bindSpecial() {
         handler.addTarget(type: forTarget!, delegate: self,
                           handler: { (d,_) in d.command.execute(parametr: d.parametr) })
 
     }
     
-    override func bindWriting() {
+    override open func bindWriting() {
         handler.addTarget(type: SttTypeActionTextField.editing, delegate: self,
                           handler: { $0.lazyWriterApply(super.convertBackValue($1.text)) })
     }
     
-    override func bindForProperty(_ value: String?) {
+    override open func bindForProperty(_ value: String?) {
         self.textField.text = super.convertValue(value)
     }
 }

@@ -52,9 +52,16 @@ public class SttBindingSet<TViewController: AnyObject> {
         self.parent = parent
     }
     
-    public func bind(_ label: UILabel) -> SttLabelBindingContext<TViewController> {
+    public func bind(_ interactionData: SttBindingInteractionData) -> SttGenericBindingContext<TViewController, String?> {
         
-        let set = SttLabelBindingContext(viewController: parent, label: label)
+        let set = SttInteractionBindingContext(viewController: parent, data: interactionData)
+        sets.append(set)
+        return set
+    }
+    
+    public func bind(_ label: UILabel) -> SttGenericBindingContext<TViewController, String?> {
+        
+        let set = SttGenericBindingContext<TViewController, String?>(vc: parent)
         
         set.forProperty { (_,value) in label.text = value }
         sets.append(set)

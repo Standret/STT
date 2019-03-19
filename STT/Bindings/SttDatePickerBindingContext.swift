@@ -49,18 +49,18 @@ public class SttDatePickerBindingContext<TViewController: AnyObject>: SttGeneric
     
     // MARK: - applier
     
-    internal override func bindSpecial() {
+    open override func bindSpecial() {
         handler.addTarget(type: forTarget!, delegate: self,
                           handler: { (d,_) in d.command.execute(parametr: d.parametr) })
         
     }
     
-    override func bindWriting() {
+    override public func bindWriting() {
         handler.addTarget(type: .valueChanged, delegate: self,
                           handler: { $0.lazyWriterApply(super.convertBackValue($1.date)) })
     }
     
-    override func bindForProperty(_ value: Date) {
+    override public func bindForProperty(_ value: Date) {
         self.datePicker.date = super.convertValue(value)
     }
 }

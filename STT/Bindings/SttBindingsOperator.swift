@@ -39,7 +39,7 @@ import UIKit
  
  */
 
-public func => <TV: AnyObject>(left: SttBindingSet<TV>, right: UILabel) -> SttLabelBindingContext<TV> {
+public func => <TV: AnyObject>(left: SttBindingSet<TV>, right: UILabel) -> SttGenericBindingContext<TV, String?> {
     return left.bind(right)
 }
 

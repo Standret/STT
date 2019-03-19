@@ -104,6 +104,7 @@
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
 		508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */; };
+		508D5FB82240E57D00F541B3 /* SttInteractionBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */; };
 		50F0CAB522394AA90034E1AA /* SttValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB122394AA90034E1AA /* SttValidationResult.swift */; };
 		50F0CAB622394AA90034E1AA /* SttValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB222394AA90034E1AA /* SttValidator.swift */; };
 		50F0CAB722394AA90034E1AA /* SttValidatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB322394AA90034E1AA /* SttValidatorType.swift */; };
@@ -223,6 +224,7 @@
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttGenericTwoWayBindingContext.swift; sourceTree = "<group>"; };
+		508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttInteractionBindingContext.swift; sourceTree = "<group>"; };
 		50F0CAB122394AA90034E1AA /* SttValidationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidationResult.swift; sourceTree = "<group>"; };
 		50F0CAB222394AA90034E1AA /* SttValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidator.swift; sourceTree = "<group>"; };
 		50F0CAB322394AA90034E1AA /* SttValidatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorType.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				5016C3142238FAEC0080BD63 /* SttButtonBindingContext.swift */,
 				5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */,
 				508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */,
+				508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */,
 			);
 			name = Bindings;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				50F0CAB722394AA90034E1AA /* SttValidatorType.swift in Sources */,
 				5016C38F22391A8A0080BD63 /* SttCollectionViewWithSectionSource.swift in Sources */,
 				5016C3942239256F0080BD63 /* SttCamera.swift in Sources */,
+				508D5FB82240E57D00F541B3 /* SttInteractionBindingContext.swift in Sources */,
 				5016C3D2223927F40080BD63 /* SttUIStackViewExtensions.swift in Sources */,
 				5016C3132238F8910080BD63 /* SttTextFieldBindingsContext.swift in Sources */,
 				5016C350223902190080BD63 /* SttIdentifiers.swift in Sources */,

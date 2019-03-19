@@ -34,7 +34,7 @@ import RxSwift
  You should not create this class directly. Binding set create and provide it for you
  
  */
-public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttBindingContextType {
+open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttBindingContextType {
     
     public typealias PropertySetter = (_ vc: TViewController, _ property: TProperty) -> Void
     
@@ -68,7 +68,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func forProperty(_ setter: @escaping PropertySetter) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func forProperty(_ setter: @escaping PropertySetter) -> SttGenericBindingContext<TViewController, TProperty> {
         self.setter = setter
         
         return self
@@ -85,7 +85,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, TProperty> {
         
         lazyApply = { [unowned self] in
             switch self.bindMode {
@@ -110,7 +110,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
     }
     
     @discardableResult
-    public func to(_ value: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func to(_ value: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
         self.command = value
         
         return self
@@ -157,7 +157,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func withConverter<T: SttConverterType>(_ _: T.Type) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func withConverter<T: SttConverterType>(_ _: T.Type) -> SttGenericBindingContext<TViewController, TProperty> {
         self.converter = T()
         
         return self
@@ -178,7 +178,7 @@ public class SttGenericBindingContext<TViewController: AnyObject, TProperty>: St
      ````
      */
     @discardableResult
-    public func withCommandParametr(_ parametr: Any) -> SttGenericBindingContext<TViewController, TProperty> {
+    open func withCommandParametr(_ parametr: Any) -> SttGenericBindingContext<TViewController, TProperty> {
         self.parametr = parametr
         
         return self

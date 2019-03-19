@@ -23,19 +23,19 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
     // MARK: - to
     
     @discardableResult
-    override public func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, TProperty> {
+    override open func to<TValue>(_ value: Dynamic<TValue>) -> SttGenericBindingContext<TViewController, TProperty> {
         lazyWriterApply = { value.value = $0 as! TValue }
         return super.to(value)
     }
     
     @discardableResult
-    override public func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
+    override open func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
         lazyWriterApply = { command.execute(parametr: $0) }
         
         return self
     }
     
-    override public func apply() {
+    override open func apply() {
         
         if canBindSpecial {
             bindSpecial()
@@ -45,10 +45,10 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
         }
     }
     
-    internal func bindSpecial() { notImplementException() }
+    open func bindSpecial() { notImplementException() }
     
-    internal func bindWriting() { notImplementException() }
-    internal func bindForProperty(_ value: TProperty) { notImplementException() }
+    open func bindWriting() { notImplementException() }
+    open func bindForProperty(_ value: TProperty) { notImplementException() }
     
     private func bindEditing() {
         switch bindMode {
@@ -66,7 +66,7 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
         }
     }
     
-    internal func convertBackValue<TValue>(_ value: TValue) -> TValue {
+    public func convertBackValue<TValue>(_ value: TValue) -> TValue {
         
         if let _converter = converter {
             if let cvalue = _converter.convertBack(value: value, parametr: parametr) as? TValue {
@@ -80,7 +80,7 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
         return value
     }
     
-    internal func convertValue<TValue>(_ value: TValue) -> TValue {
+    public func convertValue<TValue>(_ value: TValue) -> TValue {
         
         if let _converter = converter {
             if let cvalue = _converter.convert(value: value, parametr: parametr) as? TValue {
