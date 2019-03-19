@@ -30,13 +30,16 @@ import AVFoundation
 
 open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    private let applicationName: String
     private let picker = UIImagePickerController()
     private let callBack: (UIImage) -> Void
     private weak var parent: UIViewController?
     
-    public init (parent: UIViewController, handler: @escaping (UIImage) -> Void) {
+    public init (parent: UIViewController, applicationName: String, handler: @escaping (UIImage) -> Void) {
         self.callBack = handler
         self.parent = parent
+        self.applicationName = applicationName
+        
         super.init()
         picker.delegate = self
     }
@@ -84,7 +87,8 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
     }
     
     private func showPermissionDeniedPopup() {
-        let alertController = UIAlertController(title: "Change your settings and give Lemon access to your camera and photos.",
+        
+        let alertController = UIAlertController(title: "Change your settings and give \(applicationName) access to your camera and photos.",
                                                 message: "Open your app settings, click on \"privacy\" and than \"photos\"",
                                                 preferredStyle: .alert)
         
@@ -104,7 +108,7 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
     
     // MARK: - implementation of UIImagePickerControllerDelegate
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         if let _image = image?.fixOrientation() {
             callBack(_image)
