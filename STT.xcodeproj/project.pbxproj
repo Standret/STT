@@ -110,6 +110,7 @@
 		50F0CAB622394AA90034E1AA /* SttValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB222394AA90034E1AA /* SttValidator.swift */; };
 		50F0CAB722394AA90034E1AA /* SttValidatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB322394AA90034E1AA /* SttValidatorType.swift */; };
 		50F0CAB822394AA90034E1AA /* SttValidatorBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB422394AA90034E1AA /* SttValidatorBuilder.swift */; };
+		558D7D0022425F6E00560410 /* SttTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D7CFF22425F6E00560410 /* SttTextView.swift */; };
 		C34151EBB17F1A1DF18BE4A1 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9658ED523A40F710FADDA4CE /* Pods_STT.framework */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +232,7 @@
 		50F0CAB222394AA90034E1AA /* SttValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidator.swift; sourceTree = "<group>"; };
 		50F0CAB322394AA90034E1AA /* SttValidatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorType.swift; sourceTree = "<group>"; };
 		50F0CAB422394AA90034E1AA /* SttValidatorBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorBuilder.swift; sourceTree = "<group>"; };
+		558D7CFF22425F6E00560410 /* SttTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextView.swift; sourceTree = "<group>"; };
 		6ADFFE632E6CD74FC3713734 /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
 		9658ED523A40F710FADDA4CE /* Pods_STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -515,6 +517,7 @@
 				5016C3822239197C0080BD63 /* SttDisableButton.swift */,
 				5016C384223919C70080BD63 /* SttWallIndicatorView.swift */,
 				5016C38722391A6B0080BD63 /* SttRefreshControl.swift */,
+				558D7CFF22425F6E00560410 /* SttTextView.swift */,
 			);
 			name = UIElement;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5016C385223919C70080BD63 /* SttWallIndicatorView.swift in Sources */,
+				558D7D0022425F6E00560410 /* SttTextView.swift in Sources */,
 				5016C34E223902060080BD63 /* SttConnectionError.swift in Sources */,
 				5016C30A2238EF980080BD63 /* SttBindingSet.swift in Sources */,
 				5016C3D7223927F40080BD63 /* SttUIPanGestureRecognizerExtensions.swift in Sources */,

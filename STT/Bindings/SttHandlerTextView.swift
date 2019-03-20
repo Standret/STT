@@ -31,13 +31,15 @@ import UIKit
 public enum TypeActionTextView {
     case didBeginEditing, didEndEditing
     case editing
+    case shouldChangeText
+    case selectionChanged
 }
 
 open class SttHandlerTextView: NSObject, UITextViewDelegate {
     
     // private property
     private var handlers = [TypeActionTextView: [SttDelegatedCall<UITextView>]]()
-    
+
     public var maxCharacter: Int = Int.max
     
     // method for add target
@@ -47,6 +49,7 @@ open class SttHandlerTextView: NSObject, UITextViewDelegate {
         handlers[type] = handlers[type] ?? [SttDelegatedCall<UITextView>]()
         handlers[type]?.append(SttDelegatedCall<UITextView>(to: delegate, with: handler))
     }
+    
     
     // implements protocol
     
@@ -66,5 +69,9 @@ open class SttHandlerTextView: NSObject, UITextViewDelegate {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         return numberOfChars <= maxCharacter    // 10 Limit Value
+    }
+    
+    open func textViewDidChangeSelection(_ textView: UITextView) {
+        handlers[.selectionChanged]?.forEach({ $0.callback(textView) })
     }
 }
