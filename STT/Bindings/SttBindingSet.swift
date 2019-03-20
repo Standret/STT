@@ -100,6 +100,37 @@ public class SttBindingSet<TViewController: AnyObject> {
         return set
     }
     
+    /**
+     Use for text view (one way and two way bindings)
+     
+     - Important:
+     property delegate in target textView have to be empty or have type **SttHandlerTextView**
+     otherwise this method throw fatalError()
+     
+     */
+    public func bind(_ textView: UITextView) -> SttTextViewBindingContext<TViewController> {
+        
+        var data: (SttHandlerTextView, UITextView)!
+        
+        if let handler = textView.delegate as? SttHandlerTextView {
+            data = (handler, textView)
+        }
+        else if textView.delegate != nil {
+            fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
+        }
+        else {
+            let handler = SttHandlerTextView()
+            textView.delegate = handler
+            
+            data = (handler, textView)
+        }
+        
+        let set = SttTextViewBindingContext(viewController: parent, handler: data.0, textView: data.1)
+        sets.append(set)
+        
+        return set
+    }
+    
     public func bind(_ button: UIButton) -> SttButtonBindingSet {
         
         let set = SttButtonBindingSet(button: button)

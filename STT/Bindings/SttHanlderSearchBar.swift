@@ -42,7 +42,7 @@ public class SttHanlderSearchBar: NSObject, UISearchBarDelegate {
     
     // method for add target
     
-    public func addTarget<T: SttViewable>(type: TypeActionSearchbar, delegate: T, handler: @escaping (T, UISearchBar) -> Void) {
+    public func addTarget<T: AnyObject>(type: TypeActionSearchbar, delegate: T, handler: @escaping (T, UISearchBar) -> Void) {
         
         handlers[type] = handlers[type] ?? [(UISearchBar) -> Void]()
         handlers[type]?.append({ [weak delegate] sb in
