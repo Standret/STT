@@ -101,6 +101,7 @@
 		5016C3E522392AE80080BD63 /* SttNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E122392AE80080BD63 /* SttNetworking.swift */; };
 		5016C3E922392C460080BD63 /* SttStorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E722392C460080BD63 /* SttStorageType.swift */; };
 		5016C3EA22392C460080BD63 /* SttStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E822392C460080BD63 /* SttStorage.swift */; };
+		506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506804D9224233740057A78A /* SttTextViewBindingContext.swift */; };
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
 		508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */; };
@@ -221,6 +222,7 @@
 		5016C3E122392AE80080BD63 /* SttNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttNetworking.swift; sourceTree = "<group>"; };
 		5016C3E722392C460080BD63 /* SttStorageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttStorageType.swift; sourceTree = "<group>"; };
 		5016C3E822392C460080BD63 /* SttStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttStorage.swift; sourceTree = "<group>"; };
+		506804D9224233740057A78A /* SttTextViewBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextViewBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttGenericTwoWayBindingContext.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */,
 				508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */,
 				508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */,
+				506804D9224233740057A78A /* SttTextViewBindingContext.swift */,
 			);
 			name = Bindings;
 			sourceTree = "<group>";
@@ -721,6 +724,7 @@
 				5016C3832239197C0080BD63 /* SttDisableButton.swift in Sources */,
 				5016C37822390AF70080BD63 /* SttButton.swift in Sources */,
 				508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */,
+				506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */,
 				5016C3A4223926B40080BD63 /* SttCollectionReusableView.swift in Sources */,
 				5016C31B2238FB750080BD63 /* SttPrecedenceGroups.swift in Sources */,
 				50106A382237E578002C634A /* Dynamic.swift in Sources */,
