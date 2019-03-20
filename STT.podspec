@@ -2,8 +2,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.1.0"
-  s.summary      = "Rewrited binding logic. Added interaction and datePicker binding"
+  s.version      = "1.1.1"
+  s.summary      = "Binding Command fix"
 
   s.description  = <<-DESC
 

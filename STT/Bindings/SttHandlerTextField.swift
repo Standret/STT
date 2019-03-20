@@ -74,11 +74,11 @@ open class SttHandlerTextField: NSObject, UITextFieldDelegate {
     }
     
     @objc private func didEndEditing(_ textField: UITextField) {
-        handlers[.editing]?.forEach({ $0.callback(textField) })
+        handlers[.didEndEditing]?.forEach({ $0.callback(textField) })
     }
     
     @objc private func didStartEditing(_ textField: UITextField) {
-        handlers[.editing]?.forEach({ $0.callback(textField) })
+        handlers[.didStartEditing]?.forEach({ $0.callback(textField) })
     }
     
     // implementation of protocol UITextFieldDelegate

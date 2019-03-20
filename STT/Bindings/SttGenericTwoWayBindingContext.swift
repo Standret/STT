@@ -32,7 +32,7 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
     override open func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
         lazyWriterApply = { command.execute(parametr: $0) }
         
-        return self
+        return super.to(command)
     }
     
     override open func apply() {
@@ -80,17 +80,17 @@ public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TPropert
         return value
     }
     
-    public func convertValue<TValue>(_ value: TValue) -> TValue {
+    public func convertValue<TValue>(_ value: TValue) -> TProperty {
         
         if let _converter = converter {
-            if let cvalue = _converter.convert(value: value, parametr: parametr) as? TValue {
+            if let cvalue = _converter.convert(value: value, parametr: parametr) as? TProperty {
                 return cvalue
             }
             else {
-                fatalError("Expected type is \(type(of: TValue.self))")
+                fatalError("Expected type is \(type(of: TProperty.self))")
             }
         }
         
-        return value
+        return value as! TProperty // TODO add handler
     }
 }
