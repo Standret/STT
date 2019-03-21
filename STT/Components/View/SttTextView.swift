@@ -15,16 +15,21 @@ internal class SttTextViewPlaceholder: SttHandlerTextView {
         let newLenght = textView.text.count + text.count - range.length
         return newLenght <= super.maxCharacter
     }
-    
 }
 
 open class SttTextView: UITextView {
     
-    private var sttDelegate: SttHandlerTextView!
+    private(set) public var sttDelegate: SttHandlerTextView!
     
     private var placeHolder: String?
     var isInitialized: Bool?
     var enabledPlaceholder = true
+    
+    public var placeHolderColor: UIColor = .lightGray
+    public var maxLength: Int {
+        get { return sttDelegate.maxCharacter }
+        set { sttDelegate.maxCharacter = newValue }
+    }
     
     public var PlaceHolder: String {
         get { return placeHolder! } // tyt force unwrap lol
@@ -47,7 +52,7 @@ open class SttTextView: UITextView {
                 enabledPlaceholder = true
                 super.text = ""
                 super.text = PlaceHolder
-                textColor = PlaceHolderColor
+                textColor = placeHolderColor
             }
             else if enabledPlaceholder && newValue != PlaceHolder {
                 enabledPlaceholder = false
@@ -57,10 +62,6 @@ open class SttTextView: UITextView {
             }
         }
     }
-    
-    public var PlaceHolderColor: UIColor = .lightGray
-    
-    public var MaxLength = Int32.max
     
     open override func awakeFromNib() {
         super.awakeFromNib()
@@ -83,7 +84,7 @@ open class SttTextView: UITextView {
                 if SttString.isEmpty(string: super.text) {
                     super.text = view.PlaceHolder
                     view.enabledPlaceholder = true
-                    view.textColor = view.PlaceHolderColor
+                    view.textColor = view.placeHolderColor
                 }
             }
             
@@ -91,7 +92,7 @@ open class SttTextView: UITextView {
                 if SttString.isEmpty(string: super.text) {
                     view.enabledPlaceholder = true
                     super.text = view.PlaceHolder
-                    view.textColor = view.PlaceHolderColor
+                    view.textColor = view.placeHolderColor
                 }
                 else if view.enabledPlaceholder && super.text != view.PlaceHolder {
                     view.enabledPlaceholder = false
@@ -108,7 +109,7 @@ open class SttTextView: UITextView {
         
         if SttString.isWhiteSpace(string: super.text) {
             super.text = self.PlaceHolder
-            textColor = PlaceHolderColor
+            textColor = placeHolderColor
         }
         else {
             enabledPlaceholder = false
