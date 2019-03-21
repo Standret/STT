@@ -3,7 +3,7 @@
 //  STT
 //
 //  Created by Andriy Popel on 3/20/19.
-//  Copyright © 2019 Andriy Popel <andriypopel@gmail.com>
+//  Copyright © 2019 Adrii Popel <andriypopel@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
