@@ -2,8 +2,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.1.1"
-  s.summary      = "Binding Command fix"
+  s.version      = "1.1.2"
+  s.summary      = "Added new bindings. Several fixes in existing code"
 
   s.description  = <<-DESC
 
