@@ -91,7 +91,6 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
             switch self.bindMode {
             case .readBind, .twoWayBind:
                 value.bind { [unowned self] in
-                    print("value is \($0)")
                     let value = self.converter != nil ? self.converter?.convert(value: $0, parametr: self.parametr) : $0
                     self.setter(self.vc, value as! TProperty)
                 }
