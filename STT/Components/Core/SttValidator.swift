@@ -38,7 +38,7 @@ open class SttValidator: SttValidatorType {
     public var max: Int
     
     open var validationError: String { return try! getValidationError(of: validationResult)}
-    open var validationResult: SttValidationResult = .ok
+    open var validationResult: SttValidationResult = .empty
     
     public required init (name: String,
           isRequired: Bool = false,

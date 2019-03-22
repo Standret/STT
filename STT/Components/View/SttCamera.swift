@@ -44,35 +44,41 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
         picker.delegate = self
     }
     
-    private func takePhoto() {
+    public func takePhoto() {
         picker.sourceType = .camera
         parent?.present(picker, animated: true, completion: nil)
     }
-    private func selectPhoto() {
+    public func selectPhoto() {
         picker.sourceType = .photoLibrary
         parent?.present(picker, animated: true, completion: nil)
     }
     
     open func showPopuForDecision() {
         if checkPermission() {
-            let actionController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionController.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (x) in
-                self.takePhoto()
-            }))
-            actionController.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { (x) in
-                self.selectPhoto()
-            }))
-            actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             
-            for item in actionController.view.subviews.first!.subviews.first!.subviews {
-                item.backgroundColor = UIColor.white
-            }
-            
-            parent?.present(actionController, animated: true, completion: nil)
+            parent?.present(createPopupDecision(), animated: true, completion: nil)
         }
         else {
             showPermissionDeniedPopup()
         }
+    }
+    
+    open func createPopupDecision() -> UIAlertController {
+        
+        let actionController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionController.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (x) in
+            self.takePhoto()
+        }))
+        actionController.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { (x) in
+            self.selectPhoto()
+        }))
+        actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        for item in actionController.view.subviews.first!.subviews.first!.subviews {
+            item.backgroundColor = UIColor.white
+        }
+        
+        return actionController
     }
     
     private func checkPermission() -> Bool {
