@@ -29,7 +29,7 @@ import UIKit
 
 public extension UITableView {
     
-    public func ScrollTableToBottom(tableView: UITableView, animationDuration: TimeInterval, animate: Bool = true) {
+    public func scrollTableToBottom(tableView: UITableView, animate: Bool = true) {
         
         let rowCount = tableView.numberOfRows(inSection: 0)
         
@@ -38,28 +38,23 @@ public extension UITableView {
         let indexPath = IndexPath(row: rowCount == 0 ? 0 : rowCount - 1, section: 0)
         
         var animated = animate
-        var duration = animationDuration
         
         if tableView.contentSize.height - tableView.contentOffset.y - tableView.bounds.height > 2 * tableView.bounds.height {
-            duration =    0
             animated = false
         }
         
-        UIView.animate(withDuration: duration) {
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
-        }
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+        
     }
     
-    public func ScrollTableToTop(tableView: UITableView, animationDuration: TimeInterval, animate: Bool = true) {
+    public func scrollTableToTop(tableView: UITableView, animate: Bool = true) {
         
         let rowCount = tableView.numberOfRows(inSection: 0)
         
         if rowCount == 0 { return }
         
-        let indexPath = IndexPath(row: rowCount == 0 ? 0 : rowCount - 1, section: 0)
+        let indexPath = IndexPath(row: 0, section: 0)
         
-        UIView.animate(withDuration: animationDuration) {
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: animate)
-        }
+        tableView.scrollToRow(at: indexPath, at: .top, animated: animate)
     }
 }

@@ -2,8 +2,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.1.3"
-  s.summary      = "Added new bindings. Several fixes in existing code"
+  s.version      = "1.1.4"
+  s.summary      = "Added SttTextView (placeholder), extension for gradient and fixed several bugs"
 
   s.description  = <<-DESC
 
