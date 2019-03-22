@@ -58,6 +58,20 @@ public extension UIView {
         layer.shadowRadius = CGFloat(radius)
     }
     
+    func setGradient(color1: UIColor, color2: UIColor) {
+        
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
+        gradient.colors = [color1.cgColor, color2.cgColor]
+        gradient.locations = [0, 1]
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        
+        self.layer.masksToBounds = true
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+    
     public func setIndicator(style: UIActivityIndicatorView.Style = .gray, color: UIColor = UIColor.gray) -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView()
         indicator.style = style

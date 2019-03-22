@@ -313,7 +313,7 @@ public class SttInputBox: UIView, SttViewable {
         addSubview(showButton)
         
         showButton.height(30)
-        showButton.width(30, relation: .equalOrGreater)
+        showButton.width(50, relation: .equal)
         showButton.centerY(to: textField)
         
         cnstrtfToRight.isActive = false

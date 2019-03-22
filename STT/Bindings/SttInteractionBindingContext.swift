@@ -51,6 +51,7 @@ public class SttInteractionBindingContext<TViewController: AnyObject>: SttGeneri
         
         super.init(vc: viewController)
         
+        data.target.isUserInteractionEnabled = true
         switch data.type {
         case .tap:
             data.target.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(_:))))
