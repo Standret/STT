@@ -2,8 +2,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.1.5"
-  s.summary      = "Fixed bugs with keyboard"
+  s.version      = "1.1.6"
+  s.summary      = "Fixed bugs with text in Input Box"
 
   s.description  = <<-DESC
 

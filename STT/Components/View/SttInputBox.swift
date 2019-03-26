@@ -27,6 +27,7 @@
 import Foundation
 import UIKit
 import TinyConstraints
+import RxSwift
 
 public enum TypeInputBox {
     case text
@@ -41,7 +42,9 @@ public enum TypeShpwPassword {
 
 public class SttInputBox: UIView, SttViewable {
     
-    public private(set) var textField: UITextField!
+    public private(set) var textField: SttTextField!
+    
+    private var disposeBag = DisposeBag()
     
     private var icon: UIImageView!
     private var showButton: SttButton!
@@ -262,6 +265,18 @@ public class SttInputBox: UIView, SttViewable {
         textField.clearButtonMode = .never
         textField.height(40)
         
+        textField.textChanged
+            .subscribe(onNext: { [weak self] in
+                guard let _self = self else { return }
+                
+                if !SttString.isEmpty(string: $0) && !_self.textField.isEditing  {
+                    _self.startEditing()
+                }
+                else if !_self.textField.isEditing {
+                    _self.endEditing()
+                }
+            }).disposed(by: disposeBag)
+        
         if #available(iOS 12, *) {
             textField.textContentType = .oneTimeCode
         } else {
@@ -280,10 +295,6 @@ public class SttInputBox: UIView, SttViewable {
                                    handler: { (v, _) in v.startEditing() })
         textFieldHandler.addTarget(type: .didEndEditing, delegate: self,
                                    handler: { (v, _) in v.endEditing() })
-        textFieldHandler.addTarget(type: .editing, delegate: self,
-                                   handler: { (v, tf) in
-                                    if !SttString.isEmpty(string: tf.text) { v.startEditing() }
-                                    if !tf.isEditing { v.endEditing() } })
     }
     
     private func initIcon() {
