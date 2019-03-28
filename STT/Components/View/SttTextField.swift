@@ -25,10 +25,22 @@
 //
 
 import Foundation
+import RxSwift
 import UIKit
 
 @IBDesignable
 open class SttTextField: UITextField {
+    
+    private let textChangedSubject = PublishSubject<String?>()
+    public var textChanged: Observable<String?> {
+        return textChangedSubject
+    }
+    
+    override open var text: String? {
+        didSet {
+            textChangedSubject.onNext(text)
+        }
+    }
     
     @objc
     open dynamic var insets: UIEdgeInsets = UIEdgeInsets.zero

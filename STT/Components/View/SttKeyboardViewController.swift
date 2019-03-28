@@ -41,7 +41,7 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
     fileprivate var _isKeyboardShow = false
     fileprivate var moveViewUp: Bool = false
     
-    private var statusAppDisposable = DisposeBag()
+    private var statusAppDisposable: DisposeBag!
     private var cnstrHeight: NSLayoutConstraint!
     
     public var targetKeyboardConstraint: NSLayoutConstraint!
@@ -58,11 +58,36 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
             self.view.addGestureRecognizer(cancelGesture)
         }
         
+    }
+    
+    @objc
+    private func handleClick(_ sender: UITapGestureRecognizer?) {
+        let senderView = sender?.view?.hitTest(sender!.location(in: view), with: nil)
+        if !(senderView?.tag == 900) {
+            view.endEditing(true)
+        }
+    }
+ 
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        keyboardNotification.addObserver()
+        subsribeOnBackground()
+    }
+    
+    override open func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        statusAppDisposable = nil
+        keyboardNotification.removeObserver()
+    }
+    
+    private func subsribeOnBackground() {
+        statusAppDisposable = DisposeBag()
         SttGlobalObserver.observableStatusApplication.subscribe(onNext: { [unowned self] (status) in
             switch status {
             case .didEnterBackgound:
-                self.view.endEditing(true)
-                self.navigationController?.navigationBar.endEditing(true)
+                //self.view.endEditing(true)
+                //self.navigationController?.navigationBar.endEditing(true)
                 self.keyboardNotification.removeObserver()
                 print("remove")
             case .willEnterForeground:
@@ -73,36 +98,18 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
         }).disposed(by: statusAppDisposable)
     }
     
-    @objc
-    private func handleClick(_ sender: UITapGestureRecognizer?) {
-        let senderView = sender?.view?.hitTest(sender!.location(in: view), with: nil)
-        if !(senderView?.tag == 900) {
-            view.endEditing(true)
-        }
-    }
-    
- 
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    public func updateKeyboardFrames() {
+        scrollAmount = keyboardNotification.heightKeyboard
+        scrollAmountGeneral = keyboardNotification.heightKeyboard
         
-        if Int(viewRect.height) <= Int(view.bounds.height - scrollAmount) {
-            
-            var frame = view.frame
-            frame.size.height -= scrollAmount
-            if let cnstr = targetKeyboardConstraint {
-                cnstr.constant = scrollAmount
-                print(cnstr.constant)
-            }
-            else {
-                view.frame = frame
-            }
+        var frame = view.frame
+        frame.size.height -= scrollAmount
+        if let cnstr = targetKeyboardConstraint {
+            cnstr.constant = scrollAmount
         }
-        keyboardNotification.addObserver()
-    }
-    
-    override open func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        keyboardNotification.removeObserver()
+        else {
+            view.frame = frame
+        }
     }
     
     // MARK: -- SttKeyboardNotificationDelegate

@@ -36,7 +36,7 @@ public class SttCommand: SttCommandType {
     
     public var observableCanNext: Observable<Bool> { return canNextSubject }
     
-    private var isCalling = false
+    private(set) public var isCalling = false
     
     public var concurentExecute: Bool = false
     
@@ -144,7 +144,7 @@ public class SttComandWithParametr<TParametr>: SttCommandType {
     private var executeHandler: ((TParametr) -> Void)
     private var canExecuteHandler: ((TParametr) -> Bool)?
     
-    private var isCalling = false
+    private(set) public var isCalling = false
     
     public var observableCanNext: Observable<Bool> { return canNextSubject }
     

@@ -2,8 +2,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.1.3"
-  s.summary      = "Added new bindings. Several fixes in existing code"
+  s.version      = "1.1.7"
+  s.summary      = "Added ability for inheritance input box and input view"
 
   s.description  = <<-DESC
 
