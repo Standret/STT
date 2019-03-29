@@ -31,9 +31,9 @@ import AVFoundation
 open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let applicationName: String
-    private let picker = UIImagePickerController()
-    private let callBack: (UIImage) -> Void
-    private weak var parent: UIViewController?
+    public let picker = UIImagePickerController()
+    public let callBack: (UIImage) -> Void
+    public weak var parent: UIViewController?
     
     public init (parent: UIViewController, applicationName: String, handler: @escaping (UIImage) -> Void) {
         self.callBack = handler
@@ -114,7 +114,7 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
     
     // MARK: - implementation of UIImagePickerControllerDelegate
     
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         if let _image = image?.fixOrientation() {
             callBack(_image)
