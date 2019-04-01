@@ -36,6 +36,7 @@ public extension Date {
         return Date(timeInterval: seconds, since: self)
     }
     
+    @available(*, deprecated, message: "Might cause integrity break of Date timezone in the app! Use DateFormatter instead.")
     // Convert UTC (or GMT) to local time
     public func toLocalTime() -> Date {
         let timezone = TimeZone.current
@@ -44,7 +45,10 @@ public extension Date {
     }
     
     public func onlyDay() -> Date {
-        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        dateComponents.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        guard let date = Calendar.current.date(from: dateComponents) else {
             fatalError("Failed to strip time from Date object")
         }
         return date
