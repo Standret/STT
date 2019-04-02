@@ -31,7 +31,6 @@ open class SttConverter<TIn, TOut>: SttConverterType {
     public required init() { }
     
     public func convert(value: Any?, parametr: Any?) -> Any {
-        print(value)
         return self.convert(value: value as! TIn, parametr: parametr)
     }
     
