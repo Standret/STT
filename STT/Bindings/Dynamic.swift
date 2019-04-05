@@ -54,7 +54,7 @@ public class Dynamic<Element> {
             .subscribe(onNext: listener)
             .disposed(by: disposeBag)
         
-        listener(element.value)
+        // listener(element.value)
     }
     
     /// Subscribe only on changes
