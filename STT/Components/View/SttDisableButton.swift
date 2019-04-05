@@ -62,6 +62,8 @@ public class SttDisableButton: SttButton {
             }
         }
     }
+    @objc
+    dynamic public var highlightedColor: UIColor?
     
     override public var isEnabled: Bool {
         didSet {
@@ -72,6 +74,14 @@ public class SttDisableButton: SttButton {
             else {
                 backgroundColor = disableColor
                 tintColor = disableTintColor
+            }
+        }
+    }
+    
+     override public var isHighlighted: Bool {
+        didSet {
+            if let color = highlightedColor {
+                backgroundColor = isHighlighted ? color : activeColor
             }
         }
     }

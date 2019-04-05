@@ -56,6 +56,9 @@ open class SttToogleButton: SttButton {
         }
     }
     
+    @objc
+    open dynamic var highlightedColor: UIColor?
+    
     override open var isSelected: Bool {
         didSet {
             if isSelected {
@@ -65,6 +68,14 @@ open class SttToogleButton: SttButton {
                 self.backgroundColor = unSelectedBackground
             }
             self.setNeedsDisplay()
+        }
+    }
+    
+    open override var isHighlighted: Bool {
+        didSet {
+            if let color = highlightedColor {
+                self.backgroundColor = isHighlighted ? color : unSelectedBackground
+            }
         }
     }
 }
