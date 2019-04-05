@@ -27,6 +27,7 @@
 import Foundation
 import UIKit
 import TinyConstraints
+import RxSwift
 
 public enum TypeInputBox {
     case text
@@ -39,18 +40,20 @@ public enum TypeShpwPassword {
     case text
 }
 
-public class SttInputBox: UIView, SttViewable {
+open class SttInputBox: UIView, SttViewable {
     
-    public private(set) var textField: UITextField!
+    public private(set) var textField: SttTextField!
     
-    private var icon: UIImageView!
-    private var showButton: SttButton!
+    private var disposeBag = DisposeBag()
     
-    private var label: UILabel!
-    private var errorLabel: UILabel!
-    private var underline: UIView!
+    private(set) public var icon: UIImageView!
+    private(set) public var showButton: SttButton!
     
-    private var isEdited = false
+    private(set) public var label: UILabel!
+    private(set) public var errorLabel: UILabel!
+    private(set) public var underline: UIView!
+    
+    private(set) public var isEdited = false
     
     private var textsLeft = [NSLayoutConstraint]()
     private var textsRight = [NSLayoutConstraint]()
@@ -116,7 +119,7 @@ public class SttInputBox: UIView, SttViewable {
         }
     }
     
-    public var error: String? {
+    open var error: String? {
         didSet {
             
             if !SttString.isWhiteSpace(string: error) {
@@ -226,7 +229,7 @@ public class SttInputBox: UIView, SttViewable {
     }
     
     @discardableResult
-    override public func becomeFirstResponder() -> Bool {
+    override open func becomeFirstResponder() -> Bool {
         return textField.becomeFirstResponder()
     }
     
@@ -237,7 +240,54 @@ public class SttInputBox: UIView, SttViewable {
         }
     }
     
-    private func viewDidLoad() {
+    open func startEditing() {
+        isEdited = true
+        
+        label.textColor = labelActiveColor
+        if isError {
+            //label.textColor = errorColor
+        }
+        else {
+            underline.backgroundColor = underlineActiveColor
+        }
+        
+        UIView.animate(withDuration: isAnimate ? 0.3 : 0, animations: {
+            
+            let trans  = -(self.label.bounds.width - self.label.bounds.width * 0.575) / 2
+            let translation = CGAffineTransform(translationX: trans, y: -25)
+            let scaling = CGAffineTransform(scaleX: 0.575,
+                                            y: 0.575)
+            
+            self.label.transform = scaling.concatenating(translation)
+            
+            self.cnstrUnderlineHeight.constant = self.underlineActiveHeight
+            
+            self.layoutIfNeeded()
+        })
+    }
+    open func endEditing() {
+        isEdited = false
+        
+        label.textColor = labelDisableColor
+        if isError {
+            //underline.backgroundColor = underlineDisableColor
+            //label.textColor = labelDisableColor
+        }
+        else {
+            underline.backgroundColor = underlineDisableColor
+        }
+        
+        if SttString.isEmpty(string: textField.text) {
+            UIView.animate(withDuration: isAnimate ? 0.3 : 0) {
+                self.label.transform = CGAffineTransform.identity
+            }
+        }
+        
+        cnstrUnderlineHeight.constant = underlineDisableHeight
+        UIView.animate(withDuration: isAnimate ? 0.3 : 0, animations: { self.layoutIfNeeded() })
+    }
+    
+    open func viewDidLoad() {
         
         initTextField()
         initIcon()
@@ -262,6 +312,18 @@ public class SttInputBox: UIView, SttViewable {
         textField.clearButtonMode = .never
         textField.height(40)
         
+        textField.textChanged
+            .subscribe(onNext: { [weak self] in
+                guard let _self = self else { return }
+                
+                if !SttString.isEmpty(string: $0) && !_self.textField.isEditing  {
+                    _self.startEditing()
+                }
+                else if !_self.textField.isEditing {
+                    _self.endEditing()
+                }
+            }).disposed(by: disposeBag)
+        
         if #available(iOS 12, *) {
             textField.textContentType = .oneTimeCode
         } else {
@@ -280,10 +342,6 @@ public class SttInputBox: UIView, SttViewable {
                                    handler: { (v, _) in v.startEditing() })
         textFieldHandler.addTarget(type: .didEndEditing, delegate: self,
                                    handler: { (v, _) in v.endEditing() })
-        textFieldHandler.addTarget(type: .editing, delegate: self,
-                                   handler: { (v, tf) in
-                                    if !SttString.isEmpty(string: tf.text) { v.startEditing() }
-                                    if !tf.isEditing { v.endEditing() } })
     }
     
     private func initIcon() {
@@ -313,7 +371,7 @@ public class SttInputBox: UIView, SttViewable {
         addSubview(showButton)
         
         showButton.height(30)
-        showButton.width(30, relation: .equalOrGreater)
+        showButton.width(50, relation: .equal)
         showButton.centerY(to: textField)
         
         cnstrtfToRight.isActive = false
@@ -371,53 +429,6 @@ public class SttInputBox: UIView, SttViewable {
         default:
             textField.becomeFirstResponder()
         }
-    }
-    
-    private func startEditing() {
-        isEdited = true
-        
-        label.textColor = labelActiveColor
-        if isError {
-            //label.textColor = errorColor
-        }
-        else {
-            underline.backgroundColor = underlineActiveColor
-        }
-        
-        UIView.animate(withDuration: isAnimate ? 0.3 : 0, animations: {
-            
-            let trans  = -(self.label.bounds.width - self.label.bounds.width * 0.575) / 2
-            let translation = CGAffineTransform(translationX: trans, y: -25)
-            let scaling = CGAffineTransform(scaleX: 0.575,
-                                            y: 0.575)
-            
-            self.label.transform = scaling.concatenating(translation)
-            
-            self.cnstrUnderlineHeight.constant = self.underlineActiveHeight
-            
-            self.layoutIfNeeded()
-        })
-    }
-    private func endEditing() {
-        isEdited = false
-        
-        label.textColor = labelDisableColor
-        if isError {
-            //underline.backgroundColor = underlineDisableColor
-            //label.textColor = labelDisableColor
-        }
-        else {
-            underline.backgroundColor = underlineDisableColor
-        }
-        
-        if SttString.isEmpty(string: textField.text) {
-            UIView.animate(withDuration: isAnimate ? 0.3 : 0) {
-                self.label.transform = CGAffineTransform.identity
-            }
-        }
-        
-        cnstrUnderlineHeight.constant = underlineDisableHeight
-        UIView.animate(withDuration: isAnimate ? 0.3 : 0, animations: { self.layoutIfNeeded() })
     }
     
     private func changeType(type: TypeInputBox) {

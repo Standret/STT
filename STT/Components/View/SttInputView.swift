@@ -29,15 +29,15 @@ import UIKit
 import TinyConstraints
 
 @IBDesignable
-public class SttInputView: UIView, SttViewable {
+open class SttInputView: UIView, SttViewable {
     
     private(set) public var textView: UITextView!
-    private var label: UILabel!
-    private var counterLabel: UILabel!
-    private var errorLabel: UILabel!
-    private var underline: UIView!
+    private(set) public var label: UILabel!
+    private(set) public var counterLabel: UILabel!
+    private(set) public var errorLabel: UILabel!
+    private(set) public var underline: UIView!
     
-    private var isEdited = false
+    private(set) public var isEdited = false
     
     private var cnstrUnderlineHeight: NSLayoutConstraint!
     private var cnstrErrorHeight: NSLayoutConstraint!
@@ -65,7 +65,7 @@ public class SttInputView: UIView, SttViewable {
         }
     }
     
-    public var error: String? {
+    open var error: String? {
         didSet {
             errorLabel.text = error
             
@@ -162,11 +162,11 @@ public class SttInputView: UIView, SttViewable {
         viewDidLoad()
     }
     
-    override public func becomeFirstResponder() -> Bool {
+    override open func becomeFirstResponder() -> Bool {
         return textView.becomeFirstResponder()
     }
     
-    private func viewDidLoad() {
+    open func viewDidLoad() {
         
         initTextView()
         initLabel()
@@ -187,7 +187,7 @@ public class SttInputView: UIView, SttViewable {
         
         addSubview(textView)
         
-        textView.edgesToSuperview(excluding: .bottom, insets: .top(14) + .left(4) + .right(4))
+        textView.edgesToSuperview(excluding: .bottom, insets: .top(14) + .left(-4) + .right(-4))
         
         handlerTextView.addTarget(type: .didBeginEditing, delegate: self,
                                   handler: { (v, _) in v.startEditing() })
@@ -202,7 +202,7 @@ public class SttInputView: UIView, SttViewable {
                                     if !tv.isFirstResponder { v.endEditing() } })
     }
     private func initLabel() {
-        label = UILabel(frame: CGRect(x: 8, y: 25, width: 300, height: 22))
+        label = UILabel(frame: CGRect(x: 0, y: 25, width: 300, height: 22))
         label.textAlignment = .left
         label.text = "Field"
         addSubview(label)
@@ -228,7 +228,7 @@ public class SttInputView: UIView, SttViewable {
         
         addSubview(counterLabel)
         
-        counterLabel.edgesToSuperview(excluding: [.top, .left], insets: .bottom(3) + .right(8))
+        counterLabel.edgesToSuperview(excluding: [.top, .left], insets: .bottom(3) + .right(0))
         
         changeCounterValue(to: maxCount)
     }
@@ -243,12 +243,12 @@ public class SttInputView: UIView, SttViewable {
         
         addSubview(errorLabel)
         
-        errorLabel.edgesToSuperview(excluding: [.right, .top], insets: .bottom(3) + .left(8))
+        errorLabel.edgesToSuperview(excluding: [.right, .top], insets: .bottom(3) + .left(0))
         errorLabel.topToBottom(of: underline, offset: 2)
         errorLabel.rightToLeft(of: counterLabel)
     }
     
-    private func startEditing() {
+    open func startEditing() {
         isEdited = true
         
         label.textColor = labelActiveColor
@@ -273,7 +273,7 @@ public class SttInputView: UIView, SttViewable {
             self.layoutIfNeeded()
         })
     }
-    private func endEditing() {
+    open func endEditing() {
         isEdited = false
         
         label.textColor = labelDisableColor

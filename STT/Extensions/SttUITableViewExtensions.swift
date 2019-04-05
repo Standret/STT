@@ -1,9 +1,9 @@
 //
-//  SttConverter.swift
+//  UIViewControllerDExt.swift
 //  STT
 //
-//  Created by Peter Standret on 3/13/19.
-//  Copyright © 2019 Peter Standret <pstandret@gmail.com>
+//  Created by Popel on 5/13/18.
+//  Copyright © 2019 Andriy Popel <andriypopel@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,30 +25,36 @@
 //
 
 import Foundation
+import UIKit
 
-open class SttConverter<TIn, TOut>: SttConverterType {
+public extension UITableView {
     
-    public required init() { }
-    
-    public func convert(value: Any?, parametr: Any?) -> Any {
-        return self.convert(value: value as! TIn, parametr: parametr)
+    public func scrollTableToBottom(tableView: UITableView, animate: Bool = true) {
+        
+        let rowCount = tableView.numberOfRows(inSection: 0)
+        
+        if rowCount == 0 { return }
+        
+        let indexPath = IndexPath(row: rowCount == 0 ? 0 : rowCount - 1, section: 0)
+        
+        var animated = animate
+        
+        if tableView.contentSize.height - tableView.contentOffset.y - tableView.bounds.height > 2 * tableView.bounds.height {
+            animated = false
+        }
+        
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+        
     }
     
-    public func convertBack(value: Any?, parametr: Any?) -> Any {
-        return self.convertBack(value: value as! TOut, parametr: parametr)
-    }
-    
-    open func convert(value: TIn, parametr: Any?) -> TOut {
-        notImplementException()
-    }
-    
-    open func convertBack(value: TOut, parametr: Any?) -> TIn {
-        notImplementException()
-    }
-}
-
-public extension SttConverter {
-    public func convert(value: TIn) -> TOut {
-        return self.convert(value: value, parametr: nil)
+    public func scrollTableToTop(tableView: UITableView, animate: Bool = true) {
+        
+        let rowCount = tableView.numberOfRows(inSection: 0)
+        
+        if rowCount == 0 { return }
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+        
+        tableView.scrollToRow(at: indexPath, at: .top, animated: animate)
     }
 }

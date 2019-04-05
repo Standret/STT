@@ -134,4 +134,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
         }
     }
     
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    }
+    
 }

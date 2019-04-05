@@ -31,9 +31,9 @@ import AVFoundation
 open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let applicationName: String
-    private let picker = UIImagePickerController()
-    private let callBack: (UIImage) -> Void
-    private weak var parent: UIViewController?
+    public let picker = UIImagePickerController()
+    public let callBack: (UIImage) -> Void
+    public weak var parent: UIViewController?
     
     public init (parent: UIViewController, applicationName: String, handler: @escaping (UIImage) -> Void) {
         self.callBack = handler
@@ -44,35 +44,41 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
         picker.delegate = self
     }
     
-    private func takePhoto() {
+    public func takePhoto() {
         picker.sourceType = .camera
         parent?.present(picker, animated: true, completion: nil)
     }
-    private func selectPhoto() {
+    public func selectPhoto() {
         picker.sourceType = .photoLibrary
         parent?.present(picker, animated: true, completion: nil)
     }
     
     open func showPopuForDecision() {
         if checkPermission() {
-            let actionController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionController.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (x) in
-                self.takePhoto()
-            }))
-            actionController.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { (x) in
-                self.selectPhoto()
-            }))
-            actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             
-            for item in actionController.view.subviews.first!.subviews.first!.subviews {
-                item.backgroundColor = UIColor.white
-            }
-            
-            parent?.present(actionController, animated: true, completion: nil)
+            parent?.present(createPopupDecision(), animated: true, completion: nil)
         }
         else {
             showPermissionDeniedPopup()
         }
+    }
+    
+    open func createPopupDecision() -> UIAlertController {
+        
+        let actionController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionController.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (x) in
+            self.takePhoto()
+        }))
+        actionController.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { (x) in
+            self.selectPhoto()
+        }))
+        actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        for item in actionController.view.subviews.first!.subviews.first!.subviews {
+            item.backgroundColor = UIColor.white
+        }
+        
+        return actionController
     }
     
     private func checkPermission() -> Bool {
@@ -108,7 +114,7 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
     
     // MARK: - implementation of UIImagePickerControllerDelegate
     
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    open func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         if let _image = image?.fixOrientation() {
             callBack(_image)

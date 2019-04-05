@@ -72,8 +72,13 @@ public extension ObservableType where E == (HTTPURLResponse, Data) {
                     observer.onError(er)
                 }
                 else {
-                    observer.onError(SttBaseError.connectionError(SttConnectionError.timeout))
-                    //observer.onError(SttBaseError.unkown("\((error as NSError).localizedDescription)"))
+                    let error = error as NSError
+                    if error.code == -1009 { // TODO: fix
+                        observer.onError(SttBaseError.connectionError(SttConnectionError.noInternetConnection))
+                    }
+                    else {
+                        observer.onError(SttBaseError.connectionError(SttConnectionError.timeout))
+                    }
                 }
             }, onCompleted: observer.onCompleted)
         })
