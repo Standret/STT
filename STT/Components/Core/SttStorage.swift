@@ -28,7 +28,7 @@ import Foundation
 import KeychainSwift
 import RxSwift
 
-public class SttStorage<T: Codable>: SttStorageType {
+open class SttStorage<T: Codable>: SttStorageType {
     
     public typealias TEntity = T
     
@@ -50,7 +50,7 @@ public class SttStorage<T: Codable>: SttStorageType {
         }
     }
     
-    public func get() -> T {
+    open func get() -> T {
         switch type {
         case .security:
             return keychain.getData(key)!.getObject(of: TEntity.self)!
@@ -60,7 +60,7 @@ public class SttStorage<T: Codable>: SttStorageType {
     }
     
     @discardableResult
-    public func put(item: T) -> Bool {
+    open func put(item: T) -> Bool {
         switch type {
         case .security:
             return keychain.set(item.getData()!, forKey: key)
@@ -71,7 +71,7 @@ public class SttStorage<T: Codable>: SttStorageType {
     }
     
     @discardableResult
-    public func drop() -> Bool {
+    open func drop() -> Bool {
         switch type {
         case .security:
             return keychain.delete(key)
@@ -81,7 +81,7 @@ public class SttStorage<T: Codable>: SttStorageType {
         }
     }
     
-    public func isExists() -> Bool {
+    open func isExists() -> Bool {
         switch type {
         case .security:
             return keychain.getData(key) != nil
@@ -90,7 +90,7 @@ public class SttStorage<T: Codable>: SttStorageType {
         }
     }
     
-    public func onUpdate() -> Observable<T> {
+    open func onUpdate() -> Observable<T> {
         notImplementException()
     }
 }
