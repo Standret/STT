@@ -32,12 +32,18 @@ import RxSwift
 public enum TypeInputBox {
     case text
     case security(TypeShpwPassword)
+    case checkMark(TypeCheckMarkVisiblity) // showing custom image at the right edge of textField
 }
 
 public enum TypeShpwPassword {
     case none
     case eye
     case text
+}
+
+public enum TypeCheckMarkVisiblity {
+    case visible
+    case hidden
 }
 
 open class SttInputBox: UIView, SttViewable {
@@ -329,7 +335,7 @@ open class SttInputBox: UIView, SttViewable {
         } else {
             textField.textContentType = .init(rawValue: "")
         }
-
+        
         addSubview(textField)
         
         textField.topToSuperview(offset: 19)
@@ -350,17 +356,17 @@ open class SttInputBox: UIView, SttViewable {
         icon.image = UIImage(named: "eye_open")
         icon.isUserInteractionEnabled = true
         icon.contentMode = .center
-
+        
         icon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clickShowHandler(_:))))
-
+        
         addSubview(icon)
-
+        
         icon.height(22)
         icon.width(22)
         icon.centerY(to: textField)
-
+        
         cnstrtfToRight.isActive = false
-        cnstrRightIconTF = icon.leftToRight(of: textField, offset: 2, priority: LayoutPriority(rawValue: 750))
+        cnstrRightIconTF = icon.leftToRight(of: textField, offset: 2, priority: LayoutPriority(rawValue: 1000))
         textsRight.append(icon.rightToSuperview(offset: -(textEdges.right + 2)))
     }
     private func initButtonShow() {
@@ -432,14 +438,16 @@ open class SttInputBox: UIView, SttViewable {
     }
     
     private func changeType(type: TypeInputBox) {
+        
         textField.isSecureTextEntry = false
         textField.isUserInteractionEnabled = true
+        cnstrRightButtonTF.isActive = false
+        cnstrRightIconTF.isActive = false
         cnstrtfToRight.isActive = true
         
         icon.isHidden = true
         showButton.isHidden = true
-        cnstrRightButtonTF.isActive = false
-        cnstrRightIconTF.isActive = false
+        
         
         switch type {
         case .text: break;
@@ -458,6 +466,17 @@ open class SttInputBox: UIView, SttViewable {
             }
             
             textField.isSecureTextEntry = true
+        case .checkMark(let type):
+            switch type {
+            case .visible:
+                cnstrtfToRight.isActive = false
+                icon.isHidden = false
+                cnstrRightIconTF.isActive = true
+                self.layoutIfNeeded()
+            case .hidden: break
+            }
+            
+            textField.invalidateIntrinsicContentSize()
         }
     }
 }
