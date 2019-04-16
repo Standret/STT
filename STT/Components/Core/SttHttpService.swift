@@ -95,6 +95,19 @@ public class SttHttpService: SttHttpServiceType {
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
     
+    public func delete(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return modifyHeaders(insertToken: insertToken, headers: headers)
+            .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
+                return requestData(.delete,
+                                   "\(self.url!)\(controller.route)",
+                    parameters: data,
+                    encoding: URLEncoding.httpBody,
+                    headers: headers)
+            })
+            .timeout(timeout, scheduler: MainScheduler.instance)
+    }
+    
     public func upload(controller: ApiControllerType, data: Data, parameter: [String:String], progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)> {
         notImplementException()
 
