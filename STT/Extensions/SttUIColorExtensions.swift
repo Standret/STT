@@ -29,7 +29,7 @@ import UIKit
 
 public extension UIColor {
     
-    public convenience init(hexString: String, alpha: CGFloat = 1.0) {
+    convenience init(hexString: String, alpha: CGFloat = 1.0) {
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
         if (hexString.hasPrefix("#")) {
@@ -47,7 +47,7 @@ public extension UIColor {
         self.init(red:red, green:green, blue:blue, alpha:alpha)
     }
     
-    public func toHexString() -> String {
+    func toHexString() -> String {
         var r:CGFloat = 0
         var g:CGFloat = 0
         var b:CGFloat = 0

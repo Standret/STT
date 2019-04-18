@@ -29,7 +29,7 @@ import UIKit
 
 public extension UIApplication {
     
-    public func reloadViewControllers() {
+    func reloadViewControllers() {
         for window in self.windows {
             for view in window.subviews {
                 view.removeFromSuperview()

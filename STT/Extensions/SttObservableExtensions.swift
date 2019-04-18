@@ -28,10 +28,10 @@ import Foundation
 import RxSwift
 
 public extension PrimitiveSequence {
-    public func toEmptyObservable<T>(ofType _: T.Type) -> Observable<T> {
+    func toEmptyObservable<T>(ofType _: T.Type) -> Observable<T> {
         return self.asObservable().flatMap({ _ in Observable<T>.empty() })
     }
-    public func toObservable() -> Observable<Bool> {
+    func toObservable() -> Observable<Bool> {
         return Observable<Bool>.create({ (observer) -> Disposable in
             self.asObservable().subscribe(onCompleted: {
                 observer.onNext(true)
@@ -39,16 +39,16 @@ public extension PrimitiveSequence {
             })
         })
     }
-    public func inBackground() -> PrimitiveSequence<Trait, Element> {
+    func inBackground() -> PrimitiveSequence<Trait, Element> {
         return self.subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
     }
-    public func observeInUI() -> PrimitiveSequence<Trait, Element> {
+    func observeInUI() -> PrimitiveSequence<Trait, Element> {
         return self.observeOn(MainScheduler.instance)
     }
 }
 
 public extension Observable {
-    public func saveInDB(saveCallback: @escaping (_ saveCallback: Element) -> Completable) -> Observable<Element>
+    func saveInDB(saveCallback: @escaping (_ saveCallback: Element) -> Completable) -> Observable<Element>
     {
         return self.map({ (element) -> Element in
             _ = saveCallback(element).subscribe(onCompleted: {
@@ -60,18 +60,18 @@ public extension Observable {
         })
     }
     
-    public func toBoolObservable() -> Observable<Bool> {
+    func toBoolObservable() -> Observable<Bool> {
         return self.map({ _ in true })
     }
     
-    public func toVoidObservable() -> Observable<Void> {
+    func toVoidObservable() -> Observable<Void> {
         return self.map({ _ in () })
     }
     
-    public func inBackground() -> Observable<Element> {
+    func inBackground() -> Observable<Element> {
         return self.subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
     }
-    public func observeInUI() -> Observable<Element> {
+    func observeInUI() -> Observable<Element> {
         return self.observeOn(MainScheduler.instance)
     }
 }

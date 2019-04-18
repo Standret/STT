@@ -43,7 +43,7 @@ public protocol SttCommandType: AnyObject {
 }
 
 public extension SttCommandType {
-    public func raiseCanExecute(parametr: Any? = nil) {
+    func raiseCanExecute(parametr: Any? = nil) {
         self.raiseCanExecute(parametr: parametr)
     }
 }

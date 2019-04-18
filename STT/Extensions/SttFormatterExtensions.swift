@@ -27,7 +27,7 @@
 import Foundation
 
 public extension Formatter {
-    public static let withSeparator: NumberFormatter = {
+    static let withSeparator: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.groupingSeparator = " "
         formatter.numberStyle = .decimal
@@ -36,13 +36,13 @@ public extension Formatter {
 }
 
 public extension BinaryInteger {
-    public var formattedWithSeparator: String {
+    var formattedWithSeparator: String {
         return Formatter.withSeparator.string(for: self) ?? ""
     }
 }
 
 extension Formatter {
-    public static let iso8601: ISO8601DateFormatter = {
+    static let iso8601: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         if #available(iOS 11.0, *) {
             formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]

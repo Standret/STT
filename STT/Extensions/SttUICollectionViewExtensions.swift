@@ -36,6 +36,9 @@ public extension UICollectionView {
      Width of every element will be calculated in accordance with 'columnsQuantity' and 'itemsPadding' parameters.
      Padding between lines can be set with 'lineSpacing' parametr, by default is 1
      
+     - Important:
+     If need to create square you should not pass any value to height
+     
      - REMARK:
      It's recommended to use this function after all bounds of the view were set, for example in ViewDidLayoutSubviews method.
      
@@ -47,19 +50,19 @@ public extension UICollectionView {
      
      - Returns: Void
      */
-    public func adjustVerticalLayoutGrid(columnsQuantity: Int, height: CGFloat, itemsPadding: CGFloat = 0, lineSpacing: CGFloat = 1) {
+    func adjustVerticalLayoutGrid(columnsQuantity: Int, height: CGFloat? = nil, itemsPadding: CGFloat = 0, lineSpacing: CGFloat = 1) {
 
         guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         if flowLayout.scrollDirection == .vertical {
-            if columnsQuantity > 0 && itemsPadding >= 0 && height > 0 {
+            if columnsQuantity > 0 && itemsPadding >= 0 {
                 
                 let insetsSize: CGFloat = flowLayout.sectionInset.left + flowLayout.sectionInset.right
                 
                 let contentWidth = self.bounds.size.width - insetsSize
                 let itemWidth: CGFloat = contentWidth / CGFloat(columnsQuantity) - itemsPadding
                 
-                let itemSize: CGSize = CGSize(width: itemWidth, height: height)
+                let itemSize: CGSize = CGSize(width: itemWidth, height: height ?? itemWidth)
                 flowLayout.itemSize = itemSize
                 
                 flowLayout.minimumLineSpacing = lineSpacing
@@ -68,7 +71,7 @@ public extension UICollectionView {
         }
     }
     
-    public func setItemSize(size: CGSize) {
+    func setItemSize(size: CGSize) {
         guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         flowLayout.itemSize = size

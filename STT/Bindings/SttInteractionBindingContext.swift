@@ -39,7 +39,7 @@ public struct SttBindingInteractionData {
 
 public extension UIView {
     
-    public func tap() -> SttBindingInteractionData {
+    func tap() -> SttBindingInteractionData {
         return SttBindingInteractionData(type: .tap, target: self)
     }
     

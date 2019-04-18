@@ -27,7 +27,7 @@
 import UIKit
 
 public extension UITextField {
-    public func setPlaceholderColor(color: UIColor) {
+    func setPlaceholderColor(color: UIColor) {
         self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "nani", attributes: [NSAttributedString.Key.foregroundColor: color])
     }
 }

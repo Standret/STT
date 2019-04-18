@@ -30,7 +30,7 @@ import UIKit
 
 public extension UISegmentedControl {
     
-    public func removeBorders() {
+    func removeBorders() {
         self.setBackgroundImage(imageWithColor(color: UIColor.clear), for: .normal, barMetrics: .default)
         self.setBackgroundImage(imageWithColor(color:  UIColor.clear), for: .selected, barMetrics: .default)
         self.setDividerImage(imageWithColor(color:  UIColor.clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)

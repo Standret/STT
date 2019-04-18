@@ -30,7 +30,7 @@ import Foundation
 public extension Date {
     
     // Convert local time to UTC (or GMT)
-    public func toGlobalTime() -> Date {
+    func toGlobalTime() -> Date {
         let timezone = TimeZone.current
         let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
         return Date(timeInterval: seconds, since: self)
@@ -38,13 +38,13 @@ public extension Date {
     
     @available(*, deprecated, message: "Might cause integrity break of Date timezone in the app! Use DateFormatter instead.")
     // Convert UTC (or GMT) to local time
-    public func toLocalTime() -> Date {
+    func toLocalTime() -> Date {
         let timezone = TimeZone.current
         let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
         return Date(timeInterval: seconds, since: self)
     }
     
-    public func onlyDay() -> Date {
+    func onlyDay() -> Date {
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self)
         dateComponents.timeZone = TimeZone(secondsFromGMT: 0)
         
@@ -53,23 +53,23 @@ public extension Date {
         }
         return date
     }
-    public var yesterday: Date {
+    var yesterday: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
     }
-    public var tomorrow: Date {
+    var tomorrow: Date {
         return Calendar.current.date(byAdding: .day, value: 1, to: noon)!
     }
-    public var noon: Date {
+    var noon: Date {
         return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
     }
-    public var month: Int {
+    var month: Int {
         return Calendar.current.component(.month,  from: self)
     }
-    public var isLastDayOfMonth: Bool {
+    var isLastDayOfMonth: Bool {
         return tomorrow.month != month
     }
     
-    public func differenceInMinutes() -> Int {
+    func differenceInMinutes() -> Int {
         
         let dayHourMinuteSecond: Set<Calendar.Component> = [.minute]
         let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: Date(), to: self);
@@ -78,17 +78,17 @@ public extension Date {
     }
     
     /// Returns a Date with the specified amount of components added to the one it is called with
-    public func add(years: Int = 0, months: Int = 0, days: Int = 0, hours: Int = 0, minutes: Int = 0, seconds: Int = 0) -> Date? {
+    func add(years: Int = 0, months: Int = 0, days: Int = 0, hours: Int = 0, minutes: Int = 0, seconds: Int = 0) -> Date? {
         let components = DateComponents(year: years, month: months, day: days, hour: hours, minute: minutes, second: seconds)
         return Calendar.current.date(byAdding: components, to: self)
     }
     
     /// Returns a Date with the specified amount of components subtracted from the one it is called with
-    public func subtract(years: Int = 0, months: Int = 0, days: Int = 0, hours: Int = 0, minutes: Int = 0, seconds: Int = 0) -> Date? {
+    func subtract(years: Int = 0, months: Int = 0, days: Int = 0, hours: Int = 0, minutes: Int = 0, seconds: Int = 0) -> Date? {
         return add(years: -years, months: -months, days: -days, hours: -hours, minutes: -minutes, seconds: -seconds)
     }
     
-    public func toString(format: String) -> String {
+    func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         

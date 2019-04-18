@@ -43,7 +43,8 @@ open class SttTextView: UITextView {
     var isInitialized: Bool?
     var enabledPlaceholder = true
     
-    public var placeHolderColor: UIColor = .lightGray
+    @objc
+    public dynamic var placeHolderColor: UIColor = .lightGray
     public var maxLength: Int {
         get { return sttDelegate.maxCharacter }
         set { sttDelegate.maxCharacter = newValue }
