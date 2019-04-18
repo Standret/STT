@@ -44,14 +44,8 @@ public extension Date {
         return Date(timeInterval: seconds, since: self)
     }
     
-    func onlyDay() -> Date {
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self)
-        dateComponents.timeZone = TimeZone(secondsFromGMT: 0)
-        
-        guard let date = Calendar.current.date(from: dateComponents) else {
-            fatalError("Failed to strip time from Date object")
-        }
-        return date
+    public func onlyDay() -> Date {
+        return Calendar.current.startOfDay(for: self)
     }
     var yesterday: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
