@@ -78,13 +78,16 @@ public extension UICollectionView {
     private func calculateItemWidth(columnsQuantity: Int, itemsPadding: CGFloat, sectionInset: UIEdgeInsets? = nil) -> CGFloat? {
         guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return nil }
         guard flowLayout.scrollDirection == .vertical else { return nil }
-        guard columnsQuantity > 0 && itemsPadding >= 0 else { return nil }
+        guard columnsQuantity > 1 && itemsPadding >= 0 else { return nil }
 
-        let sectionInset: UIEdgeInsets = sectionInset ?? flowLayout.sectionInset
-
-        let insetsSize: CGFloat = sectionInset.left + sectionInset.right
+        if let _sectionInset = sectionInset {
+            flowLayout.sectionInset = _sectionInset
+        }
+        
+        let insetsSize: CGFloat = flowLayout.sectionInset.left + flowLayout.sectionInset.right
         let contentWidth = self.bounds.size.width - insetsSize
-        let itemWidth: CGFloat = contentWidth / CGFloat(columnsQuantity) - itemsPadding
+        
+        let itemWidth: CGFloat = (contentWidth - (itemsPadding * CGFloat(columnsQuantity - 1))) / CGFloat(columnsQuantity)
         
         return itemWidth
     }
