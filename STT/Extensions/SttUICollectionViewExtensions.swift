@@ -50,31 +50,61 @@ public extension UICollectionView {
      
      - Returns: Void
      */
-    func adjustVerticalLayoutGrid(columnsQuantity: Int, height: CGFloat? = nil, itemsPadding: CGFloat = 0, lineSpacing: CGFloat = 1) {
-
-        guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+    func adjustVerticalLayoutGrid(columnsQuantity: Int, height: CGFloat, itemsPadding: CGFloat = 0, lineSpacing: CGFloat = 1, insets: UIEdgeInsets? = nil) {
+        guard height > 0 else { return }
+        guard let itemWidth = calculateItemWidth(columnsQuantity: columnsQuantity, itemsPadding: itemsPadding, sectionInset: insets) else { return }
+        let itemSize: CGSize = CGSize(width: itemWidth, height: height)
         
-        if flowLayout.scrollDirection == .vertical {
-            if columnsQuantity > 0 && itemsPadding >= 0 {
-                
-                let insetsSize: CGFloat = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-                
-                let contentWidth = self.bounds.size.width - insetsSize
-                let itemWidth: CGFloat = contentWidth / CGFloat(columnsQuantity) - itemsPadding
-                
-                let itemSize: CGSize = CGSize(width: itemWidth, height: height ?? itemWidth)
-                flowLayout.itemSize = itemSize
-                
-                flowLayout.minimumLineSpacing = lineSpacing
-                flowLayout.minimumInteritemSpacing = 0
-            }
+        setFlowLayoutValues(itemSize: itemSize, lineSpacing: lineSpacing, interitemSpacing: 0)
+    }
+    
+    /**
+     The same as top function, but with aspectRatio instead of fixed height
+     Height is calculated in aspect ratio to width, by default is 1, so elements will be sqaure.
+     */
+    func adjustVerticalLayoutGrid(columnsQuantity: Int, heightAspectRatio: CGFloat = 1, itemsPadding: CGFloat = 0, lineSpacing: CGFloat = 1, insets: UIEdgeInsets? = nil) {
+        guard heightAspectRatio > 0 else { return }
+        guard let itemWidth = calculateItemWidth(columnsQuantity: columnsQuantity, itemsPadding: itemsPadding, sectionInset: insets) else { return }
+        let itemHeight: CGFloat = itemWidth * heightAspectRatio
+        let itemSize: CGSize = CGSize(width: itemWidth, height: itemHeight)
+        
+        setFlowLayoutValues(itemSize: itemSize, lineSpacing: lineSpacing, interitemSpacing: 0)
+    }
+    
+    /**
+     Sets the flowLayout itemSize
+     */
+    func setItemSize(size: CGSize) {
+        setFlowLayoutValues(itemSize: size)
+    }
+    
+    private func calculateItemWidth(columnsQuantity: Int, itemsPadding: CGFloat, sectionInset: UIEdgeInsets? = nil) -> CGFloat? {
+        guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return nil }
+        guard flowLayout.scrollDirection == .vertical else { return nil }
+        guard columnsQuantity > 1 && itemsPadding >= 0 else { return nil }
+
+        if let _sectionInset = sectionInset {
+            flowLayout.sectionInset = _sectionInset
+        }
+        
+        let insetsSize: CGFloat = flowLayout.sectionInset.left + flowLayout.sectionInset.right
+        let contentWidth = self.bounds.size.width - insetsSize
+        
+        let itemWidth: CGFloat = (contentWidth - (itemsPadding * CGFloat(columnsQuantity - 1))) / CGFloat(columnsQuantity)
+        
+        return itemWidth
+    }
+    
+    private func setFlowLayoutValues(itemSize: CGSize, lineSpacing: CGFloat? = nil, interitemSpacing: CGFloat? = nil) {
+        guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+
+        flowLayout.itemSize = itemSize
+        if let _lineSpacing = lineSpacing {
+            flowLayout.minimumLineSpacing = _lineSpacing
+        }
+        if let _interitemSpacing = interitemSpacing {
+            flowLayout.minimumInteritemSpacing = _interitemSpacing
         }
     }
     
-    func setItemSize(size: CGSize) {
-        guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        
-        flowLayout.itemSize = size
-    }
 }
-
