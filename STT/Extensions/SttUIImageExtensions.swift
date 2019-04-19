@@ -118,6 +118,18 @@ public extension UIImage {
             return self?.jpegData(compressionQuality: 0.8)
         })
     }
+    
+    /// Render new image with particular size
+    /// - Parameter scaledToSize: size of new Image
+    func resize(scaledToSize newSize: CGSize) -> UIImage {
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        self.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 }
 
 public extension Data {
