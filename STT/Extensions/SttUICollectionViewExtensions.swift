@@ -62,7 +62,7 @@ public extension UICollectionView {
      The same as top function, but with aspectRatio instead of fixed height
      Height is calculated in aspect ratio to width, by default is 1, so elements will be sqaure.
      */
-    func adjustVerticalLayoutGrid(columnsQuantity: Int, itemsPadding: CGFloat = 0, heightAspectRatio: CGFloat = 1, lineSpacing: CGFloat = 1, insets: UIEdgeInsets? = nil) {
+    func adjustVerticalLayoutGrid(columnsQuantity: Int, heightAspectRatio: CGFloat = 1, itemsPadding: CGFloat = 0, lineSpacing: CGFloat = 1, insets: UIEdgeInsets? = nil) {
         guard heightAspectRatio > 0 else { return }
         guard let itemWidth = calculateItemWidth(columnsQuantity: columnsQuantity, itemsPadding: itemsPadding, sectionInset: insets) else { return }
         let itemHeight: CGFloat = itemWidth * heightAspectRatio
