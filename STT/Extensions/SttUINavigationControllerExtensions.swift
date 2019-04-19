@@ -28,7 +28,7 @@ import UIKit
 
 public extension UINavigationController {
     
-    public var shadowColor: CGColor? {
+    var shadowColor: CGColor? {
         get { return self.navigationBar.layer.shadowColor }
         set(value) {
             self.navigationBar.layer.masksToBounds = false
@@ -39,19 +39,19 @@ public extension UINavigationController {
         }
     }
     
-    public func createTransparent() {
+    func createTransparent() {
         self.navigationBar.isTranslucent = true
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage = UIImage()
     }
     
-    public func popToViewController(ofClass: AnyClass, animated: Bool = true) {
+    func popToViewController(ofClass: AnyClass, animated: Bool = true) {
         if let vc = viewControllers.filter({$0.isKind(of: ofClass)}).last {
             popToViewController(vc, animated: animated)
         }
     }
     
-    public func popViewControllers(viewsToPop: Int, animated: Bool = true) {
+    func popViewControllers(viewsToPop: Int, animated: Bool = true) {
         if viewControllers.count > viewsToPop {
             let vc = viewControllers[viewControllers.count - viewsToPop - 1]
             popToViewController(vc, animated: animated)

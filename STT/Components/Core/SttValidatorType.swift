@@ -50,10 +50,10 @@ public protocol SttValidatorType {
 
 public extension SttValidatorType {
     
-    public var isError: Bool { return validationResult != .ok }
+    var isError: Bool { return validationResult != .ok }
     
     @discardableResult
-    public func validate(object: String?, parametr: Any? = nil) -> SttValidationResult {
+    func validate(object: String?, parametr: Any? = nil) -> SttValidationResult {
         return self.validate(object: object, parametr: parametr)
     }
 }

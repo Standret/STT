@@ -30,7 +30,7 @@ import UIKit
 
 public extension Observable {
     
-    public func useWork(_ command: SttCommandType) -> Observable<E> {
+    func useWork(_ command: SttCommandType) -> Observable<E> {
         return command.useWork(observable: self)
     }
 }
@@ -38,7 +38,7 @@ public extension Observable {
 public extension SttCommandType {
     
     @discardableResult
-    public func useIndicator(button: UIButton, style: UIActivityIndicatorView.Style = .gray) -> Disposable {
+    func useIndicator(button: UIButton, style: UIActivityIndicatorView.Style = .gray) -> Disposable {
         let indicator = button.setIndicator()
         indicator.color = UIColor.white
         indicator.style = style
@@ -65,7 +65,7 @@ public extension SttCommandType {
     }
     
     @discardableResult
-    public func useIndicator(view:  UIView, style: UIActivityIndicatorView.Style = .gray) -> Disposable {
+    func useIndicator(view:  UIView, style: UIActivityIndicatorView.Style = .gray) -> Disposable {
         
         let indicator = view.setIndicator()
         indicator.color = UIColor.white
@@ -81,7 +81,7 @@ public extension SttCommandType {
     }
     
     @discardableResult
-    public func useRefresh(scrollView: UIScrollView, parameter: Any? = nil) -> (disposable: Disposable, refreshControl: UIRefreshControl) {
+    func useRefresh(scrollView: UIScrollView, parameter: Any? = nil) -> (disposable: Disposable, refreshControl: UIRefreshControl) {
         let refreshControl = SttRefreshControl()
         scrollView.refreshControl = refreshControl
         return (disposable: refreshControl.useCommand(self, parameter: parameter), refreshControl: refreshControl)

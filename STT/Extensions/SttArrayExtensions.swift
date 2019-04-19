@@ -28,7 +28,7 @@ import Foundation
 
 public extension Array {
     
-    public func getElement(indexes: [Int]) -> Array<Element> {
+    func getElement(indexes: [Int]) -> Array<Element> {
         var arr = [Element]()
         for index in indexes {
             arr.append(self[index])
@@ -36,13 +36,13 @@ public extension Array {
         return arr
     }
     
-    public mutating func getAndDelete(index: Int) -> Element {
+    mutating func getAndDelete(index: Int) -> Element {
         let elem = self[index]
         self.remove(at: index)
         return elem
     }
     
-    public func insertAndReturn(element: Element, at index: Int) -> Array<Element> {
+    func insertAndReturn(element: Element, at index: Int) -> Array<Element> {
         var newSequence = self
         newSequence.insert(element, at: index)
         return newSequence

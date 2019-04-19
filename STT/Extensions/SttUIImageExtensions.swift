@@ -29,7 +29,7 @@ import UIKit
 
 public extension UIImage {
     
-    public func fixOrientation() -> UIImage? {
+    func fixOrientation() -> UIImage? {
         
         guard let cgImage = self.cgImage else {
             return nil
@@ -113,7 +113,7 @@ public extension UIImage {
         return img;
     }
     
-    public func jpegRepresentation() -> Data? {
+    func jpegRepresentation() -> Data? {
         return autoreleasepool(invoking: { [weak self] () -> Data? in
             return self?.jpegData(compressionQuality: 0.8)
         })
@@ -121,7 +121,7 @@ public extension UIImage {
 }
 
 public extension Data {
-    public func fixAdnConvertToImage() -> UIImage {
+    func fixAdnConvertToImage() -> UIImage {
         return autoreleasepool { () -> UIImage in
             return UIImage(data: UIImage(data: self)!.pngData()!)!.fixOrientation()!
         }

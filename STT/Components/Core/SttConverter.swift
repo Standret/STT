@@ -48,7 +48,7 @@ open class SttConverter<TIn, TOut>: SttConverterType {
 }
 
 public extension SttConverter {
-    public func convert(value: TIn) -> TOut {
+    func convert(value: TIn) -> TOut {
         return self.convert(value: value, parametr: nil)
     }
 }

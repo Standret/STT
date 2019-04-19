@@ -39,7 +39,7 @@ open class SttHandlerTextView: NSObject, UITextViewDelegate {
     
     // private property
     private var handlers = [TypeActionTextView: [SttDelegatedCall<UITextView>]]()
-
+    private var shouldHandlers = [(UITextView, NSRange, String) -> Bool]()
     public var maxCharacter: Int = Int.max
     
     // method for add target
@@ -48,6 +48,15 @@ open class SttHandlerTextView: NSObject, UITextViewDelegate {
         
         handlers[type] = handlers[type] ?? [SttDelegatedCall<UITextView>]()
         handlers[type]?.append(SttDelegatedCall<UITextView>(to: delegate, with: handler))
+    }
+    
+    public func addShouldChangeTarget<T: AnyObject>(delegate: T, handler: @escaping (T, UITextView, NSRange, String) -> Bool) {
+        
+        shouldHandlers.append { [weak delegate] (textView, range, text) -> Bool in
+            guard let _delegate = delegate else { return false }
+            
+            return handler(_delegate, textView, range, text)
+        }
     }
     
     
@@ -68,7 +77,8 @@ open class SttHandlerTextView: NSObject, UITextViewDelegate {
     open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
-        return numberOfChars <= maxCharacter    // 10 Limit Value
+        let shouldResult = shouldHandlers.map({ return $0(textView, range, text) }).allSatisfy({ $0 })
+        return shouldResult && numberOfChars <= maxCharacter    // 10 Limit Value
     }
     
     open func textViewDidChangeSelection(_ textView: UITextView) {
