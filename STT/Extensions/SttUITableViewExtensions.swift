@@ -47,7 +47,7 @@ public extension UITableView {
         
     }
     
-    public func scrollTableToTop(tableView: UITableView, animate: Bool = true) {
+    func scrollTableToTop(tableView: UITableView, animate: Bool = true) {
         
         let rowCount = tableView.numberOfRows(inSection: 0)
         

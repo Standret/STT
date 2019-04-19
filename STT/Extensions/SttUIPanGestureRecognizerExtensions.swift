@@ -40,7 +40,7 @@ public enum SttDirection: Int {
 
 public extension UIPanGestureRecognizer {
     
-    public func getDirection(in view: UIView) -> SttDirection {
+    func getDirection(in view: UIView) -> SttDirection {
         let _velocity = velocity(in: view)
         let vertical = abs(_velocity.y) > abs(_velocity.x)
         switch (vertical, _velocity.x, _velocity.y) {

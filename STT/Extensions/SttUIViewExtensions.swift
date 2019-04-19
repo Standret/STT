@@ -29,7 +29,7 @@ import UIKit
 import TinyConstraints
 
 public extension UIView {
-    public func createCircle(dominateWidth: Bool = false, clipToBounds: Bool = true) {
+    func createCircle(dominateWidth: Bool = false, clipToBounds: Bool = true) {
         if dominateWidth {
             layer.cornerRadius = bounds.width / 2
         }
@@ -39,17 +39,17 @@ public extension UIView {
         self.clipsToBounds = clipToBounds
     }
     
-    public func setBorder(color: UIColor, size: Float = 1) {
+    func setBorder(color: UIColor, size: Float = 1) {
         self.clipsToBounds = true
         self.layer.borderColor = color.cgColor
         self.layer.borderWidth = CGFloat(size)
     }
     
-    public func setBorder(named: String, size: Float = 1) {
+    func setBorder(named: String, size: Float = 1) {
         self.setBorder(color: UIColor(named: named)!, size: size)
     }
     
-    public func setShadow(color: UIColor, offset: CGSize = CGSize.zero, opacity: Float = 0.2, radius: Float = 1) {
+    func setShadow(color: UIColor, offset: CGSize = CGSize.zero, opacity: Float = 0.2, radius: Float = 1) {
         
         layer.shadowOffset = offset
         layer.shadowColor = color.cgColor
@@ -72,7 +72,7 @@ public extension UIView {
         self.layer.insertSublayer(gradient, at: 0)
     }
     
-    public func setIndicator(style: UIActivityIndicatorView.Style = .gray, color: UIColor = UIColor.gray) -> UIActivityIndicatorView {
+    func setIndicator(style: UIActivityIndicatorView.Style = .gray, color: UIColor = UIColor.gray) -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView()
         indicator.style = style
         indicator.color = color
@@ -83,7 +83,7 @@ public extension UIView {
         return indicator
     }
     
-    public var safeTopAnchor: NSLayoutYAxisAnchor {
+    var safeTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.topAnchor
         } else {
@@ -91,7 +91,7 @@ public extension UIView {
         }
     }
     
-    public var safeLeftAnchor: NSLayoutXAxisAnchor {
+    var safeLeftAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *){
             return self.safeAreaLayoutGuide.leftAnchor
         }else {
@@ -99,7 +99,7 @@ public extension UIView {
         }
     }
     
-    public var safeRightAnchor: NSLayoutXAxisAnchor {
+    var safeRightAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *){
             return self.safeAreaLayoutGuide.rightAnchor
         }else {
@@ -107,7 +107,7 @@ public extension UIView {
         }
     }
     
-    public var safeBottomAnchor: NSLayoutYAxisAnchor {
+    var safeBottomAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.bottomAnchor
         } else {

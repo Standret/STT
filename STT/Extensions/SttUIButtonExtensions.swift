@@ -29,7 +29,7 @@ import UIKit
 
 public extension UIButton {
     
-    public func setUnderlineTitle(title: String? = nil) {
+    func setUnderlineTitle(title: String? = nil) {
         self.setAttributedTitle(NSAttributedString(string: title ?? self.titleLabel!.text!, attributes: [
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: self.titleColor(for: .normal)!,

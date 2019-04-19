@@ -36,6 +36,9 @@ public extension UICollectionView {
      Width of every element will be calculated in accordance with 'columnsQuantity' and 'itemsPadding' parameters.
      Padding between lines can be set with 'lineSpacing' parametr, by default is 1
      
+     - Important:
+     If need to create square you should not pass any value to height
+     
      - REMARK:
      It's recommended to use this function after all bounds of the view were set, for example in ViewDidLayoutSubviews method.
      

@@ -29,7 +29,7 @@ import RxSwift
 
 public extension ObservableType where E == (HTTPURLResponse, Data) {
     
-    public func getCookie(action: @escaping (String?) -> Void) -> Observable<(HTTPURLResponse, Data)> {
+    func getCookie(action: @escaping (String?) -> Void) -> Observable<(HTTPURLResponse, Data)> {
         return self.map({ (result) -> (HTTPURLResponse, Data) in
             let header = result.0.allHeaderFields as NSDictionary
             let tockenval = header.value(forKey: "authenticate") as? String
@@ -39,11 +39,11 @@ public extension ObservableType where E == (HTTPURLResponse, Data) {
             })
     }
     
-    public func getResult<TResult: Decodable>() -> Observable<TResult> {
+    func getResult<TResult: Decodable>() -> Observable<TResult> {
         return self.getResult(ofType: TResult.self)
     }
     
-    public func getResult<TResult: Decodable>(ofType _: TResult.Type) -> Observable<TResult> {
+    func getResult<TResult: Decodable>(ofType _: TResult.Type) -> Observable<TResult> {
         return Observable<TResult>.create({ (observer) -> Disposable in
             self.subscribe(onNext: { (urlResponse, data) in
                 switch urlResponse.statusCode {
@@ -84,7 +84,7 @@ public extension ObservableType where E == (HTTPURLResponse, Data) {
         })
     }
     
-    public func getResult() -> Observable<Void> {
+    func getResult() -> Observable<Void> {
         return Observable<Void>.create({ (observer) -> Disposable in
             self.subscribe(onNext: { (urlResponse, data) in
                 switch urlResponse.statusCode {
