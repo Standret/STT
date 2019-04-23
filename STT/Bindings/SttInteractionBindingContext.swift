@@ -28,8 +28,13 @@ import Foundation
 import RxSwift
 import UIKit
 
+import Foundation
+import RxSwift
+import UIKit
+
 public enum SttInteractionType {
-    case tap
+    case tap(Int)
+    case longTap(TimeInterval)
 }
 
 public struct SttBindingInteractionData {
@@ -39,8 +44,12 @@ public struct SttBindingInteractionData {
 
 public extension UIView {
     
-    func tap() -> SttBindingInteractionData {
-        return SttBindingInteractionData(type: .tap, target: self)
+    func tap(taps: Int = 1) -> SttBindingInteractionData {
+        return SttBindingInteractionData(type: .tap(taps), target: self)
+    }
+    
+    func longTap(duration: TimeInterval) -> SttBindingInteractionData {
+        return SttBindingInteractionData(type: .longTap(duration), target: self)
     }
     
 }
@@ -53,13 +62,26 @@ public class SttInteractionBindingContext<TViewController: AnyObject>: SttGeneri
         
         data.target.isUserInteractionEnabled = true
         switch data.type {
-        case .tap:
-            data.target.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap(_:))))
+        case .tap(let taps):
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(onTap(_:)))
+            gesture.numberOfTouchesRequired = taps
+            data.target.addGestureRecognizer(gesture)
+        case .longTap(let duration):
+            let gesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongTap(_:)))
+            gesture.minimumPressDuration = duration
+            data.target.addGestureRecognizer(gesture)
         }
     }
     
     @objc
-    private func onTap(_ sender: UIView) {
+    private func onTap(_ sender: UITapGestureRecognizer) {
         self.command.execute(parametr: parametr)
+    }
+    
+    @objc
+    private func onLongTap(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            self.command.execute(parametr: parametr)
+        }
     }
 }
