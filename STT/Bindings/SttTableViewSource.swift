@@ -46,7 +46,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     private var _collection: SttObservableCollection<T>!
     public var collection: SttObservableCollection<T> { return _collection }
     
-    private var disposables: Disposable?
+    private var disposeBag: DisposeBag!
     
     public init(tableView: UITableView, cellIdentifiers: [SttIdentifiers], collection: SttObservableCollection<T>) {
         
@@ -68,8 +68,9 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     open func updateSource(collection: SttObservableCollection<T>) {
         _collection = collection
         _tableView.reloadData()
-        disposables?.dispose()
-        disposables = _collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
+        
+        disposeBag = DisposeBag()
+        _collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
             if self?.maxAnimationCount ?? 0 < indexes.count {
                 self?._tableView.reloadData()
             }
@@ -88,7 +89,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
                                                 with: self!.useAnimation ? .fade : .none)
                 }
             }
-        })
+        }).disposed(by: disposeBag)
     }
     
     public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {

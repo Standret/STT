@@ -40,7 +40,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
     
     private(set) public var collection: SttObservableCollection<T>!
     
-    private var disposables: Disposable?
+    private var disposeBag = DisposeBag()
     
     private var endScrollCallBack: (() -> Void)?
     
@@ -66,8 +66,9 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
         self.collection = collection
         countData = collection.count
         _collectionView.reloadData()
-        disposables?.dispose()
-        disposables = collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
+        disposeBag = DisposeBag()
+        
+        collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
             if type == .reload {
                 self?.countData = collection.count
                 self?._collectionView.reloadData()
@@ -85,7 +86,7 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
                 default: break
                 }
             })
-        })
+        }).disposed(by: disposeBag)
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
