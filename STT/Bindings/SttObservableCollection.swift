@@ -47,6 +47,11 @@ open class SttObservableCollection<T>: Collection {
         datas = data
     }
     
+    deinit {
+        datas.removeAll()
+        notifyPublisher.dispose()
+    }
+    
     open func index(after i: Int) -> Int {
         return datas.index(after: i)
     }
