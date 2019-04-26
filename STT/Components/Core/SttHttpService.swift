@@ -56,41 +56,15 @@ public class SttHttpService: SttHttpServiceType {
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
     
-    /// if key parametr is empty string and parametr is simple type, its will be insert in raw body
-    public func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool) -> Observable<(HTTPURLResponse, Data)> {
+    public func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
                 return requestData(.post,
                                    "\(self.url!)\(controller.route)",
-                                   parameters: data,
-                                   encoding: URLEncoding.httpBody,
-                                   headers: headers)
-                })
-            .timeout(timeout, scheduler: MainScheduler.instance)
-    }
-    
-    public func post(controller: ApiControllerType, object: Encodable?, headers: [String:String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
-        
-        return modifyHeaders(insertToken: insertToken,
-                             headers: self.modifyHeaders(isFormUrlEncoding: isFormUrlEncoding, to: headers))
-            .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
-                
-                var request = URLRequest(url: URL(string: "\(self.url!)\(controller.route)")!)
-                request.httpMethod = HTTPMethod.post.rawValue
-    
-                if isFormUrlEncoding {
-                    request.httpBody = object?.getData()
-                }
-                else {
-                    request.httpBody = (object?.getJsonString().data(using: .utf8, allowLossyConversion: false))
-                }
-    
-                for lhitem in headers {
-                    request.setValue(lhitem.value, forHTTPHeaderField: lhitem.key)
-                }
-                
-                return requestData(request)
+                    parameters: data,
+                    encoding: isFormUrlEncoding ? URLEncoding.httpBody : JSONEncoding.default,
+                    headers: headers)
             })
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
@@ -111,20 +85,6 @@ public class SttHttpService: SttHttpServiceType {
     public func upload(controller: ApiControllerType, data: Data, parameter: [String:String], progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)> {
         notImplementException()
 
-    }
-    
-    private func modifyHeaders(isFormUrlEncoding: Bool, to headers: [String: String]) -> [String: String] {
-        
-        var _headers = headers
-        
-        if isFormUrlEncoding {
-            _headers["Content-Type"] = "application/x-www-form-urlencoded"
-        }
-        else {
-            _headers["Content-Type"] = "application/json"
-        }
-        
-        return _headers
     }
         
     private func modifyHeaders(insertToken: Bool, headers: [String: String]) -> Observable<[String: String]> {
