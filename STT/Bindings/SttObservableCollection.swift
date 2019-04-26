@@ -84,6 +84,12 @@ open class SttObservableCollection<T>: Collection {
             notifyPublisher.onNext(([], .reload))
         }
     }
+    open func removeAll(where closure: (T) -> Bool) {
+        if datas.count > 0 {
+            self.datas.removeAll(where: closure)
+            notifyPublisher.onNext(([], .reload))
+        }
+    }
     open func lastOrNil() -> T? {
         return datas.last
     }
