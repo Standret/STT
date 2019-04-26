@@ -101,6 +101,37 @@ public class SttBindingSet<TViewController: AnyObject> {
     }
     
     /**
+     Use for search bar (one way and two way bindings)
+     
+     - Important:
+     property delegate in target searchBar have to be empty or have type **SttHandlerSearchBar**
+     otherwise this method throw fatalError()
+     
+     */
+    public func bind(_ searchBar: UISearchBar) -> SttSearchBarBindingContext<TViewController> {
+        
+        var data: (SttHanlderSearchBar, UISearchBar)!
+        
+        if let handler = searchBar.delegate as? SttHanlderSearchBar {
+            data = (handler, searchBar)
+        }
+        else if searchBar.delegate != nil {
+            fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
+        }
+        else {
+            let handler = SttHanlderSearchBar()
+            searchBar.delegate = handler
+            
+            data = (handler, searchBar)
+        }
+        
+        let set = SttSearchBarBindingContext<TViewController>(viewController: parent, handler: data.0, searchBar: data.1)
+        sets.append(set)
+        
+        return set
+    }
+    
+    /**
      Use for text view (one way and two way bindings)
      
      - Important:

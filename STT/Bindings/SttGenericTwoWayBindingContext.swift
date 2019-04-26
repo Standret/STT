@@ -26,7 +26,7 @@
 
 import Foundation
 
-public class SttGenericTwoWayBindingContext<TViewController: AnyObject, TProperty>: SttGenericBindingContext<TViewController, TProperty> {
+open class SttGenericTwoWayBindingContext<TViewController: AnyObject, TProperty>: SttGenericBindingContext<TViewController, TProperty> {
     
     internal var canBindSpecial: Bool { return false }
     
