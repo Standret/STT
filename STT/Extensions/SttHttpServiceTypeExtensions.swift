@@ -68,12 +68,28 @@ public extension SttHttpServiceType {
     
     func delete(controller: ApiControllerType,
                 data: [String: Any] = [:],
-                headers: [String: String] = [:],
-                insertToken: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+                headers: [String:String] = [:],
+                insertToken: Bool = false,
+                isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
         
         return self.delete(controller: controller,
                            data: data,
                            headers: headers,
-                           insertToken: insertToken)
+                           insertToken: insertToken,
+                           isFormUrlEncoding: isFormUrlEncoding)
     }
+    
+    func delete(controller: ApiControllerType,
+              object: Encodable?,
+              headers: [String:String] = [:],
+              insertToken: Bool = false,
+              isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.delete(controller: controller,
+                           data: object?.getDictionary() ?? [:],
+                           headers: headers,
+                           insertToken: insertToken,
+                           isFormUrlEncoding: isFormUrlEncoding)
+    }
+    
 }
