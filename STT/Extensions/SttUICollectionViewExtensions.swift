@@ -36,9 +36,6 @@ public extension UICollectionView {
      Width of every element will be calculated in accordance with 'columnsQuantity' and 'itemsPadding' parameters.
      Padding between lines can be set with 'lineSpacing' parametr, by default is 1
      
-     - Important:
-     If need to create square you should not pass any value to height
-     
      - REMARK:
      It's recommended to use this function after all bounds of the view were set, for example in ViewDidLayoutSubviews method.
      
@@ -81,7 +78,7 @@ public extension UICollectionView {
     private func calculateItemWidth(columnsQuantity: Int, itemsPadding: CGFloat, sectionInset: UIEdgeInsets? = nil) -> CGFloat? {
         guard let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return nil }
         guard flowLayout.scrollDirection == .vertical else { return nil }
-        guard columnsQuantity > 1 && itemsPadding >= 0 else { return nil }
+        guard columnsQuantity >= 1 && itemsPadding >= 0 else { return nil }
 
         if let _sectionInset = sectionInset {
             flowLayout.sectionInset = _sectionInset
