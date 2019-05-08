@@ -92,4 +92,30 @@ public extension SttHttpServiceType {
                            isFormUrlEncoding: isFormUrlEncoding)
     }
     
+    func put(controller: ApiControllerType,
+                data: [String: Any] = [:],
+                headers: [String:String] = [:],
+                insertToken: Bool = false,
+                isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.put(controller: controller,
+                           data: data,
+                           headers: headers,
+                           insertToken: insertToken,
+                           isFormUrlEncoding: isFormUrlEncoding)
+    }
+    
+    func put(controller: ApiControllerType,
+                object: Encodable?,
+                headers: [String:String] = [:],
+                insertToken: Bool = false,
+                isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.put(controller: controller,
+                           data: object?.getDictionary() ?? [:],
+                           headers: headers,
+                           insertToken: insertToken,
+                           isFormUrlEncoding: isFormUrlEncoding)
+    }
+    
 }
