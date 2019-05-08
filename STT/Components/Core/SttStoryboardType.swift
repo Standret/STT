@@ -29,6 +29,8 @@ import Foundation
 public enum TypeNavigation {
     case push
     case modality
+    /// parameter is overFullScreen
+    case crossDisolve
 }
 
 public protocol SttStoryboardType {
