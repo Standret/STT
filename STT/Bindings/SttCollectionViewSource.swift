@@ -72,6 +72,9 @@ open class SttCollectionViewSource<T: SttViewInjector>: SttBaseCollectionViewSou
         }).disposed(by: disposeBag)
     }
     
+    override open func presenter(at indexPath: IndexPath) -> T {
+        return collection[indexPath.row]
+    }
    
     // MARK: - UICollectionViewDataSource
     
