@@ -123,7 +123,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, with presenter: T) { }
     
     /// Method which return cell identifier to create reusable cell
-    func cellIdentifier(for indexPath: IndexPath) -> String {
+    open func cellIdentifier(for indexPath: IndexPath) -> String {
         return cellIdentifiers.first!
     }
     
