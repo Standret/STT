@@ -28,22 +28,20 @@ import Foundation
 import UIKit
 import RxSwift
 
-open class SttCollectionViewWithSectionSource<TCell: SttViewInjector, TSection: SttViewInjector>: NSObject, UICollectionViewDataSource {
-    
-    public var _collectionView: UICollectionView
+open class SttCollectionViewWithSectionSource<TCell: SttViewInjector, TSection: SttViewInjector>: SttBaseCollectionViewSource<TCell> {
     
     private var countData: [Int]!
-    
-    private var _sectionIdentifier: [String]
-    public var sectionIdentifier: [String] { return _sectionIdentifier }
-    
-    private var _cellIdentifier: [String]
-    public var cellIdentifier: [String] { return _cellIdentifier }
     
     private var _collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>!
     public var collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)> { return _collection }
     
     private var disposable: DisposeBag!
+    
+    public convenience init (collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], sectionIdentifier: [String], collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>) {
+        
+        self.init(collectionView: collectionView, cellIdentifiers: cellIdentifiers, sectionIdentifier: sectionIdentifier)
+        updateSource(collection: collection)
+    }
     
     open func updateSource(collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>) {
         _collection = collection
@@ -85,46 +83,32 @@ open class SttCollectionViewWithSectionSource<TCell: SttViewInjector, TSection: 
         _collectionView.reloadData()
     }
     
-    public init (collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], sectionIdentifier: [String], collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>) {
-        _collectionView = collectionView
-        _sectionIdentifier = sectionIdentifier
-        _cellIdentifier = cellIdentifiers.map({ $0.identifers })
-        
-        for item in cellIdentifiers {
-            if !item.isRegistered {
-                collectionView.register(UINib(nibName: item.nibName ?? item.identifers, bundle: nil), forCellWithReuseIdentifier: item.identifers)
-            }
-        }
-        
-        for item in sectionIdentifier {
-            collectionView.register(UINib(nibName: item, bundle: nil),
-                                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                    withReuseIdentifier: item)
-        }
-        
-        super.init()
-        
-        collectionView.dataSource = self
-        updateSource(collection: collection)
+    override open func presenter(at indexPath: IndexPath) -> TCell {
+        return _collection![indexPath.section].0[indexPath.row]
     }
     
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return countData[section]
     }
     
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return countData.count
     }
     
-    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: _sectionIdentifier.first!, for: indexPath) as! SttCollectionReusableView<TSection>
+    override open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                   withReuseIdentifier: collectionViewReusableSection(at: indexPath),
+                                                                   for: indexPath) as! SttCollectionReusableView<TSection>
         view.presenter = _collection?[indexPath.section].1
         return view
     }
     
-    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: _cellIdentifier.first!, for: indexPath) as! SttCollectionViewCell<TCell>
-        cell.presenter = _collection![indexPath.section].0[indexPath.row]
+    override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewReusableCell(at: indexPath),
+                                                      for: indexPath) as! SttCollectionViewCell<TCell>
+        
+        cell.presenter = presenter(at: indexPath)
         return cell
     }
 }
