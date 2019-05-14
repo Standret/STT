@@ -31,6 +31,7 @@ public enum SttActionSearchBar {
     case cancelClicked
     case shouldBeginEditing
     case editing
+    case searchClick
 }
 
 public class SttHanlderSearchBar: NSObject, UISearchBarDelegate {
@@ -78,5 +79,9 @@ public class SttHanlderSearchBar: NSObject, UISearchBarDelegate {
     
     open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         handlers[.editing]?.forEach({ $0.callback(searchBar) })
+    }
+    
+    open func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        handlers[.searchClick]?.forEach({ $0.callback(searchBar) })
     }
 }
