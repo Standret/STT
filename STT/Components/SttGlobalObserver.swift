@@ -30,6 +30,7 @@ import RxSwift
 public enum SttApplicationStatus {
     case didEnterBackgound
     case willEnterForeground
+    case didBecomeActive
     case wilTerminate
 }
 
@@ -51,6 +52,10 @@ public class SttAppLifecycle
     
     public class func willEnterForeground() {
         SttGlobalObserver.applicationStatusChanged(status: .willEnterForeground)
+    }
+    
+    public class func didBecomeActive() {
+        SttGlobalObserver.applicationStatusChanged(status: .didBecomeActive)
     }
     
     public class func willTerminate() {
