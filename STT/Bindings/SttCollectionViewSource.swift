@@ -29,39 +29,22 @@ import Foundation
 import RxSwift
 import UIKit
 
-open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    private var _collectionView: UICollectionView
+open class SttCollectionViewSource<T: SttViewInjector>: SttBaseCollectionViewSource<T> {
     
     private var countData = 0
     
-    private var _cellIdentifier: [String]
-    var cellIdentifier: [String] { return _cellIdentifier }
-    
-    private(set) public var collection: SttObservableCollection<T>!
-    
     private var disposeBag = DisposeBag()
-    
     private var endScrollCallBack: (() -> Void)?
     
-    var callBackEndPixel: Int = 150
+    private var collection: SttObservableCollection<T>!
     
-    public init(collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], collection: SttObservableCollection<T>) {
-        _collectionView = collectionView
-        _cellIdentifier = cellIdentifiers.map({ $0.identifers })
-        super.init()
-        
-        for item in cellIdentifiers {
-            if !item.isRegistered {
-                collectionView.register(UINib(nibName: item.nibName ?? item.identifers, bundle: nil), forCellWithReuseIdentifier: item.identifers)
-            }
-        }
-        
-        _collectionView.dataSource = self
+    public convenience init(collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], collection: SttObservableCollection<T>) {
+       // sel
+        self.init(collectionView: collectionView, cellIdentifiers: cellIdentifiers, sectionIdentifier: [])
         updateSource(collection: collection)
-        _collectionView.delegate = self
     }
     
+    /// Update collection for source
     public func updateSource(collection: SttObservableCollection<T>) {
         self.collection = collection
         countData = collection.count
@@ -89,53 +72,23 @@ open class SttCollectionViewSource<T: SttViewInjector>: NSObject, UICollectionVi
         }).disposed(by: disposeBag)
     }
     
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+    override open func presenter(at indexPath: IndexPath) -> T {
+        return collection[indexPath.row]
     }
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+   
+    // MARK: - UICollectionViewDataSource
+    
+    override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return countData
     }
+    override open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = _collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewReusableCell(at: indexPath),
                                                        for: indexPath) as! SttCollectionViewCell<T>
-        cell.presenter = collection[indexPath.row]
+        cell.presenter = presenter(at: indexPath)
         return cell
     }
-    
-    open func collectionViewReusableCell(at indexPath: IndexPath) -> String {
-        return _cellIdentifier.first!
-    }
-    
-    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
-        endScrollCallBack = { [weak delegate] in
-            if let _delegate = delegate {
-                callback(_delegate)
-            }
-        }
-    }
-    
-    // MARK: - implementation UICollectionViewDelegate
-    private var inPosition: Bool = false
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        let x = scrollView.contentOffset.y
-        let width = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)
-        
-        if (scrollView.contentSize.height > scrollView.bounds.height) {
-            if (x > width) {
-                if (!inPosition) {
-                    endScrollCallBack?()
-                }
-                inPosition = true
-            }
-            else {
-                inPosition = false
-            }
-        }
-    }
-    
-    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    }
-    
 }
