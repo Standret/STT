@@ -29,7 +29,7 @@ import UIKit
 
 public extension UITableView {
     
-    public func scrollTableToBottom(tableView: UITableView, animate: Bool = true) {
+    func scrollTableToBottom(tableView: UITableView, animate: Bool = true) {
         
         let rowCount = tableView.numberOfRows(inSection: 0)
         

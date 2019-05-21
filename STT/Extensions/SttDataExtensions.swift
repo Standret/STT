@@ -27,7 +27,7 @@ import Foundation
 
 public extension Data {
     
-    public func getObject<TResult: Decodable>(of _: TResult.Type) -> TResult? {
+    func getObject<TResult: Decodable>(of _: TResult.Type) -> TResult? {
         do {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .customISO8601

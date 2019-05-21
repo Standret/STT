@@ -137,21 +137,16 @@ open class SttViewController<T: SttViewControllerInjector>: UIViewController {
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if isFirstStart {
-            isFirstStart = false
-            style()
-            bind()
-        }
+        guard isFirstStart else { return }
+        style()
+        bind()
     }
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         presenter.viewAppeared()
         
-        UIApplication.shared.statusBarStyle = barStyle
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.setNeedsStatusBarAppearanceUpdate()
-        }
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     override open func viewWillDisappear(_ animated: Bool) {
@@ -173,5 +168,6 @@ open class SttViewController<T: SttViewControllerInjector>: UIViewController {
     open func style() { }
     
     /// Use this function for subscribing on notification
+    
     open func bind() { }
 }

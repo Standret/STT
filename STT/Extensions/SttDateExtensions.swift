@@ -44,7 +44,7 @@ public extension Date {
         return Date(timeInterval: seconds, since: self)
     }
     
-    public func onlyDay() -> Date {
+    func onlyDay() -> Date {
         return Calendar.current.startOfDay(for: self)
     }
     var yesterday: Date {
@@ -63,12 +63,41 @@ public extension Date {
         return tomorrow.month != month
     }
     
+    @available(swift, obsoleted: 4.0, renamed: "secondsSince")
     func differenceInMinutes() -> Int {
         
         let dayHourMinuteSecond: Set<Calendar.Component> = [.minute]
         let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: Date(), to: self);
         
         return difference.minute!
+    }
+    
+    /// Get number of seconds between two date
+    /// - Parameter date: date to compate self to.
+    /// - Returns: number of seconds between self and given date.
+    func secondsSince(_ date: Date) -> Double {
+        return timeIntervalSince(date)
+    }
+    
+    /// Get number of minutes between two date
+    /// - Parameter date: date to compate self to.
+    /// - Returns: number of minutes between self and given date.
+    func minutesSince(_ date: Date) -> Double {
+        return timeIntervalSince(date) / 60
+    }
+    
+    /// Get number of hours between two date
+    /// - Parameter date: date to compate self to.
+    /// - Returns: number of hours between self and given date.
+    func hoursSince(_ date: Date) -> Double {
+        return timeIntervalSince(date) / 3600
+    }
+    
+    /// Get number of days between two date
+    /// - Parameter date: date to compate self to.
+    /// - Returns: number of days between self and given date.
+    func daysSince(_ date: Date) -> Double {
+        return timeIntervalSince(date) / (3600 * 24)
     }
     
     /// Returns a Date with the specified amount of components added to the one it is called with
