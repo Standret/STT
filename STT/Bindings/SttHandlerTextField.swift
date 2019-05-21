@@ -40,7 +40,7 @@ open class SttHandlerTextField: NSObject, UITextFieldDelegate {
     private var shouldHandlers = [SttTypeActionTextField: [(UITextField) -> Bool]]()
 
     // method for add target
-    
+    public var maxLength: Int?
     public init (_ textField: UITextField) {
         super.init()
         
@@ -81,11 +81,24 @@ open class SttHandlerTextField: NSObject, UITextFieldDelegate {
         handlers[.didStartEditing]?.forEach({ $0.callback(textField) })
     }
     
+    
+    
     // implementation of protocol UITextFieldDelegate
     
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handlers[.shouldReturn]?.forEach({ $0.callback(textField) })
         return false
+    }
+    
+    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let max = maxLength {
+            let currentString: NSString = textField.text! as NSString
+            let newString: NSString =
+                currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= max
+        }
+        
+        return true        
     }
 }
 
