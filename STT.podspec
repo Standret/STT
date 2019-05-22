@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "1.3.4"
+  s.version      = "1.3.5"
   s.summary      = "Simple reusable code with RxViper architecture provided by Standret, LightSide and Adnrew"
 
   s.description  = <<-DESC

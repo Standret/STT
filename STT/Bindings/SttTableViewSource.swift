@@ -43,6 +43,8 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     public var useAnimation: Bool = false
     public var maxAnimationCount = 1
     
+    private var countData = 0
+    
     private var _collection: SttObservableCollection<T>!
     public var collection: SttObservableCollection<T> { return _collection }
     
@@ -67,27 +69,32 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     
     open func updateSource(collection: SttObservableCollection<T>) {
         _collection = collection
+        countData = collection.count
         _tableView.reloadData()
-        
         disposeBag = DisposeBag()
+        
         _collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
-            if self?.maxAnimationCount ?? 0 < indexes.count {
+            if self?.maxAnimationCount ?? 0 < indexes.count || type == .reload {
+                self?.countData = collection.count
                 self?._tableView.reloadData()
             }
             else {
-                switch type {
-                case .reload:
-                    self?._tableView.reloadData()
-                case .delete:
-                    self?._tableView.deleteRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                                                with: self!.useAnimation ? .left : .none)
-                case .insert:
-                    self?._tableView.insertRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                                                with: self!.useAnimation ? .middle : .none)
-                case .update:
-                    self?._tableView.reloadRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                                                with: self!.useAnimation ? .fade : .none)
-                }
+                self?._tableView.performBatchUpdates({ [weak self] in
+                    switch type {
+                    case .delete:
+                        self?._tableView.deleteRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                                                    with: self!.useAnimation ? .left : .none)
+                        self?.countData = collection.count
+                    case .insert:
+                        self?._tableView.insertRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                                                    with: self!.useAnimation ? .automatic : .none)
+                        self?.countData = collection.count
+                    case .update:
+                        self?._tableView.reloadRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                                                    with: self!.useAnimation ? .fade : .none)
+                    default: break
+                    }
+                }, completion: nil)
             }
         }).disposed(by: disposeBag)
     }
@@ -107,7 +114,7 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _collection == nil ? 0 : _collection.count
+        return countData
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

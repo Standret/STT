@@ -138,6 +138,8 @@ open class SttViewController<T: SttViewControllerInjector>: UIViewController {
         super.viewDidLayoutSubviews()
         
         guard isFirstStart else { return }
+        isFirstStart = false
+        
         style()
         bind()
     }
