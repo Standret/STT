@@ -103,6 +103,10 @@
 		5016C3EA22392C460080BD63 /* SttStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3E822392C460080BD63 /* SttStorage.swift */; };
 		503F628F2282FF1D00F695B0 /* SttHandlerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503F628E2282FF1D00F695B0 /* SttHandlerCollectionView.swift */; };
 		503F62912283163600F695B0 /* SttBaseCollectionViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503F62902283163600F695B0 /* SttBaseCollectionViewSource.swift */; };
+		504602AE22A686DA00D1AB2D /* SttListenerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602AD22A686DA00D1AB2D /* SttListenerScrollView.swift */; };
+		504602B022A6877500D1AB2D /* SttViewPagerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602AF22A6877500D1AB2D /* SttViewPagerHeader.swift */; };
+		504602B222A687AB00D1AB2D /* SttDictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B122A687AB00D1AB2D /* SttDictionaryExtensions.swift */; };
+		504602B422A68C5400D1AB2D /* SttSwitcherBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */; };
 		506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506804D9224233740057A78A /* SttTextViewBindingContext.swift */; };
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
@@ -229,6 +233,10 @@
 		5016C3E822392C460080BD63 /* SttStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttStorage.swift; sourceTree = "<group>"; };
 		503F628E2282FF1D00F695B0 /* SttHandlerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerCollectionView.swift; sourceTree = "<group>"; };
 		503F62902283163600F695B0 /* SttBaseCollectionViewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttBaseCollectionViewSource.swift; sourceTree = "<group>"; };
+		504602AD22A686DA00D1AB2D /* SttListenerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttListenerScrollView.swift; sourceTree = "<group>"; };
+		504602AF22A6877500D1AB2D /* SttViewPagerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttViewPagerHeader.swift; sourceTree = "<group>"; };
+		504602B122A687AB00D1AB2D /* SttDictionaryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDictionaryExtensions.swift; sourceTree = "<group>"; };
+		504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttSwitcherBindingContext.swift; sourceTree = "<group>"; };
 		506804D9224233740057A78A /* SttTextViewBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextViewBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
@@ -387,6 +395,7 @@
 				508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */,
 				506804D9224233740057A78A /* SttTextViewBindingContext.swift */,
 				50E1D1FC2271ED0E005B4C48 /* SttSearchBarBindingContext.swift */,
+				504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */,
 			);
 			name = Bindings;
 			sourceTree = "<group>";
@@ -410,6 +419,7 @@
 				5016C3B0223927F40080BD63 /* SttCodableExtensions.swift */,
 				5016C3B1223927F40080BD63 /* SttDataExtensions.swift */,
 				5016C3B2223927F40080BD63 /* SttArrayExtensions.swift */,
+				504602B122A687AB00D1AB2D /* SttDictionaryExtensions.swift */,
 			);
 			name = NSExtensions;
 			sourceTree = "<group>";
@@ -527,6 +537,7 @@
 				5016C384223919C70080BD63 /* SttWallIndicatorView.swift */,
 				5016C38722391A6B0080BD63 /* SttRefreshControl.swift */,
 				558D7CFF22425F6E00560410 /* SttTextView.swift */,
+				504602AF22A6877500D1AB2D /* SttViewPagerHeader.swift */,
 			);
 			name = UIElement;
 			sourceTree = "<group>";
@@ -560,6 +571,7 @@
 				5016C3242238FE0F0080BD63 /* SttHandlerButton.swift */,
 				508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */,
 				503F628E2282FF1D00F695B0 /* SttHandlerCollectionView.swift */,
+				504602AD22A686DA00D1AB2D /* SttListenerScrollView.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -736,10 +748,13 @@
 				5016C3CF223927F40080BD63 /* SttUISegmentControlExtensions.swift in Sources */,
 				5016C38E22391A8A0080BD63 /* SttCollectionViewSource.swift in Sources */,
 				5016C3C5223927F40080BD63 /* SttObservableExtensions.swift in Sources */,
+				504602AE22A686DA00D1AB2D /* SttListenerScrollView.swift in Sources */,
 				5016C35F223904090080BD63 /* Log.swift in Sources */,
+				504602B222A687AB00D1AB2D /* SttDictionaryExtensions.swift in Sources */,
 				5016C3322238FF1C0080BD63 /* Exceptions.swift in Sources */,
 				5016C3832239197C0080BD63 /* SttDisableButton.swift in Sources */,
 				5016C37822390AF70080BD63 /* SttButton.swift in Sources */,
+				504602B422A68C5400D1AB2D /* SttSwitcherBindingContext.swift in Sources */,
 				508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */,
 				506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */,
 				503F62912283163600F695B0 /* SttBaseCollectionViewSource.swift in Sources */,
@@ -828,6 +843,7 @@
 				5016C33B223900B70080BD63 /* SttBaseErrorType.swift in Sources */,
 				5016C3EA22392C460080BD63 /* SttStorage.swift in Sources */,
 				5016C3642239044F0080BD63 /* SttStoryboardType.swift in Sources */,
+				504602B022A6877500D1AB2D /* SttViewPagerHeader.swift in Sources */,
 				5016C341223901050080BD63 /* SttPresenter.swift in Sources */,
 				5016C3C8223927F40080BD63 /* SttDateExtensions.swift in Sources */,
 				5016C39022391A8A0080BD63 /* SttTableViewSource.swift in Sources */,

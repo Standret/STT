@@ -42,7 +42,7 @@ public class SttCommand: SttCommandType {
     
     public var singleCallEndCallback = true
     
-    public init<T: SttPresenterType> (delegate: T, handler: @escaping (T) -> Void, handlerCanExecute: ((T) -> Bool)? = nil) {
+    public init<T: AnyObject> (delegate: T, handler: @escaping (T) -> Void, handlerCanExecute: ((T) -> Bool)? = nil) {
         executeHandler = { [weak delegate] in
             if let _delegate = delegate {
                 handler(_delegate)
@@ -152,7 +152,7 @@ public class SttComandWithParametr<TParametr>: SttCommandType {
     
     public var singleCallEndCallback = true
     
-    public init<T: SttPresenterType> (delegate: T, handler: @escaping (T, TParametr) -> Void, handlerCanExecute: ((T, TParametr) -> Bool)? = nil) {
+    public init<T: AnyObject> (delegate: T, handler: @escaping (T, TParametr) -> Void, handlerCanExecute: ((T, TParametr) -> Bool)? = nil) {
         executeHandler = { [weak delegate] parametr in
             if let _delegate = delegate {
                 handler(_delegate, parametr)
