@@ -27,49 +27,49 @@
 import Foundation
 import UIKit
 
-enum TypeActionScrollView {
+public enum TypeActionScrollView {
     case contentOffsetChanged
     case contentSizeChanged
 }
 
-class SttListenerScrollView: UIScrollView {
+public class SttListenerScrollView: UIScrollView {
     
     private var handlers = [TypeActionScrollView: [() -> Void]]()
     
-    func addTarget(type: TypeActionScrollView, handler: @escaping () -> Void) {
+    public func addTarget(type: TypeActionScrollView, handler: @escaping () -> Void) {
         handlers[type] = handlers[type] ?? [() -> Void]()
         handlers[type]?.append(handler)
     }
     
-    override var contentOffset: CGPoint {
+    override open var contentOffset: CGPoint {
         didSet {
             handlers[.contentOffsetChanged]?.forEach({ $0() })
         }
     }
     
-    override var contentSize: CGSize {
+    override open var contentSize: CGSize {
         didSet {
             handlers[.contentSizeChanged]?.forEach({ $0() })
         }
     }
 }
 
-class SttListenerTableView: UITableView {
+public class SttListenerTableView: UITableView {
     
     private var handlers = [TypeActionScrollView: [() -> Void]]()
     
-    func addTarget(type: TypeActionScrollView, handler: @escaping () -> Void) {
+    public func addTarget(type: TypeActionScrollView, handler: @escaping () -> Void) {
         handlers[type] = handlers[type] ?? [() -> Void]()
         handlers[type]?.append(handler)
     }
     
-    override var contentOffset: CGPoint {
+    override open var contentOffset: CGPoint {
         didSet {
             handlers[.contentOffsetChanged]?.forEach({ $0() })
         }
     }
     
-    override var contentSize: CGSize {
+    override open var contentSize: CGSize {
         didSet {
             handlers[.contentSizeChanged]?.forEach({ $0() })
         }

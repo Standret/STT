@@ -22,7 +22,7 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
     }
     
     private var subject = PublishSubject<Int>()
-    var observeChange: Observable<Int> { return subject }
+    public var observeChange: Observable<Int> { return subject }
     
     @objc
     public dynamic var isEquealWidth: Bool {
@@ -124,7 +124,7 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
         drawElement(rect: rect)
     }
     
-    func setItem(view: UIViewController, title: String) {
+    public func setItem(view: UIViewController, title: String) {
         views.append((title: title, view: view))
     }
     

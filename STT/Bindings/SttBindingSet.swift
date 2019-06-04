@@ -176,6 +176,13 @@ public class SttBindingSet<TViewController: AnyObject> {
         return set
     }
     
+    public func bind(_ switcher: UISwitch) -> SttSwitcherBindingContext<TViewController> {
+        
+        let set = SttSwitcherBindingContext(viewController: parent, switcher: switcher)
+        sets.append(set)
+        return set
+    }
+    
     /**
      Use for abstract binding.
      
