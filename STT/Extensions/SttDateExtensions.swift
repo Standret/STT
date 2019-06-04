@@ -29,24 +29,11 @@ import Foundation
 
 public extension Date {
     
-    // Convert local time to UTC (or GMT)
-    func toGlobalTime() -> Date {
-        let timezone = TimeZone.current
-        let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
-        return Date(timeInterval: seconds, since: self)
-    }
-    
-    @available(*, deprecated, message: "Might cause integrity break of Date timezone in the app! Use DateFormatter instead.")
-    // Convert UTC (or GMT) to local time
-    func toLocalTime() -> Date {
-        let timezone = TimeZone.current
-        let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
-        return Date(timeInterval: seconds, since: self)
-    }
-    
-    func onlyDay() -> Date {
+    /// Return new Date which contain only year, month and day without hour, minute, seconds
+    var date: Date {
         return Calendar.current.startOfDay(for: self)
     }
+    
     var yesterday: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
     }
@@ -61,15 +48,6 @@ public extension Date {
     }
     var isLastDayOfMonth: Bool {
         return tomorrow.month != month
-    }
-    
-    @available(swift, obsoleted: 4.0, renamed: "secondsSince")
-    func differenceInMinutes() -> Int {
-        
-        let dayHourMinuteSecond: Set<Calendar.Component> = [.minute]
-        let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: Date(), to: self);
-        
-        return difference.minute!
     }
     
     /// Get number of seconds between two date
@@ -111,10 +89,41 @@ public extension Date {
         return add(years: -years, months: -months, days: -days, hours: -hours, minutes: -minutes, seconds: -seconds)
     }
     
+    /// Return string representation of date with specific format
     func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         
         return dateFormatter.string(from: self)
+    }
+    
+    // MARK: - deprecated
+    
+    @available(swift, obsoleted: 4.0, renamed: "date")
+    func onlyDay() -> Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+    
+    @available(swift, obsoleted: 4.0, message: "Might cause integrity break of Date timezone in the app!")
+    func toGlobalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
+    }
+    
+    @available(swift, obsoleted: 4.0, renamed: "secondsSince")
+    func differenceInMinutes() -> Int {
+        
+        let dayHourMinuteSecond: Set<Calendar.Component> = [.minute]
+        let difference = NSCalendar.current.dateComponents(dayHourMinuteSecond, from: Date(), to: self);
+        
+        return difference.minute!
+    }
+    
+    @available(swift, obsoleted: 4.0, message: "Might cause integrity break of Date timezone in the app! Use DateFormatter instead.")
+    func toLocalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
     }
 }
