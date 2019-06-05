@@ -29,69 +29,52 @@ import Foundation
 import UIKit
 import RxSwift
 
-open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSource, UITableViewDelegate {
-    
-    private var _tableView: UITableView
-    
+open class SttTableViewSource<TPresenter: SttViewInjector>: SttBaseTableViewSource<TPresenter> {
+        
     private var endScrollCallBack: (() -> Void)?
-    
     public var callBackEndPixel: Int = 150
     
-    private var _cellIdentifiers = [String]()
-    public var cellIdentifiers: [String] { return _cellIdentifiers }
-    
-    public var useAnimation: Bool = false
-    public var maxAnimationCount = 1
-    
     private var countData = 0
-    
-    private var _collection: SttObservableCollection<T>!
-    public var collection: SttObservableCollection<T> { return _collection }
+    private var collection: SttObservableCollection<TPresenter>!
     
     private var disposeBag: DisposeBag!
     
-    public init(tableView: UITableView, cellIdentifiers: [SttIdentifiers], collection: SttObservableCollection<T>) {
+    public convenience init(
+        tableView: UITableView,
+        cellIdentifiers: [SttIdentifiers],
+        collection: SttObservableCollection<TPresenter>) {
         
-        for item in cellIdentifiers {
-            if !item.isRegistered {
-                tableView.register(UINib(nibName: item.nibName ?? item.identifers, bundle: nil), forCellReuseIdentifier: item.identifers)
-            }
-        }
-        
-        _tableView = tableView
-        _cellIdentifiers.append(contentsOf: cellIdentifiers.map({ $0.identifers }))
-        
-        super.init()
-        tableView.dataSource = self
+        self.init(tableView: tableView, cellIdentifiers: cellIdentifiers)
         updateSource(collection: collection)
-        tableView.delegate = self
     }
     
-    open func updateSource(collection: SttObservableCollection<T>) {
-        _collection = collection
-        countData = collection.count
-        _tableView.reloadData()
-        disposeBag = DisposeBag()
+    open func updateSource(collection: SttObservableCollection<TPresenter>) {
         
-        _collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
+        self.collection = collection
+        self.countData = collection.count
+        self.tableView.reloadData()
+        
+        self.disposeBag = DisposeBag()
+        
+        collection.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
             if self?.maxAnimationCount ?? 0 < indexes.count || type == .reload {
                 self?.countData = collection.count
-                self?._tableView.reloadData()
+                self?.tableView.reloadData()
             }
             else {
-                self?._tableView.performBatchUpdates({ [weak self] in
+                self?.tableView.performBatchUpdates({ [weak self] in
                     switch type {
                     case .delete:
-                        self?._tableView.deleteRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                                                    with: self!.useAnimation ? .left : .none)
+                        self?.tableView.deleteRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                                                   with: self!.useAnimation ? .left : .none)
                         self?.countData = collection.count
                     case .insert:
-                        self?._tableView.insertRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                                                    with: self!.useAnimation ? .automatic : .none)
+                        self?.tableView.insertRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                                                   with: self!.useAnimation ? .automatic : .none)
                         self?.countData = collection.count
                     case .update:
-                        self?._tableView.reloadRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                                                    with: self!.useAnimation ? .fade : .none)
+                        self?.tableView.reloadRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                                                   with: self!.useAnimation ? .fade : .none)
                     default: break
                     }
                 }, completion: nil)
@@ -99,57 +82,21 @@ open class SttTableViewSource<T: SttViewInjector>: NSObject, UITableViewDataSour
         }).disposed(by: disposeBag)
     }
     
-    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
-        endScrollCallBack = { [weak delegate] in
-            if let _delegate = delegate {
-                callback(_delegate)
-            }
-        }
+    override open func presenter(at indexPath: IndexPath) -> TPresenter {
+        return collection[indexPath.row]
     }
     
-    // MARK: -- todo: write init for [cellIdentifiers]
-    
-    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countData
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier(for: indexPath))! as! SttTableViewCell<T>
-        cell.presenter = _collection[indexPath.row]
+    open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier(for: indexPath))! as! SttTableViewCell<TPresenter>
+        cell.presenter = presenter(at: indexPath)
         return cell
     }
     
-    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView(tableView, didSelectRowAt: indexPath, with: collection[indexPath.row])
-    }
-    
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath, with presenter: T) { }
-    
-    /// Method which return cell identifier to create reusable cell
-    open func cellIdentifier(for indexPath: IndexPath) -> String {
-        return cellIdentifiers.first!
-    }
-    
-    private var inPosition: Bool = false
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        let x = scrollView.contentOffset.y
-        let width = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)
-        
-        if (scrollView.contentSize.height > scrollView.bounds.height) {
-            if (x > width) {
-                if (!inPosition) {
-                    endScrollCallBack?()
-                }
-                inPosition = true
-            }
-            else {
-                inPosition = false
-            }
-        }
     }
 }

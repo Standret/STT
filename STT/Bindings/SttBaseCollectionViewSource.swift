@@ -29,12 +29,12 @@ import UIKit
 
 open class SttBaseCollectionViewSource<TPresenter: SttViewInjector>: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    private(set) var _collectionView: UICollectionView
+    private(set) public var _collectionView: UICollectionView
     
     private(set) public var cellIdentifier: [String]
     private(set) public var sectionIdentifier: [String]
     
-    public var container = [SttTypeActionCollectionView: [SttScrollViewHandlerType]]()
+    public var container = [SttTypeActionScrollView: [SttScrollViewHandlerType]]()
     
     public init(collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], sectionIdentifier: [String]) {
         
@@ -227,6 +227,12 @@ extension SttBaseCollectionViewSource {
     /// Add end scrolled handler
     public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
         self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(SttEndScrollHandler.init(delegate: delegate, { (delegate, _) in callback(delegate) } ))
+        self.container[.scrollViewDidScroll]!.append(SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) } ))
+    }
+    
+    /// Add top scrolled handler
+    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
+        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
+        self.container[.scrollViewDidScroll]!.append(SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) } ))
     }
 }
