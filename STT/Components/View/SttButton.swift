@@ -74,7 +74,7 @@ open class SttToogleButton: SttButton {
     open override var isHighlighted: Bool {
         didSet {
             if let color = highlightedColor {
-                self.backgroundColor = isHighlighted ? color : unSelectedBackground
+                self.backgroundColor = isHighlighted ? color : (isSelected ? selectedBackground : unSelectedBackground)
             }
         }
     }
