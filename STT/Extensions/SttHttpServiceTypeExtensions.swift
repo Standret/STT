@@ -40,6 +40,17 @@ public extension SttHttpServiceType {
                         insertToken: insertToken)
     }
     
+    func get(controller: ApiControllerType,
+             object: Encodable?,
+             headers: [String: String] = [:],
+             insertToken: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.get(controller: controller,
+                        data: object?.getDictionary() ?? [:],
+                        headers: headers,
+                        insertToken: insertToken)
+    }
+    
     func post(controller: ApiControllerType,
               data: [String: Any] = [:],
               headers: [String: String] = [:],
