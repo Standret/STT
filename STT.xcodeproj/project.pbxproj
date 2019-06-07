@@ -107,6 +107,7 @@
 		504602B022A6877500D1AB2D /* SttViewPagerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602AF22A6877500D1AB2D /* SttViewPagerHeader.swift */; };
 		504602B222A687AB00D1AB2D /* SttDictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B122A687AB00D1AB2D /* SttDictionaryExtensions.swift */; };
 		504602B422A68C5400D1AB2D /* SttSwitcherBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */; };
+		504602B822A7CC6E00D1AB2D /* SttBaseTableViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */; };
 		506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506804D9224233740057A78A /* SttTextViewBindingContext.swift */; };
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
@@ -237,6 +238,7 @@
 		504602AF22A6877500D1AB2D /* SttViewPagerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttViewPagerHeader.swift; sourceTree = "<group>"; };
 		504602B122A687AB00D1AB2D /* SttDictionaryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDictionaryExtensions.swift; sourceTree = "<group>"; };
 		504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttSwitcherBindingContext.swift; sourceTree = "<group>"; };
+		504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttBaseTableViewSource.swift; sourceTree = "<group>"; };
 		506804D9224233740057A78A /* SttTextViewBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextViewBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 				5016C38C22391A8A0080BD63 /* SttTableViewSource.swift */,
 				5016C38922391A8A0080BD63 /* SttTableViewSourceWithSection.swift */,
 				503F62902283163600F695B0 /* SttBaseCollectionViewSource.swift */,
+				504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				5016C39A223925CE0080BD63 /* SttKeyboardViewController.swift in Sources */,
 				50F0CAB522394AA90034E1AA /* SttValidationResult.swift in Sources */,
 				5016C3CA223927F40080BD63 /* SttCodableExtensions.swift in Sources */,
+				504602B822A7CC6E00D1AB2D /* SttBaseTableViewSource.swift in Sources */,
 				5016C3C6223927F40080BD63 /* SttURLExtensions.swift in Sources */,
 				5016C32C2238FED10080BD63 /* SttConverterType.swift in Sources */,
 				5016C32E2238FEEC0080BD63 /* SttConverter.swift in Sources */,

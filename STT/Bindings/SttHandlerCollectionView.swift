@@ -27,7 +27,7 @@
 import Foundation
 import UIKit
 
-public enum SttTypeActionCollectionView {
+public enum SttTypeActionScrollView {
     case scrollViewDidScroll
     case scrollViewDidEndDecelerating
 }
@@ -43,21 +43,54 @@ open class SttEndScrollHandler<Target: UIScrollView>: SttScrollViewHandlerType {
     open var callBackEndPixel: Int = 150
     
     public init() { }
-    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void) {
+    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void, callBackEndPixel: Int = 150) {
+        self.callBackEndPixel = callBackEndPixel
         handlers.append(SttDelegatedCall(to: delegate, with: handler))
     }
     
     private var inPosition: Bool = false
     open func handle(_ scrollView: UIScrollView) {
         
-        let x = scrollView.contentOffset.y
-        let width = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)
+        let y = scrollView.contentOffset.y
+        let height = scrollView.contentSize.height - scrollView.bounds.height - CGFloat(callBackEndPixel)
         
         if (scrollView.contentSize.height > scrollView.bounds.height) {
-            if (x > width) {
+            if (y > height) {
                 if (!inPosition) {
                     handlers.forEach({ $0.callback(scrollView as! Target) })
                 }
+                inPosition = true
+            }
+            else {
+                inPosition = false
+            }
+        }
+    }
+}
+
+open class SttTopScrollHandler<Target: UIScrollView>: SttScrollViewHandlerType {
+    
+    private var handlers = [SttDelegatedCall<Target>]()
+    
+    open var callBackEndPixel: Int = 150
+    
+    public init() { }
+    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void, callBackEndPixel: Int = 150) {
+        self.callBackEndPixel = callBackEndPixel
+        handlers.append(SttDelegatedCall(to: delegate, with: handler))
+    }
+    
+    private var inPosition: Bool = false
+    open func handle(_ scrollView: UIScrollView) {
+        
+        let y = Int(scrollView.contentOffset.y)
+        
+        if (scrollView.contentSize.height > scrollView.bounds.height) {
+            if (y < callBackEndPixel) {
+                if (!inPosition) {
+                    handlers.forEach({ $0.callback(scrollView as! Target) })
+                }
+                
                 inPosition = true
             }
             else {

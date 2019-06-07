@@ -37,7 +37,11 @@ open class SttCollectionViewWithSectionSource<TCell: SttViewInjector, TSection: 
     
     private var disposable: DisposeBag!
     
-    public convenience init (collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], sectionIdentifier: [String], collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>) {
+    public convenience init (
+        collectionView: UICollectionView,
+        cellIdentifiers: [SttIdentifiers],
+        sectionIdentifier: [String],
+        collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>) {
         
         self.init(collectionView: collectionView, cellIdentifiers: cellIdentifiers, sectionIdentifier: sectionIdentifier)
         updateSource(collection: collection)

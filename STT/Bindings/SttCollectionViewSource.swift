@@ -38,8 +38,11 @@ open class SttCollectionViewSource<T: SttViewInjector>: SttBaseCollectionViewSou
     
     private var collection: SttObservableCollection<T>!
     
-    public convenience init(collectionView: UICollectionView, cellIdentifiers: [SttIdentifiers], collection: SttObservableCollection<T>) {
-       // sel
+    public convenience init(
+        collectionView: UICollectionView,
+        cellIdentifiers: [SttIdentifiers],
+        collection: SttObservableCollection<T>) {
+
         self.init(collectionView: collectionView, cellIdentifiers: cellIdentifiers, sectionIdentifier: [])
         updateSource(collection: collection)
     }
