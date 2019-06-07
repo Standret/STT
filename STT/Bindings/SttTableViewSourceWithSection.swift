@@ -30,6 +30,7 @@ import RxSwift
 
 open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttViewInjector>: SttBaseTableViewSource<TCell> {
     
+    private var countData: [Int]! 
     private var collection: SttObservableCollection<(SttObservableCollection<TCell>, TSection)>!
     
     private var disposable: DisposeBag!
@@ -63,11 +64,11 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
     }
     
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return collection == nil ? 0 : collection[section].0.count
+        return countData[section]
     }
     
     open override func numberOfSections(in tableView: UITableView) -> Int {
-        return collection == nil ? 0 : collection.count
+        return countData.count
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,6 +83,7 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
         subCollectionDisposeBag = DisposeBag()
         for index in 0..<collection.count {
             collection[index].0.observableObject.subscribe(onNext: { [weak self] (indexes, type) in
+                self?.countData = self?.collection.map({ $0.0.count })
                 if self?.maxAnimationCount ?? 0 < indexes.count {
                     self?.tableView.reloadData()
                 }
@@ -90,19 +92,20 @@ open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttVi
                     case .reload:
                         self?.tableView.reloadData()
                     case .delete:
-                        self?.tableView.deleteRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                        self?.tableView.deleteRows(at: indexes.map({ IndexPath(row: $0, section: index) }),
                                                    with: self!.useAnimation ? .left : .none)
                     case .insert:
-                        self?.tableView.insertRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                        self?.tableView.insertRows(at: indexes.map({ IndexPath(row: $0, section: index) }),
                                                    with: self!.useAnimation ? .middle : .none)
                     case .update:
-                        self?.tableView.reloadRows(at: indexes.map({ IndexPath(row: $0, section: 0) }),
+                        self?.tableView.reloadRows(at: indexes.map({ IndexPath(row: $0, section: index) }),
                                                    with: self!.useAnimation ? .fade : .none)
                     }
                 }
             }).disposed(by: subCollectionDisposeBag)
         }
         
+        countData = collection.map({ $0.0.count })
         tableView.reloadData()
     }
 }

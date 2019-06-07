@@ -225,14 +225,18 @@ open class SttBaseCollectionViewSource<TPresenter: SttViewInjector>: NSObject, U
 extension SttBaseCollectionViewSource {
     
     /// Add end scrolled handler
-    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
+    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
         self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) } ))
+        self.container[.scrollViewDidScroll]!.append(
+            SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel:  callBackEndPixel)
+        )
     }
     
     /// Add top scrolled handler
-    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
+    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
         self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) } ))
+        self.container[.scrollViewDidScroll]!.append(
+            SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel: callBackEndPixel)
+        )
     }
 }

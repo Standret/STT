@@ -43,7 +43,8 @@ open class SttEndScrollHandler<Target: UIScrollView>: SttScrollViewHandlerType {
     open var callBackEndPixel: Int = 150
     
     public init() { }
-    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void) {
+    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void, callBackEndPixel: Int = 150) {
+        self.callBackEndPixel = callBackEndPixel
         handlers.append(SttDelegatedCall(to: delegate, with: handler))
     }
     
@@ -74,7 +75,8 @@ open class SttTopScrollHandler<Target: UIScrollView>: SttScrollViewHandlerType {
     open var callBackEndPixel: Int = 150
     
     public init() { }
-    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void) {
+    public init<T: AnyObject>(delegate: T, _ handler: @escaping (T, Target) -> Void, callBackEndPixel: Int = 150) {
+        self.callBackEndPixel = callBackEndPixel
         handlers.append(SttDelegatedCall(to: delegate, with: handler))
     }
     

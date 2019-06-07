@@ -90,7 +90,7 @@ open class SttBaseTableViewSource<TPresenter: SttViewInjector>: NSObject, UITabl
     // MARK: - Editing
     
     open func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return false
     }
     
     open func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -226,14 +226,18 @@ open class SttBaseTableViewSource<TPresenter: SttViewInjector>: NSObject, UITabl
 extension SttBaseTableViewSource {
     
     /// Add end scrolled handler
-    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
+    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
         self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) } ))
+        self.container[.scrollViewDidScroll]!.append(
+            SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel:  callBackEndPixel)
+        )
     }
     
     /// Add top scrolled handler
-    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void) {
+    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
         self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) } ))
+        self.container[.scrollViewDidScroll]!.append(
+            SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel: callBackEndPixel)
+        )
     }
 }
