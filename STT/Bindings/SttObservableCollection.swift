@@ -42,6 +42,8 @@ open class SttObservableCollection<T>: Collection {
     public var startIndex: Int { return datas.startIndex }
     public var endIndex: Int { return datas.endIndex }
     
+    open var array: [T] { return datas }
+    
     public init() { }
     public init(_ data: [T]) {
         datas = data
@@ -64,19 +66,26 @@ open class SttObservableCollection<T>: Collection {
         if sequence.count > 0 {
             let startIndex = datas.count
             datas.append(contentsOf: sequence)
-            notifyPublisher.onNext((Array(startIndex...(datas.count - 1)), .insert))
+            notifyPublisher.onNext((Array(startIndex..<datas.count), .insert))
         }
     }
-    open func remove(at index: Int) {
-        datas.remove(at: index)
-        notifyPublisher.onNext(([index], .delete))
-    }
+    
     open func insert(_ newElement: T, at index: Int) {
         datas.insert(newElement, at: index)
         notifyPublisher.onNext(([index], .insert))
     }
+    open func insert(contentsOf: [T], at index: Int) {
+        datas.insert(contentsOf: contentsOf, at: index)
+        notifyPublisher.onNext((Array(index..<(index + contentsOf.count)), .insert))
+    }
+    
     open func index(where predicate: (T) throws -> Bool) rethrows -> Int? {
         return try datas.index(where: predicate)
+    }
+    
+    open func remove(at index: Int) {
+        datas.remove(at: index)
+        notifyPublisher.onNext(([index], .delete))
     }
     open func removeAll() {
         if datas.count > 0 {
