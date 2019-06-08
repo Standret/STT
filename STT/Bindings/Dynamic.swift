@@ -35,17 +35,17 @@ public class Dynamic<Element> {
     public typealias Listener = (Element) -> Void
     
     private var disposeBag = DisposeBag()
-    private var element: Variable<Element>
+    private var element: BehaviorSubject<Element>
     
     public var value: Element {
-        get { return element.value }
+        get { return try! element.value() }
         set {
-            element.value = newValue
+            element.onNext(newValue)
         }
     }
     
     public init(_ value: Element) {
-        element = Variable<Element>(value)
+        element = BehaviorSubject<Element>(value: value)
     }
     
     /// Subscribe on changes and read current value

@@ -171,8 +171,8 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
         redrawUnderline()
         
         segmentControl.tintColor = .clear
-        
-        #warning("not implemented max width")
+                
+        // TODO: implemented max width
         
         if true {
             headerScrollView.contentSize = rect.size

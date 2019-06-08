@@ -96,6 +96,8 @@ open class SttViewController<T: SttViewControllerInjector>: UIViewController {
             backgroundLayer.alpha = 0
         case .possible, .failed:
             break
+        @unknown default:
+            fatalError()
         }
         
         if let currentTransitionCoordinator = currentTransitionCoordinator {

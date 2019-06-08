@@ -41,7 +41,7 @@ public extension SttNotificationErrorServiceType {
 
 public extension Observable {
     
-    func useError(service: SttNotificationErrorServiceType, ignoreBadRequest: Bool = false, customMessage: String? = nil) -> Observable<E> {
+    func useError(service: SttNotificationErrorServiceType, ignoreBadRequest: Bool = false, customMessage: String? = nil) -> Observable<Element> {
         return service.useError(observable: self, ignoreBadRequest: ignoreBadRequest, customMessage: customMessage)
     }
 }

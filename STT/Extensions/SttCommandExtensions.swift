@@ -30,7 +30,7 @@ import UIKit
 
 public extension Observable {
     
-    func useWork(_ command: SttCommandType) -> Observable<E> {
+    func useWork(_ command: SttCommandType) -> Observable<Element> {
         return command.useWork(observable: self)
     }
 }

@@ -80,7 +80,7 @@ open class SttObservableCollection<T>: Collection {
     }
     
     open func index(where predicate: (T) throws -> Bool) rethrows -> Int? {
-        return try datas.index(where: predicate)
+        return try datas.firstIndex(where: predicate)
     }
     
     open func remove(at index: Int) {
