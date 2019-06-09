@@ -27,7 +27,7 @@
 import Foundation
 import RxSwift
 
-public extension ObservableType where E == (HTTPURLResponse, Data) {
+public extension ObservableType where Element == (HTTPURLResponse, Data) {
     
     func getCookie(action: @escaping (String?) -> Void) -> Observable<(HTTPURLResponse, Data)> {
         return self.map({ (result) -> (HTTPURLResponse, Data) in

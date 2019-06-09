@@ -59,6 +59,8 @@ public extension UIImage {
             
         case .up, .upMirrored:
             break
+        @unknown default:
+            fatalError()
         }
         
         switch self.imageOrientation {

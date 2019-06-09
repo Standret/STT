@@ -35,9 +35,9 @@ public class SttHttpService: SttHttpServiceType {
     private let connectivity = SttConectivity()
     private let tokenGetter: (() -> Observable<String>)?
     
-    private let timeout: Double
+    private let timeout: DispatchTimeInterval
     
-    public init(url: String, timeout: Double, tokenGetter: (() -> Observable<String>)? = nil) {
+    public init(url: String, timeout: DispatchTimeInterval, tokenGetter: (() -> Observable<String>)? = nil) {
         self.url = url
         self.timeout = timeout
         self.tokenGetter = tokenGetter
@@ -52,8 +52,7 @@ public class SttHttpService: SttHttpServiceType {
                                    parameters: data,
                                    encoding: URLEncoding.default,
                                    headers: headers)
-            })
-            .timeout(timeout, scheduler: MainScheduler.instance)
+            }).timeout(timeout, scheduler: MainScheduler.instance)
     }
     
     public func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {

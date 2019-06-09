@@ -89,6 +89,8 @@ open class SttCamera: NSObject, UIImagePickerControllerDelegate, UINavigationCon
             return true
         case .denied, .restricted:
             return false
+        @unknown default:
+            fatalError()
         }
     }
     
