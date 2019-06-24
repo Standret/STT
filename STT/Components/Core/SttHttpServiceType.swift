@@ -25,17 +25,41 @@
 //
 
 import Foundation
+import Alamofire
 import RxSwift
+
+public struct UploadedObject {
+    let data: Data
+    let name: String
+    let fileName: String
+    let mimeType: String
+    
+    public init(data: Data,
+                name: String,
+                fileName: String,
+                mimeType: String) {
+        
+        self.data = data
+        self.name = name
+        self.fileName = fileName
+        self.mimeType = mimeType
+    }
+}
 
 public protocol SttHttpServiceType {
     
     func get(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool) -> Observable<(HTTPURLResponse, Data)>
     
-    func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)>
     
     func delete(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)>
     
     func put(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)>
     
-    func upload(controller: ApiControllerType, data: Data, parameter: [String:String], progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)>
+    func upload(controller: ApiControllerType,
+                object: UploadedObject,
+                parameters: [String: String],
+                headers: [String: String],
+                insertToken: Bool,
+                progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)>
 }
