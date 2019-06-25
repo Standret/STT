@@ -48,21 +48,21 @@ public class SttHttpService: SttHttpServiceType {
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
                 return  requestData(.get,
-                                   "\(self.url!)\(controller.route)",
-                                   parameters: data,
-                                   encoding: URLEncoding.default,
-                                   headers: headers)
+                                    "\(self.url!)\(controller.route)",
+                    parameters: data,
+                    encoding: URLEncoding.default,
+                    headers: headers)
             }).timeout(timeout, scheduler: MainScheduler.instance)
     }
     
-    public func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
+    public func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
                 return requestData(.post,
                                    "\(self.url!)\(controller.route)",
                     parameters: data,
-                    encoding: isFormUrlEncoding ? URLEncoding.httpBody : JSONEncoding.default,
+                    encoding: encoding,
                     headers: headers)
             })
             .timeout(timeout, scheduler: MainScheduler.instance)
@@ -94,13 +94,56 @@ public class SttHttpService: SttHttpServiceType {
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
     
-    public func upload(controller: ApiControllerType, data: Data, parameter: [String:String], progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)> {
-        notImplementException()
-
-    }
+    public func upload(controller: ApiControllerType,
+                       object: UploadedObject,
+                       parameters: [String: String],
+                       headers: [String: String],
+                       insertToken: Bool,
+                       progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)> {
         
+        let url = "\(self.url!)\(controller.route)"
+        
+        return modifyHeaders(insertToken: insertToken, headers: headers)
+            .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
+                return Observable<(HTTPURLResponse, Data)>.create { (observer) -> Disposable in
+                    
+                    SttNetworking.sharedInstance.backgroundSessionManager
+                        .upload(
+                            multipartFormData: { (multipart) in
+                                parameters.forEach({ multipart.append($0.value.data(using: .utf8)!, withName: $0.key) })
+                                multipart .append(object.data, withName: object.name, fileName: object.fileName, mimeType: object.mimeType)
+                        }, to: url, headers: headers) { (encodingResult) in
+                            
+                            switch encodingResult {
+                            case .success(let upload, _, _):
+                                upload.uploadProgress(closure: { (progress) in
+                                    if let handler = progresHandler {
+                                        handler(Float(progress.fractionCompleted))
+                                    }
+                                })
+                                
+                                upload.responseData(completionHandler: { (fullData) in
+                                    if upload.response != nil && fullData.data != nil {
+                                        print("receive response")
+                                        observer.onNext((upload.response!, fullData.data!))
+                                        observer.onCompleted()
+                                    }
+                                    else {
+                                        observer.onError(SttBaseError.connectionError(SttConnectionError.responseIsNil))
+                                    }
+                                })
+                            case .failure(let encodingError):
+                                observer.onError(SttBaseError.unkown("\(encodingError)"))
+                            }
+                    }
+                    
+                    return Disposables.create()
+                }
+            }).timeout(timeout, scheduler: MainScheduler.instance)
+    }
+    
     private func modifyHeaders(insertToken: Bool, headers: [String: String]) -> Observable<[String: String]> {
-            
+        
         if insertToken {
             return self.tokenGetter!()
                 .map({ token in
