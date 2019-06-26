@@ -93,7 +93,6 @@ public class SttCommand: SttCommandType {
         return true
     }
     
-    // TODO: Probably needed add call end on disposed
     public func useWork(start: (() -> Void)?, end: (() -> Void)?) -> Disposable {
         
         return eventSubject.subscribe(onNext: { res in
@@ -103,8 +102,11 @@ public class SttCommand: SttCommandType {
             else {
                 end?()
             }
+        }, onDisposed: {
+            end?()
         })
     }
+    
     public func useWork(handler: @escaping (Bool) -> Void) -> Disposable {
         return eventSubject.subscribe(onNext: handler)
     }
