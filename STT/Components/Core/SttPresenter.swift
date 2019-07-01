@@ -52,9 +52,9 @@ open class SttPresenter<TDelegate> : SttViewControllerInjector {
     open func viewAppeared() {
         messageDisposable = _notificationError?.errorObservable
             .observeInUI()
-            .subscribe(onNext: { [unowned self] (err) in
-                if (self._delegate is SttViewableListener) {
-                    (self._delegate as! SttViewableListener).sendError(error: err)
+            .subscribe(onNext: { [weak self] (err) in
+                if (self?._delegate is SttViewableListener) {
+                    (self?._delegate as! SttViewableListener).sendError(error: err)
                 }
             })
     }
