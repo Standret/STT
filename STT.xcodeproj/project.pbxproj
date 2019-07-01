@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D3C25E9A0467228D9D301C3 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53801BF65A0E8EEED19DD2AE /* Pods_STT.framework */; };
 		50106A272237E49E002C634A /* STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50106A1D2237E49E002C634A /* STT.framework */; };
 		50106A2C2237E49E002C634A /* STTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50106A2B2237E49E002C634A /* STTTests.swift */; };
 		50106A382237E578002C634A /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50106A372237E578002C634A /* Dynamic.swift */; };
@@ -120,7 +121,6 @@
 		50F0CAB822394AA90034E1AA /* SttValidatorBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB422394AA90034E1AA /* SttValidatorBuilder.swift */; };
 		558D7D0022425F6E00560410 /* SttTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D7CFF22425F6E00560410 /* SttTextView.swift */; };
 		558D7D0222427AAA00560410 /* SttUITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D7D0122427AAA00560410 /* SttUITableViewExtensions.swift */; };
-		C34151EBB17F1A1DF18BE4A1 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9658ED523A40F710FADDA4CE /* Pods_STT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,7 +134,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		31F37A0087F855C796E163BE /* Pods-STT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.release.xcconfig"; path = "Pods/Target Support Files/Pods-STT/Pods-STT.release.xcconfig"; sourceTree = "<group>"; };
+		41A5FF3BB66C8A69EA76FB3F /* Pods-STT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.release.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.release.xcconfig"; sourceTree = "<group>"; };
 		50106A1D2237E49E002C634A /* STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50106A212237E49E002C634A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50106A262237E49E002C634A /* STTTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = STTTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,10 +249,10 @@
 		50F0CAB222394AA90034E1AA /* SttValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidator.swift; sourceTree = "<group>"; };
 		50F0CAB322394AA90034E1AA /* SttValidatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorType.swift; sourceTree = "<group>"; };
 		50F0CAB422394AA90034E1AA /* SttValidatorBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorBuilder.swift; sourceTree = "<group>"; };
+		53801BF65A0E8EEED19DD2AE /* Pods_STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		558D7CFF22425F6E00560410 /* SttTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextView.swift; sourceTree = "<group>"; };
 		558D7D0122427AAA00560410 /* SttUITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttUITableViewExtensions.swift; sourceTree = "<group>"; };
-		6ADFFE632E6CD74FC3713734 /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Pods/Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
-		9658ED523A40F710FADDA4CE /* Pods_STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5EB958E65BE5629FB50572C /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,7 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C34151EBB17F1A1DF18BE4A1 /* Pods_STT.framework in Frameworks */,
+				2D3C25E9A0467228D9D301C3 /* Pods_STT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,8 +281,8 @@
 				50106A1F2237E49E002C634A /* STT */,
 				50106A2A2237E49E002C634A /* STTTests */,
 				50106A1E2237E49E002C634A /* Products */,
-				C5B1E0B7486AC9C34A8BF02E /* Pods */,
-				ED41BEABF5CDFDA170EAAEFC /* Frameworks */,
+				721F5AC8829FCE63EF2F04EC /* Pods */,
+				646EE9793A5DCC45530AD910 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -591,21 +591,22 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		C5B1E0B7486AC9C34A8BF02E /* Pods */ = {
+		646EE9793A5DCC45530AD910 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6ADFFE632E6CD74FC3713734 /* Pods-STT.debug.xcconfig */,
-				31F37A0087F855C796E163BE /* Pods-STT.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		ED41BEABF5CDFDA170EAAEFC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9658ED523A40F710FADDA4CE /* Pods_STT.framework */,
+				53801BF65A0E8EEED19DD2AE /* Pods_STT.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		721F5AC8829FCE63EF2F04EC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E5EB958E65BE5629FB50572C /* Pods-STT.debug.xcconfig */,
+				41A5FF3BB66C8A69EA76FB3F /* Pods-STT.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -625,7 +626,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50106A312237E49E002C634A /* Build configuration list for PBXNativeTarget "STT" */;
 			buildPhases = (
-				EE0FFCD9F37D4615E387531C /* [CP] Check Pods Manifest.lock */,
+				F868EAD5ADF3EBCF17767FFC /* [CP] Check Pods Manifest.lock */,
 				50106A182237E49E002C634A /* Headers */,
 				50106A192237E49E002C634A /* Sources */,
 				50106A1A2237E49E002C634A /* Frameworks */,
@@ -715,7 +716,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EE0FFCD9F37D4615E387531C /* [CP] Check Pods Manifest.lock */ = {
+		F868EAD5ADF3EBCF17767FFC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1003,7 +1004,7 @@
 		};
 		50106A322237E49E002C634A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ADFFE632E6CD74FC3713734 /* Pods-STT.debug.xcconfig */;
+			baseConfigurationReference = E5EB958E65BE5629FB50572C /* Pods-STT.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1030,7 +1031,7 @@
 		};
 		50106A332237E49E002C634A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 31F37A0087F855C796E163BE /* Pods-STT.release.xcconfig */;
+			baseConfigurationReference = 41A5FF3BB66C8A69EA76FB3F /* Pods-STT.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
