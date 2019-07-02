@@ -46,6 +46,9 @@ public extension Date {
     var month: Int {
         return Calendar.current.component(.month,  from: self)
     }
+    var year: Int {
+        return Calendar.current.component(.year,  from: self)
+    }
     var isLastDayOfMonth: Bool {
         return tomorrow.month != month
     }
@@ -95,6 +98,18 @@ public extension Date {
         dateFormatter.dateFormat = format
         
         return dateFormatter.string(from: self)
+    }
+    
+    /// Return specific date
+    static func from(year: Int, month: Int, day: Int) -> Date? {
+        let gregorianCalendar = NSCalendar(calendarIdentifier: .gregorian)!
+        
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+        
+        return gregorianCalendar.date(from: dateComponents)
     }
     
     // MARK: - deprecated

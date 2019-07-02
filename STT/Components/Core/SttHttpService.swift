@@ -37,43 +37,60 @@ public class SttHttpService: SttHttpServiceType {
     
     private let timeout: DispatchTimeInterval
     
-    public init(url: String, timeout: DispatchTimeInterval, tokenGetter: (() -> Observable<String>)? = nil) {
+    public init(url: String, timeout: DispatchTimeInterval,
+                tokenGetter: (() -> Observable<String>)? = nil) {
+        
         self.url = url
         self.timeout = timeout
         self.tokenGetter = tokenGetter
     }
     
-    public func get(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool) -> Observable<(HTTPURLResponse, Data)> {
+    public func get(controller: ApiControllerType,
+                    data: [String: Any],
+                    headers: [String:String],
+                    insertToken: Bool) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
-                return  requestData(.get,
-                                    "\(self.url!)\(controller.route)",
+                return  requestData(
+                    .get,
+                    "\(self.url!)\(controller.route)",
                     parameters: data,
                     encoding: URLEncoding.default,
                     headers: headers)
             }).timeout(timeout, scheduler: MainScheduler.instance)
     }
     
-    public func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)> {
+    public func post(controller: ApiControllerType,
+                     data: [String: Any],
+                     headers: [String:String],
+                     insertToken: Bool,
+                     encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
-                return requestData(.post,
-                                   "\(self.url!)\(controller.route)",
+                return requestData(
+                    .post,
+                    "\(self.url!)\(controller.route)",
                     parameters: data,
                     encoding: encoding,
-                    headers: headers)
+                    headers: headers
+                )
             })
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
     
-    public func delete(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
+    public func delete(controller: ApiControllerType,
+                       data: [String: Any],
+                       headers: [String: String],
+                       insertToken: Bool,
+                       isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
-                return requestData(.delete,
-                                   "\(self.url!)\(controller.route)",
+                return requestData(
+                    .delete,
+                    "\(self.url!)\(controller.route)",
                     parameters: data,
                     encoding: isFormUrlEncoding ? URLEncoding.httpBody : JSONEncoding.default,
                     headers: headers)
@@ -81,12 +98,17 @@ public class SttHttpService: SttHttpServiceType {
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
     
-    public func put(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
+    public func put(controller: ApiControllerType,
+                    data: [String: Any],
+                    headers: [String: String],
+                    insertToken: Bool,
+                    isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
-                return requestData(.put,
-                                   "\(self.url!)\(controller.route)",
+                return requestData(
+                    .put,
+                    "\(self.url!)\(controller.route)",
                     parameters: data,
                     encoding: isFormUrlEncoding ? URLEncoding.httpBody : JSONEncoding.default,
                     headers: headers)
@@ -95,7 +117,7 @@ public class SttHttpService: SttHttpServiceType {
     }
     
     public func upload(controller: ApiControllerType,
-                       object: UploadedObject,
+                       object: UploadedObject?,
                        parameters: [String: String],
                        headers: [String: String],
                        insertToken: Bool,
@@ -111,7 +133,9 @@ public class SttHttpService: SttHttpServiceType {
                         .upload(
                             multipartFormData: { (multipart) in
                                 parameters.forEach({ multipart.append($0.value.data(using: .utf8)!, withName: $0.key) })
-                                multipart .append(object.data, withName: object.name, fileName: object.fileName, mimeType: object.mimeType)
+                                if let object = object {
+                                    multipart .append(object.data, withName: object.name, fileName: object.fileName, mimeType: object.mimeType)
+                                }
                         }, to: url, headers: headers) { (encodingResult) in
                             
                             switch encodingResult {
@@ -124,7 +148,6 @@ public class SttHttpService: SttHttpServiceType {
                                 
                                 upload.responseData(completionHandler: { (fullData) in
                                     if upload.response != nil && fullData.data != nil {
-                                        print("receive response")
                                         observer.onNext((upload.response!, fullData.data!))
                                         observer.onCompleted()
                                     }

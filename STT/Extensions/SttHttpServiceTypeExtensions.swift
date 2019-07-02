@@ -130,4 +130,18 @@ public extension SttHttpServiceType {
                            isFormUrlEncoding: isFormUrlEncoding)
     }
     
+    func upload(controller: ApiControllerType,
+                       object: UploadedObject? = nil,
+                       parameters: [String: String] = [:],
+                       headers: [String: String] = [:],
+                       insertToken: Bool = false,
+                       progresHandler: ((Float) -> Void)? = nil) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.upload(controller: controller,
+                           object: object,
+                           parameters: parameters,
+                           headers: headers,
+                           insertToken: insertToken,
+                           progresHandler: progresHandler)
+    }
 }
