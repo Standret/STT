@@ -57,7 +57,7 @@ public protocol SttHttpServiceType {
     func put(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)>
     
     func upload(controller: ApiControllerType,
-                object: UploadedObject,
+                object: UploadedObject?,
                 parameters: [String: String],
                 headers: [String: String],
                 insertToken: Bool,
