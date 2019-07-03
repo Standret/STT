@@ -120,7 +120,7 @@ public extension UIImage {
             return self?.jpegData(compressionQuality: 0.8)
         })
     }
-    
+   
     /// Render new image with particular size
     /// - Parameter scaledToSize: size of new Image
     func resize(scaledToSize newSize: CGSize) -> UIImage {
@@ -128,6 +128,24 @@ public extension UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         self.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
         let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    /// Render new image with particular size
+    /// - Parameter scaledToSize: size of new Image
+    func resize(scaledToWidth width: CGFloat) -> UIImage {
+        
+        let oldWidth = self.size.width
+        let scaleFactor = width / oldWidth
+        
+        let newHeight = self.size.height * scaleFactor
+        let newWidth = oldWidth * scaleFactor
+        
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         return newImage

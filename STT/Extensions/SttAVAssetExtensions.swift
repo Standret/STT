@@ -33,4 +33,41 @@ public extension AVAsset {
             return nil
         }
     }
+    
+    /// render video thumbnail with size
+    /// - Parameter size: size of thumbnail
+    /// - Returns: thumbnail image or nil if can not create
+    func createThumbnail(width: CGFloat) -> UIImage? {
+        
+        let assetImgGenerate = AVAssetImageGenerator(asset: self)
+        assetImgGenerate.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(Float64(1), preferredTimescale: 100)
+        
+        do {
+            let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+            let thumbnail = UIImage(cgImage: img).resize(scaledToWidth: width)
+            return thumbnail
+        }
+        catch {
+            return nil
+        }
+    }
+    
+    /// render video thumbnail with original size
+    /// - Returns: thumbnail image or nil if can not create
+    func createThumbnail() -> UIImage? {
+        
+        let assetImgGenerate = AVAssetImageGenerator(asset: self)
+        assetImgGenerate.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(Float64(1), preferredTimescale: 100)
+        
+        do {
+            let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+            let thumbnail = UIImage(cgImage: img)
+            return thumbnail
+        }
+        catch {
+            return nil
+        }
+    }
 }
