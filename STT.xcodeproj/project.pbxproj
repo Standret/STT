@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D3C25E9A0467228D9D301C3 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53801BF65A0E8EEED19DD2AE /* Pods_STT.framework */; };
+		5001E26122CF520500644E06 /* LabelBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5001E26022CF520500644E06 /* LabelBindingTests.swift */; };
 		50106A272237E49E002C634A /* STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50106A1D2237E49E002C634A /* STT.framework */; };
 		50106A2C2237E49E002C634A /* STTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50106A2B2237E49E002C634A /* STTTests.swift */; };
 		50106A382237E578002C634A /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50106A372237E578002C634A /* Dynamic.swift */; };
@@ -17,7 +17,6 @@
 		5016C3102238F0B30080BD63 /* SttGenericBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C30F2238F0B30080BD63 /* SttGenericBindingContext.swift */; };
 		5016C3132238F8910080BD63 /* SttTextFieldBindingsContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3122238F8910080BD63 /* SttTextFieldBindingsContext.swift */; };
 		5016C3152238FAEC0080BD63 /* SttButtonBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3142238FAEC0080BD63 /* SttButtonBindingContext.swift */; };
-		5016C3172238FB150080BD63 /* SttLabelBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */; };
 		5016C3192238FB5A0080BD63 /* SttBindingsOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C3182238FB5A0080BD63 /* SttBindingsOperator.swift */; };
 		5016C31B2238FB750080BD63 /* SttPrecedenceGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C31A2238FB750080BD63 /* SttPrecedenceGroups.swift */; };
 		5016C31F2238FD380080BD63 /* SttHandlerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C31E2238FD380080BD63 /* SttHandlerTextField.swift */; };
@@ -111,6 +110,7 @@
 		504602B422A68C5400D1AB2D /* SttSwitcherBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */; };
 		504602B822A7CC6E00D1AB2D /* SttBaseTableViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */; };
 		506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506804D9224233740057A78A /* SttTextViewBindingContext.swift */; };
+		506C3F4B22CF64080022D218 /* DoubleGenericBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */; };
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
 		508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */; };
@@ -122,6 +122,8 @@
 		50F0CAB822394AA90034E1AA /* SttValidatorBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0CAB422394AA90034E1AA /* SttValidatorBuilder.swift */; };
 		558D7D0022425F6E00560410 /* SttTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D7CFF22425F6E00560410 /* SttTextView.swift */; };
 		558D7D0222427AAA00560410 /* SttUITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558D7D0122427AAA00560410 /* SttUITableViewExtensions.swift */; };
+		E091BD464B3C8A8E268C2615 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F07C78CD80E06DA402D8120 /* Pods_STT.framework */; };
+		FEA627B2DAC18A2A07DDCD1D /* Pods_STT_STTTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,7 +137,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		41A5FF3BB66C8A69EA76FB3F /* Pods-STT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.release.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.release.xcconfig"; sourceTree = "<group>"; };
+		4CB31041FCD1F0EA231A42E4 /* Pods-STT-STTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT-STTTests.release.xcconfig"; path = "Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests.release.xcconfig"; sourceTree = "<group>"; };
+		4F07C78CD80E06DA402D8120 /* Pods_STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5001E26022CF520500644E06 /* LabelBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelBindingTests.swift; sourceTree = "<group>"; };
 		50106A1D2237E49E002C634A /* STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50106A212237E49E002C634A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50106A262237E49E002C634A /* STTTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = STTTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,7 +152,6 @@
 		5016C30F2238F0B30080BD63 /* SttGenericBindingContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttGenericBindingContext.swift; sourceTree = "<group>"; };
 		5016C3122238F8910080BD63 /* SttTextFieldBindingsContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttTextFieldBindingsContext.swift; sourceTree = "<group>"; };
 		5016C3142238FAEC0080BD63 /* SttButtonBindingContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttButtonBindingContext.swift; sourceTree = "<group>"; };
-		5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttLabelBindingContext.swift; sourceTree = "<group>"; };
 		5016C3182238FB5A0080BD63 /* SttBindingsOperator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttBindingsOperator.swift; sourceTree = "<group>"; };
 		5016C31A2238FB750080BD63 /* SttPrecedenceGroups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttPrecedenceGroups.swift; sourceTree = "<group>"; };
 		5016C31E2238FD380080BD63 /* SttHandlerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttHandlerTextField.swift; sourceTree = "<group>"; };
@@ -242,6 +245,7 @@
 		504602B322A68C5400D1AB2D /* SttSwitcherBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttSwitcherBindingContext.swift; sourceTree = "<group>"; };
 		504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttBaseTableViewSource.swift; sourceTree = "<group>"; };
 		506804D9224233740057A78A /* SttTextViewBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextViewBindingContext.swift; sourceTree = "<group>"; };
+		506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleGenericBindingTests.swift; sourceTree = "<group>"; };
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttGenericTwoWayBindingContext.swift; sourceTree = "<group>"; };
@@ -251,10 +255,12 @@
 		50F0CAB222394AA90034E1AA /* SttValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidator.swift; sourceTree = "<group>"; };
 		50F0CAB322394AA90034E1AA /* SttValidatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorType.swift; sourceTree = "<group>"; };
 		50F0CAB422394AA90034E1AA /* SttValidatorBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttValidatorBuilder.swift; sourceTree = "<group>"; };
-		53801BF65A0E8EEED19DD2AE /* Pods_STT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		558D7CFF22425F6E00560410 /* SttTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextView.swift; sourceTree = "<group>"; };
 		558D7D0122427AAA00560410 /* SttUITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttUITableViewExtensions.swift; sourceTree = "<group>"; };
-		E5EB958E65BE5629FB50572C /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
+		7BE2066B701C5513D731D7AA /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
+		B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT_STTTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A23C0E38B1F75627C89381 /* Pods-STT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.release.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.release.xcconfig"; sourceTree = "<group>"; };
+		F2E47C50D2A21A4A8A712D2F /* Pods-STT-STTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT-STTTests.debug.xcconfig"; path = "Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +268,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D3C25E9A0467228D9D301C3 /* Pods_STT.framework in Frameworks */,
+				E091BD464B3C8A8E268C2615 /* Pods_STT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50106A272237E49E002C634A /* STT.framework in Frameworks */,
+				FEA627B2DAC18A2A07DDCD1D /* Pods_STT_STTTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +291,7 @@
 				50106A2A2237E49E002C634A /* STTTests */,
 				50106A1E2237E49E002C634A /* Products */,
 				721F5AC8829FCE63EF2F04EC /* Pods */,
-				646EE9793A5DCC45530AD910 /* Frameworks */,
+				602D2EA27709944DCC90CDE8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -313,6 +320,8 @@
 			children = (
 				50106A2B2237E49E002C634A /* STTTests.swift */,
 				50106A2D2237E49E002C634A /* Info.plist */,
+				5001E26022CF520500644E06 /* LabelBindingTests.swift */,
+				506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */,
 			);
 			path = STTTests;
 			sourceTree = "<group>";
@@ -394,7 +403,6 @@
 			children = (
 				5016C3122238F8910080BD63 /* SttTextFieldBindingsContext.swift */,
 				5016C3142238FAEC0080BD63 /* SttButtonBindingContext.swift */,
-				5016C3162238FB150080BD63 /* SttLabelBindingContext.swift */,
 				508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */,
 				508D5FB72240E57D00F541B3 /* SttInteractionBindingContext.swift */,
 				506804D9224233740057A78A /* SttTextViewBindingContext.swift */,
@@ -594,10 +602,11 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		646EE9793A5DCC45530AD910 /* Frameworks */ = {
+		602D2EA27709944DCC90CDE8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				53801BF65A0E8EEED19DD2AE /* Pods_STT.framework */,
+				4F07C78CD80E06DA402D8120 /* Pods_STT.framework */,
+				B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -605,8 +614,10 @@
 		721F5AC8829FCE63EF2F04EC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E5EB958E65BE5629FB50572C /* Pods-STT.debug.xcconfig */,
-				41A5FF3BB66C8A69EA76FB3F /* Pods-STT.release.xcconfig */,
+				7BE2066B701C5513D731D7AA /* Pods-STT.debug.xcconfig */,
+				F2A23C0E38B1F75627C89381 /* Pods-STT.release.xcconfig */,
+				F2E47C50D2A21A4A8A712D2F /* Pods-STT-STTTests.debug.xcconfig */,
+				4CB31041FCD1F0EA231A42E4 /* Pods-STT-STTTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -628,7 +639,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50106A312237E49E002C634A /* Build configuration list for PBXNativeTarget "STT" */;
 			buildPhases = (
-				F868EAD5ADF3EBCF17767FFC /* [CP] Check Pods Manifest.lock */,
+				FDAF9BF7CE6649366CB9E4D4 /* [CP] Check Pods Manifest.lock */,
 				50106A182237E49E002C634A /* Headers */,
 				50106A192237E49E002C634A /* Sources */,
 				50106A1A2237E49E002C634A /* Frameworks */,
@@ -647,9 +658,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50106A342237E49E002C634A /* Build configuration list for PBXNativeTarget "STTTests" */;
 			buildPhases = (
+				B6F9796FA98B724279E9EB94 /* [CP] Check Pods Manifest.lock */,
 				50106A222237E49E002C634A /* Sources */,
 				50106A232237E49E002C634A /* Frameworks */,
 				50106A242237E49E002C634A /* Resources */,
+				5FCC41D225C3B358EDA2853C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -718,7 +731,46 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F868EAD5ADF3EBCF17767FFC /* [CP] Check Pods Manifest.lock */ = {
+		5FCC41D225C3B358EDA2853C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B6F9796FA98B724279E9EB94 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-STT-STTTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDAF9BF7CE6649366CB9E4D4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -774,7 +826,6 @@
 				5016C352223902660080BD63 /* ServerError.swift in Sources */,
 				5016C38D22391A8A0080BD63 /* SttTableViewSourceWithSection.swift in Sources */,
 				5016C31F2238FD380080BD63 /* SttHandlerTextField.swift in Sources */,
-				5016C3172238FB150080BD63 /* SttLabelBindingContext.swift in Sources */,
 				5016C3A2223926B40080BD63 /* SttTableViewCell.swift in Sources */,
 				5016C37C22390B740080BD63 /* SttSlider.swift in Sources */,
 				5016C33E223900E70080BD63 /* SttPresenterType.swift in Sources */,
@@ -866,6 +917,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506C3F4B22CF64080022D218 /* DoubleGenericBindingTests.swift in Sources */,
+				5001E26122CF520500644E06 /* LabelBindingTests.swift in Sources */,
 				50106A2C2237E49E002C634A /* STTTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1007,7 +1060,7 @@
 		};
 		50106A322237E49E002C634A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5EB958E65BE5629FB50572C /* Pods-STT.debug.xcconfig */;
+			baseConfigurationReference = 7BE2066B701C5513D731D7AA /* Pods-STT.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1034,7 +1087,7 @@
 		};
 		50106A332237E49E002C634A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41A5FF3BB66C8A69EA76FB3F /* Pods-STT.release.xcconfig */;
+			baseConfigurationReference = F2A23C0E38B1F75627C89381 /* Pods-STT.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1060,6 +1113,7 @@
 		};
 		50106A352237E49E002C634A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2E47C50D2A21A4A8A712D2F /* Pods-STT-STTTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1078,6 +1132,7 @@
 		};
 		50106A362237E49E002C634A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CB31041FCD1F0EA231A42E4 /* Pods-STT-STTTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

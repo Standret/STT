@@ -59,16 +59,6 @@ public class SttBindingSet<TViewController: AnyObject> {
         return set
     }
     
-    public func bind(_ label: UILabel) -> SttGenericBindingContext<TViewController, String?> {
-        
-        let set = SttGenericBindingContext<TViewController, String?>(vc: parent)
-        
-        set.forProperty { (_,value) in label.text = value }
-        sets.append(set)
-        
-        return set
-    }
-    
     /**
      Use for text field (one way and two way bindings)
      
@@ -204,8 +194,52 @@ public class SttBindingSet<TViewController: AnyObject> {
         return set
     }
     
+    /**
+     Use for abstract double binding.
+     
+     - REMARK:
+     It is reccomend to use only if there are not any **specific** bindings.
+     
+     - PARAMETER context: Target type which you expect to assign in binding cloisure
+     
+     ### Usage Example: ###
+     ````
+     set.bind(TargetType.self)
+     
+     ````
+     */
+    public func bind<T1, T2>(_ context1: T1.Type, _ context2: T2.Type) -> SttDoubleGenericBindingContext<TViewController, T1, T2> {
+        
+        let set = SttDoubleGenericBindingContext<TViewController, T1, T2>(vc: parent)
+        sets.append(set)
+        return set
+    }
+    
     /// apply all bindings setted in set
     public func apply() {
         sets.forEach({ $0.apply() })
+    }
+}
+
+public extension SttBindingSet {
+    
+    func bind(_ label: UILabel) -> SttGenericBindingContext<TViewController, String?> {
+        
+        let set = SttGenericBindingContext<TViewController, String?>(vc: parent)
+        
+        set.forProperty { (_,value) in label.text = value ?? ""}
+        sets.append(set)
+        
+        return set
+    }
+    
+    func bindInt(_ label: UILabel) -> SttGenericBindingContext<TViewController, Int?> {
+        
+        let set = SttGenericBindingContext<TViewController, Int?>(vc: parent)
+        
+        set.forProperty { (_,value) in label.text = value != nil ? String(value!) : "" }
+        sets.append(set)
+        
+        return set
     }
 }

@@ -45,8 +45,8 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
     
     private(set) var setter: PropertySetter!
     private(set) var parametr: Any?
+    private(set) var fallBackValue: Any?
     private(set) var command: SttCommandType!
-
     
     private(set) var converter: SttConverterType?
     
@@ -97,6 +97,43 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
             case .readListener, .twoWayListener:
                 value.addListener { [unowned self] in
                     let value = self.converter != nil ? self.converter?.convert(value: $0, parametr: self.parametr) : $0
+                    self.setter(self.vc, value as! TProperty)
+                }
+            default:
+                fatalError("incorrect type")
+            }
+        }
+        
+        lazyDispose = { value.dispose() }
+        
+        return self
+    }
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    open func to<TValue>(_ value: Dynamic<TValue?>) -> SttGenericBindingContext<TViewController, TProperty> {
+        
+        lazyApply = { [unowned self] in
+            switch self.bindMode {
+            case .readBind, .twoWayBind:
+                value.bind { [unowned self] in
+                    let targetValue = $0 ?? self.fallBackValue
+                    let value = self.converter != nil ? self.converter?.convert(value: targetValue, parametr: self.parametr) : targetValue
+                    self.setter(self.vc, value as! TProperty)
+                }
+            case .readListener, .twoWayListener:
+                value.addListener { [unowned self] in
+                    let targetValue = $0 ?? self.fallBackValue
+                    let value = self.converter != nil ? self.converter?.convert(value: targetValue, parametr: self.parametr) : targetValue
                     self.setter(self.vc, value as! TProperty)
                 }
             default:
@@ -185,6 +222,26 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
     }
     
     /**
+     Add default value to sequence. Sometime dynamic might be a nil, so in these case bidnign context will set defaul value
+     
+     - This parametr pass as
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     .fallBack(value: someValue)
+     
+     ````
+     */
+    @discardableResult
+    open func fallBack(value: Any) -> SttGenericBindingContext<TViewController, TProperty> {
+        self.fallBackValue = value
+        
+        return self
+    }
+    
+    /**
      apply binding context
      
      ## IMPORTANT ##
@@ -202,6 +259,203 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
         lazyDispose?()
     }
 }
+
+open class SttDoubleGenericBindingContext<TViewController: AnyObject, TProperty1, TProperty2>: SttBindingContextType {
+    
+    public typealias PropertySetter = (_ vc: TViewController, _ property1: TProperty1, _ property2: TProperty2) -> Void
+    
+    internal var bindMode = SttBindingMode.readBind
+    
+    private var lazyApply: (() -> Void)!
+    private var lazyDispose: (() -> Void)!
+    
+    private(set) var command: SttCommandType!
+    private(set) var setter: PropertySetter!
+    private(set) var parametr: Any?
+    
+    private(set) var fallBackValue1: Any?
+    private(set) var fallBackValue2: Any?
+    
+    
+    unowned let vc: TViewController
+    
+    internal init (vc: TViewController) {
+        self.vc = vc
+    }
+    
+    /**
+     Add to context handler which call when dynamic property change
+     
+     - Parameter setter: Closure with 2 parameters property with safe point on view and new parametr
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     
+     ````
+     */
+    @discardableResult
+    open func forProperty(_ setter: @escaping PropertySetter) -> SttDoubleGenericBindingContext<TViewController, TProperty1, TProperty2> {
+        self.setter = setter
+        
+        return self
+    }
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    open func to<TValue1, TValue2>(_ value1: Dynamic<TValue1>,
+                                   _ value2: Dynamic<TValue2>) -> SttDoubleGenericBindingContext<TViewController, TProperty1, TProperty2> {
+        
+        lazyApply = { [unowned self] in
+            switch self.bindMode {
+            case .readBind, .twoWayBind:
+                value1.bind { [unowned self] in
+                    self.setter(self.vc, $0 as! TProperty1, value2.value as! TProperty2)
+                }
+                value2.bind({ [unowned self] in
+                    self.setter(self.vc, value1.value as! TProperty1, $0 as! TProperty2)
+                })
+            case .readListener, .twoWayListener:
+                value1.addListener { [unowned self] in
+                    self.setter(self.vc, $0 as! TProperty1, value2.value as! TProperty2)
+                }
+                value2.addListener({ [unowned self] in
+                    self.setter(self.vc, value1.value as! TProperty1, $0 as! TProperty2)
+                })
+            default:
+                fatalError("incorrect type")
+            }
+        }
+        
+        lazyDispose = {
+            value1.dispose()
+            value2.dispose()
+        }
+        
+        return self
+    }
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    open func to<TValue1, TValue2>(_ value1: Dynamic<TValue1?>,
+                                   _ value2: Dynamic<TValue2?>) -> SttDoubleGenericBindingContext<TViewController, TProperty1, TProperty2> {
+        
+        lazyApply = { [unowned self] in
+            switch self.bindMode {
+            case .readBind, .twoWayBind:
+                value1.bind { [unowned self] in
+                    let targetValue1 = $0 ?? self.fallBackValue1
+                    let targetValue2 = value2.value ?? self.fallBackValue2
+                    self.setter(self.vc, targetValue1 as! TProperty1, targetValue2 as! TProperty2)
+                }
+                value2.bind { [unowned self] in
+                    let targetValue1 = value1.value ?? self.fallBackValue1
+                    let targetValue2 = $0 ?? self.fallBackValue2
+                    self.setter(self.vc, targetValue1 as! TProperty1, targetValue2 as! TProperty2)
+                }
+            case .readListener, .twoWayListener:
+                value1.addListener { [unowned self] in
+                    let targetValue1 = $0 ?? self.fallBackValue1
+                    let targetValue2 = value2.value ?? self.fallBackValue2
+                    self.setter(self.vc, targetValue1 as! TProperty1, targetValue2 as! TProperty2)
+                }
+                value2.addListener { [unowned self] in
+                    let targetValue1 = value1.value ?? self.fallBackValue1
+                    let targetValue2 = $0 ?? self.fallBackValue2
+                    self.setter(self.vc, targetValue1 as! TProperty1, targetValue2 as! TProperty2)
+                }
+            default:
+                fatalError("incorrect type")
+            }
+        }
+        
+        lazyDispose = {
+            value1.dispose()
+            value2.dispose()
+        }
+        
+        return self
+    }
+
+    /**
+     Add to context binding mode
+     
+     - Important:
+     By default use bind mode so you should not call this method in most of cases
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     .withMode(.listener)
+     
+     ````
+     */
+    @discardableResult
+    public func withMode(_ mode: SttBindingMode) -> SttDoubleGenericBindingContext<TViewController, TProperty1, TProperty2> {
+        self.bindMode = mode
+        
+        return self
+    }
+    
+    /**
+     Add default value to sequence. Sometime dynamic might be a nil, so in these case bidnign context will set defaul value
+     
+     - This parametr pass as
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     .fallBack(value: someValue)
+     
+     ````
+     */
+    @discardableResult
+    open func fallBack(_ value1: Any, _ value2: Any) -> SttDoubleGenericBindingContext<TViewController, TProperty1, TProperty2> {
+        self.fallBackValue1 = value1
+        self.fallBackValue2 = value2
+        
+        return self
+    }
+    
+    /**
+     apply binding context
+     
+     ## IMPORTANT ##
+     
+     Do not call this method directly!
+     Binding set call this method for you
+     
+     */
+    public func apply() {
+        
+        lazyApply?()
+    }
+    
+    deinit {
+        lazyDispose?()
+    }
+}
+
 
 // MARK: - custom operator
 
