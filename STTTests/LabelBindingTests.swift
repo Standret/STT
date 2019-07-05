@@ -44,7 +44,7 @@ class LabelBindingTests: XCTestCase {
         
         XCTAssertEqual(value.text, stringDynamic.value)
         XCTAssertEqual(valueOptional.text, optSringDynamic.value)
-        XCTAssertEqual(valueOptionalNil.text, optSringDynamicNil.value)
+        XCTAssertEqual(valueOptionalNil.text, "")
         XCTAssertEqual(valueOptionalWithFallback.text, "some value")
     }
     
@@ -63,7 +63,24 @@ class LabelBindingTests: XCTestCase {
         
         XCTAssertEqual(value.text, String(intDynamic.value))
         XCTAssertEqual(valueOptional.text, String(optIntDynamic.value!))
-        XCTAssertEqual(valueOptionalNil.text, "nil")
+        XCTAssertEqual(valueOptionalNil.text, "")
         XCTAssertEqual(valueOptionalWithFallback.text, "2319")
+    }
+    
+    func testFallbackInt() {
+        
+        let dynamic = Dynamic<Int?>(1)
+        
+        set.bind(Int.self).forProperty({ $0.value.text = "\($1)" })
+            .to(dynamic)
+            .fallBack(value: 2319)
+        
+        set.apply()
+        
+        XCTAssertEqual(value.text, "1")
+        
+        dynamic.value = nil
+        
+        XCTAssertEqual(value.text, "2319")
     }
 }
