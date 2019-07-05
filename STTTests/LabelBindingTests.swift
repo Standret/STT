@@ -16,6 +16,8 @@ class LabelBindingTests: XCTestCase {
     var valueOptionalNil: UILabel!
     var valueOptionalWithFallback: UILabel!
     
+    var tf = UITextField()
+    
     var set: SttBindingSet<LabelBindingTests>!
     
     override func setUp() {
@@ -39,7 +41,8 @@ class LabelBindingTests: XCTestCase {
         set.bind(valueOptional).to(optSringDynamic)
         set.bind(valueOptionalNil).to(optSringDynamicNil)
         set.bind(valueOptionalWithFallback).to(optSringDynamicNil).fallBack(value: "some value")
-
+        set.bind(tf).to(stringDynamic)
+        
         set.apply()
         
         XCTAssertEqual(value.text, stringDynamic.value)

@@ -35,6 +35,12 @@ public class SttSearchBarBindingContext<TViewController: AnyObject>: SttGenericT
     }
     
     @discardableResult
+    override public func to<TValue>(_ value: Dynamic<TValue?>) -> SttGenericBindingContext<TViewController, String?> {
+        lazyWriterApply = { value.value = $0 as? TValue }
+        return super.to(value)
+    }
+    
+    @discardableResult
     override public func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, String?> {
         lazyWriterApply = { command.execute(parametr: $0) }
         return super.to(command)

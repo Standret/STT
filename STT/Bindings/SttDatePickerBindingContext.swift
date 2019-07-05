@@ -51,6 +51,12 @@ public class SttDatePickerBindingContext<TViewController: AnyObject>: SttGeneric
         return super.to(value)
     }
     
+    @discardableResult
+    override public func to<TValue>(_ value: Dynamic<TValue?>) -> SttGenericBindingContext<TViewController, Date> {
+        lazyWriterApply = { value.value = $0 as? TValue }
+        return super.to(value)
+    }
+    
     override public func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, Date> {
         lazyWriterApply = { command.execute(parametr: $0) }
         return super.to(command)

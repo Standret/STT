@@ -47,6 +47,13 @@ open class SttGenericTwoWayBindingContext<TViewController: AnyObject, TProperty>
     }
     
     @discardableResult
+    override open func to<TValue>(_ value: Dynamic<TValue?>) -> SttGenericBindingContext<TViewController, TProperty> {
+        lazyWriterApply = { value.value = $0 as? TValue }
+        return super.to(value)
+    }
+    
+    
+    @discardableResult
     override open func to(_ command: SttCommandType) -> SttGenericBindingContext<TViewController, TProperty> {
         lazyWriterApply = { command.execute(parametr: $0) }
         
