@@ -45,8 +45,8 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
     
     private(set) var setter: PropertySetter!
     private(set) var parametr: Any?
+    private(set) var fallBackValue: Any?
     private(set) var command: SttCommandType!
-
     
     private(set) var converter: SttConverterType?
     
@@ -97,6 +97,43 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
             case .readListener, .twoWayListener:
                 value.addListener { [unowned self] in
                     let value = self.converter != nil ? self.converter?.convert(value: $0, parametr: self.parametr) : $0
+                    self.setter(self.vc, value as! TProperty)
+                }
+            default:
+                fatalError("incorrect type")
+            }
+        }
+        
+        lazyDispose = { value.dispose() }
+        
+        return self
+    }
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    open func to<TValue>(_ value: Dynamic<TValue?>) -> SttGenericBindingContext<TViewController, TProperty> {
+        
+        lazyApply = { [unowned self] in
+            switch self.bindMode {
+            case .readBind, .twoWayBind:
+                value.bind { [unowned self] in
+                    let targetValue = $0 ?? self.fallBackValue
+                    let value = self.converter != nil ? self.converter?.convert(value: targetValue, parametr: self.parametr) : targetValue
+                    self.setter(self.vc, value as! TProperty)
+                }
+            case .readListener, .twoWayListener:
+                value.addListener { [unowned self] in
+                    let targetValue = $0 ?? self.fallBackValue
+                    let value = self.converter != nil ? self.converter?.convert(value: targetValue, parametr: self.parametr) : targetValue
                     self.setter(self.vc, value as! TProperty)
                 }
             default:
@@ -180,6 +217,26 @@ open class SttGenericBindingContext<TViewController: AnyObject, TProperty>: SttB
     @discardableResult
     open func withCommandParametr(_ parametr: Any) -> SttGenericBindingContext<TViewController, TProperty> {
         self.parametr = parametr
+        
+        return self
+    }
+    
+    /**
+     Add default value to sequence. Sometime dynamic might be a nil, so in these case bidnign context will set defaul value
+     
+     - This parametr pass as
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     .fallBack(value: someValue)
+     
+     ````
+     */
+    @discardableResult
+    open func fallBack(value: Any) -> SttGenericBindingContext<TViewController, TProperty> {
+        self.fallBackValue = value
         
         return self
     }

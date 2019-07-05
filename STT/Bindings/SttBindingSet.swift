@@ -69,6 +69,16 @@ public class SttBindingSet<TViewController: AnyObject> {
         return set
     }
     
+    public func bindInt(_ label: UILabel) -> SttGenericBindingContext<TViewController, Int?> {
+        
+        let set = SttGenericBindingContext<TViewController, Int?>(vc: parent)
+        
+        set.forProperty { (_,value) in label.text = value != nil ? String(value!) : "nil" }
+        sets.append(set)
+        
+        return set
+    }
+    
     /**
      Use for text field (one way and two way bindings)
      
