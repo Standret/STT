@@ -30,6 +30,10 @@ import UIKit
 public enum SttActionButton {
     case touchUpInside
     case touchUpOutside
+    case touchDown
+    case touchDragEnter
+    case touchDragExit
+    case touchCancel
 }
 
 public final class SttHandlerButton {
@@ -39,12 +43,23 @@ public final class SttHandlerButton {
     public init(_ button: UIButton) {
         button.addTarget(self, action: #selector(onTouchUpInside(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(onTouchUpOutside(_:)), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(onTouchDown(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(onTouchDragEnter(_:)), for: .touchDragEnter)
+        button.addTarget(self, action: #selector(onTouchDragExit(_:)), for: .touchDragExit)
+        button.addTarget(self, action: #selector(onTouchCancel(_:)), for: .touchCancel)
     }
     
     public func addTarget<T: AnyObject>(type: SttActionButton, delegate: T, handler: @escaping (T, UIButton) -> Void) {
         
         handlers[type] = handlers[type] ?? [SttDelegatedCall<UIButton>]()
         handlers[type]?.append(SttDelegatedCall<UIButton>(to: delegate, with: handler))
+    }
+    
+    public func addMultipleTargets<T: AnyObject>(type: [SttActionButton], delegate: T, handler: @escaping (T, UIButton) -> Void) {
+        type.forEach({
+            handlers[$0] = handlers[$0] ?? [SttDelegatedCall<UIButton>]()
+            handlers[$0]?.append(SttDelegatedCall<UIButton>(to: delegate, with: handler))
+        })
     }
     
     @objc
@@ -55,5 +70,21 @@ public final class SttHandlerButton {
     @objc
     private func onTouchUpOutside(_ sender: UIButton) {
         handlers[.touchUpOutside]?.forEach({ $0.callback(sender) })
+    }
+    
+    @objc private func onTouchDown(_ sender: UIButton) {
+        handlers[.touchDown]?.forEach({ $0.callback(sender) })
+    }
+    
+    @objc private func onTouchDragEnter(_ sender: UIButton) {
+        handlers[.touchDragEnter]?.forEach({ $0.callback(sender) })
+    }
+    
+    @objc private func onTouchDragExit(_ sender: UIButton) {
+        handlers[.touchDragExit]?.forEach({ $0.callback(sender) })
+    }
+    
+    @objc private func onTouchCancel(_ sender: UIButton) {
+        handlers[.touchCancel]?.forEach({ $0.callback(sender) })
     }
 }
