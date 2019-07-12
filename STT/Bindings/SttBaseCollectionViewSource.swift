@@ -220,6 +220,12 @@ open class SttBaseCollectionViewSource<TPresenter: SttViewInjector>: NSObject, U
     }
     
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { }
+    
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) { }
+    
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) { }
+    
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) { }
 }
 
 extension SttBaseCollectionViewSource {
