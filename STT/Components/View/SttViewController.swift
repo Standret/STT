@@ -101,7 +101,6 @@ open class SttViewController<T: SttViewControllerInjector>: UIViewController {
         }
         
         if let currentTransitionCoordinator = currentTransitionCoordinator {
-            print(currentTransitionCoordinator.percentComplete)
             if isAppeared {
                 backgroundLayer.alpha = 0.75 - currentTransitionCoordinator.percentComplete / 2
             }
