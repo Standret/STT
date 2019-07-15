@@ -27,7 +27,7 @@
 import Foundation
 import UIKit
 
-open class SttBaseTableViewSource<TPresenter: SttViewInjector>: NSObject, UITableViewDataSource, UITableViewDelegate {
+open class SttBaseTableViewSource<TPresenter: SttViewInjector>: SttBaseScrollSource, UITableViewDataSource, UITableViewDelegate {
     
     private(set) public var tableView: UITableView
 
@@ -36,8 +36,6 @@ open class SttBaseTableViewSource<TPresenter: SttViewInjector>: NSObject, UITabl
     public var useAnimation: Bool = false
     public var maxAnimationCount = 1
     
-    public var container = [SttTypeActionScrollView: [SttScrollViewHandlerType]]()
-        
     public init(tableView: UITableView, cellIdentifiers: [SttIdentifiers]) {
         
         self.tableView = tableView
@@ -216,28 +214,5 @@ open class SttBaseTableViewSource<TPresenter: SttViewInjector>: NSObject, UITabl
         return nil
     }
     
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.container[.scrollViewDidScroll]?.forEach({ $0.handle(scrollView) })
-    }
-    
-    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { }
 }
 
-extension SttBaseTableViewSource {
-    
-    /// Add end scrolled handler
-    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
-        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(
-            SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel:  callBackEndPixel)
-        )
-    }
-    
-    /// Add top scrolled handler
-    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
-        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(
-            SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel: callBackEndPixel)
-        )
-    }
-}
