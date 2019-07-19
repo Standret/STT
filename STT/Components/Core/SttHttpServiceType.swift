@@ -61,5 +61,6 @@ public protocol SttHttpServiceType {
                 parameters: [String: String],
                 headers: [String: String],
                 insertToken: Bool,
+                method: HTTPMethod,
                 progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)>
 }
