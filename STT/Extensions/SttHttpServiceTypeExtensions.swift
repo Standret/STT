@@ -135,6 +135,7 @@ public extension SttHttpServiceType {
                        parameters: [String: String] = [:],
                        headers: [String: String] = [:],
                        insertToken: Bool = false,
+                       method: HTTPMethod = .post, 
                        progresHandler: ((Float) -> Void)? = nil) -> Observable<(HTTPURLResponse, Data)> {
         
         return self.upload(controller: controller,
@@ -142,6 +143,7 @@ public extension SttHttpServiceType {
                            parameters: parameters,
                            headers: headers,
                            insertToken: insertToken,
+                           method: method,
                            progresHandler: progresHandler)
     }
 }

@@ -121,6 +121,7 @@ public class SttHttpService: SttHttpServiceType {
                        parameters: [String: String],
                        headers: [String: String],
                        insertToken: Bool,
+                       method: HTTPMethod,
                        progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)> {
         
         let url = "\(self.url!)\(controller.route)"
@@ -136,7 +137,7 @@ public class SttHttpService: SttHttpServiceType {
                                 if let object = object {
                                     multipart .append(object.data, withName: object.name, fileName: object.fileName, mimeType: object.mimeType)
                                 }
-                        }, to: url, headers: headers) { (encodingResult) in
+                        }, to: url, method: method, headers: headers) { (encodingResult) in
                             
                             switch encodingResult {
                             case .success(let upload, _, _):
