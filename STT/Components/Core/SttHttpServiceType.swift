@@ -62,5 +62,6 @@ public protocol SttHttpServiceType {
                 headers: [String: String],
                 insertToken: Bool,
                 method: HTTPMethod,
-                progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)>
+                progresHandler: ((Float) -> Void)?,
+                sessionManager: SessionManager?) -> Observable<(HTTPURLResponse, Data)>
 }

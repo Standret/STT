@@ -111,6 +111,7 @@
 		504602B822A7CC6E00D1AB2D /* SttBaseTableViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */; };
 		506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506804D9224233740057A78A /* SttTextViewBindingContext.swift */; };
 		506C3F4B22CF64080022D218 /* DoubleGenericBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */; };
+		5075D92822E9D924007255E3 /* SttBaseScrollSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075D92722E9D924007255E3 /* SttBaseScrollSource.swift */; };
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
 		508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */; };
@@ -246,6 +247,7 @@
 		504602B722A7CC6E00D1AB2D /* SttBaseTableViewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttBaseTableViewSource.swift; sourceTree = "<group>"; };
 		506804D9224233740057A78A /* SttTextViewBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextViewBindingContext.swift; sourceTree = "<group>"; };
 		506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleGenericBindingTests.swift; sourceTree = "<group>"; };
+		5075D92722E9D924007255E3 /* SttBaseScrollSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttBaseScrollSource.swift; sourceTree = "<group>"; };
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttGenericTwoWayBindingContext.swift; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 		50F0CAED223951080034E1AA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5075D92722E9D924007255E3 /* SttBaseScrollSource.swift */,
 				5016C38A22391A8A0080BD63 /* SttCollectionViewSource.swift */,
 				5016C38B22391A8A0080BD63 /* SttCollectionViewWithSectionSource.swift */,
 				5016C38C22391A8A0080BD63 /* SttTableViewSource.swift */,
@@ -857,6 +860,7 @@
 				5016C3212238FD680080BD63 /* SttHandlerTextView.swift in Sources */,
 				5016C3CE223927F40080BD63 /* SttUIViewExtensions.swift in Sources */,
 				5016C3D6223927F40080BD63 /* SttUIImageExtensions.swift in Sources */,
+				5075D92822E9D924007255E3 /* SttBaseScrollSource.swift in Sources */,
 				5016C3A6223927960080BD63 /* SttGlobalObserver.swift in Sources */,
 				5016C3E322392AE80080BD63 /* SttHttpService.swift in Sources */,
 				508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */,

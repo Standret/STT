@@ -122,7 +122,8 @@ public class SttHttpService: SttHttpServiceType {
                        headers: [String: String],
                        insertToken: Bool,
                        method: HTTPMethod,
-                       progresHandler: ((Float) -> Void)?) -> Observable<(HTTPURLResponse, Data)> {
+                       progresHandler: ((Float) -> Void)?,
+                       sessionManager: SessionManager?) -> Observable<(HTTPURLResponse, Data)> {
         
         let url = "\(self.url!)\(controller.route)"
         
@@ -130,8 +131,8 @@ public class SttHttpService: SttHttpServiceType {
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
                 return Observable<(HTTPURLResponse, Data)>.create { (observer) -> Disposable in
                     
-                    SttNetworking.sharedInstance.backgroundSessionManager
-                        .upload(
+                    
+                    (sessionManager ?? SttNetworking.sharedInstance.sessionManager).upload(
                             multipartFormData: { (multipart) in
                                 parameters.forEach({ multipart.append($0.value.data(using: .utf8)!, withName: $0.key) })
                                 if let object = object {

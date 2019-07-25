@@ -92,10 +92,10 @@ public extension SttHttpServiceType {
     }
     
     func delete(controller: ApiControllerType,
-              object: Encodable?,
-              headers: [String:String] = [:],
-              insertToken: Bool = false,
-              isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+                object: Encodable?,
+                headers: [String:String] = [:],
+                insertToken: Bool = false,
+                isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
         
         return self.delete(controller: controller,
                            data: object?.getDictionary() ?? [:],
@@ -105,45 +105,49 @@ public extension SttHttpServiceType {
     }
     
     func put(controller: ApiControllerType,
-                data: [String: Any] = [:],
-                headers: [String:String] = [:],
-                insertToken: Bool = false,
-                isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+             data: [String: Any] = [:],
+             headers: [String:String] = [:],
+             insertToken: Bool = false,
+             isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
         
         return self.put(controller: controller,
-                           data: data,
-                           headers: headers,
-                           insertToken: insertToken,
-                           isFormUrlEncoding: isFormUrlEncoding)
+                        data: data,
+                        headers: headers,
+                        insertToken: insertToken,
+                        isFormUrlEncoding: isFormUrlEncoding)
     }
     
     func put(controller: ApiControllerType,
-                object: Encodable?,
-                headers: [String:String] = [:],
-                insertToken: Bool = false,
-                isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+             object: Encodable?,
+             headers: [String:String] = [:],
+             insertToken: Bool = false,
+             isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
         
         return self.put(controller: controller,
-                           data: object?.getDictionary() ?? [:],
-                           headers: headers,
-                           insertToken: insertToken,
-                           isFormUrlEncoding: isFormUrlEncoding)
+                        data: object?.getDictionary() ?? [:],
+                        headers: headers,
+                        insertToken: insertToken,
+                        isFormUrlEncoding: isFormUrlEncoding)
     }
     
     func upload(controller: ApiControllerType,
-                       object: UploadedObject? = nil,
-                       parameters: [String: String] = [:],
-                       headers: [String: String] = [:],
-                       insertToken: Bool = false,
-                       method: HTTPMethod = .post, 
-                       progresHandler: ((Float) -> Void)? = nil) -> Observable<(HTTPURLResponse, Data)> {
+                object: UploadedObject? = nil,
+                parameters: [String: String] = [:],
+                headers: [String: String] = [:],
+                insertToken: Bool = false,
+                method: HTTPMethod = .post,
+                progresHandler: ((Float) -> Void)? = nil,
+                sessionManagaer: SessionManager? = nil) -> Observable<(HTTPURLResponse, Data)> {
         
-        return self.upload(controller: controller,
-                           object: object,
-                           parameters: parameters,
-                           headers: headers,
-                           insertToken: insertToken,
-                           method: method,
-                           progresHandler: progresHandler)
+        return self.upload(
+            controller: controller,
+            object: object,
+            parameters: parameters,
+            headers: headers,
+            insertToken: insertToken,
+            method: method,
+            progresHandler: progresHandler,
+            sessionManager: sessionManagaer
+        )
     }
 }
