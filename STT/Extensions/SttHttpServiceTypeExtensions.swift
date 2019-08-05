@@ -130,6 +130,32 @@ public extension SttHttpServiceType {
                         isFormUrlEncoding: isFormUrlEncoding)
     }
     
+    func patch(controller: ApiControllerType,
+               data: [String: Any] = [:],
+               headers: [String:String] = [:],
+               insertToken: Bool = false,
+               isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.patch(controller: controller,
+                          data: data,
+                          headers: headers,
+                          insertToken: insertToken,
+                          isFormUrlEncoding: isFormUrlEncoding)
+    }
+    
+    func patch(controller: ApiControllerType,
+               object: Encodable?,
+               headers: [String:String] = [:],
+               insertToken: Bool = false,
+               isFormUrlEncoding: Bool = false) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return self.patch(controller: controller,
+                          data: object?.getDictionary() ?? [:],
+                          headers: headers,
+                          insertToken: insertToken,
+                          isFormUrlEncoding: isFormUrlEncoding)
+    }
+    
     func upload(controller: ApiControllerType,
                 object: UploadedObject? = nil,
                 parameters: [String: String] = [:],
