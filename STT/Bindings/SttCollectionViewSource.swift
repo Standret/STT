@@ -32,6 +32,9 @@ import UIKit
 open class SttCollectionViewSource<T: SttViewInjector>: SttBaseCollectionViewSource<T> {
     
     private var countData = 0
+    public var numberOfItems: Int {
+        get { return countData }
+    }
     
     private var disposeBag = DisposeBag()
     private var endScrollCallBack: (() -> Void)?

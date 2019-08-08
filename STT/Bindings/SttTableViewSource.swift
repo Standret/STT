@@ -35,6 +35,10 @@ open class SttTableViewSource<TPresenter: SttViewInjector>: SttBaseTableViewSour
     public var callBackEndPixel: Int = 150
     
     private var countData = 0
+    public var numberOfItems: Int {
+        get { return countData }
+    }
+    
     private var collection: SttObservableCollection<TPresenter>!
     
     private var disposeBag: DisposeBag!
