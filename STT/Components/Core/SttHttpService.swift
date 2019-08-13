@@ -116,6 +116,24 @@ public class SttHttpService: SttHttpServiceType {
             .timeout(timeout, scheduler: MainScheduler.instance)
     }
     
+    public func patch(controller: ApiControllerType,
+                      data: [String: Any],
+                      headers: [String: String],
+                      insertToken: Bool,
+                      isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
+        
+        return modifyHeaders(insertToken: insertToken, headers: headers)
+            .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
+                return requestData(
+                    .patch,
+                    "\(self.url!)\(controller.route)",
+                    parameters: data,
+                    encoding: isFormUrlEncoding ? URLEncoding.httpBody : JSONEncoding.default,
+                    headers: headers)
+            })
+            .timeout(timeout, scheduler: MainScheduler.instance)
+    }
+    
     public func upload(controller: ApiControllerType,
                        object: UploadedObject?,
                        parameters: [String: String],
@@ -133,33 +151,33 @@ public class SttHttpService: SttHttpServiceType {
                     
                     
                     (sessionManager ?? SttNetworking.sharedInstance.sessionManager).upload(
-                            multipartFormData: { (multipart) in
-                                parameters.forEach({ multipart.append($0.value.data(using: .utf8)!, withName: $0.key) })
-                                if let object = object {
-                                    multipart .append(object.data, withName: object.name, fileName: object.fileName, mimeType: object.mimeType)
-                                }
-                        }, to: url, method: method, headers: headers) { (encodingResult) in
-                            
-                            switch encodingResult {
-                            case .success(let upload, _, _):
-                                upload.uploadProgress(closure: { (progress) in
-                                    if let handler = progresHandler {
-                                        handler(Float(progress.fractionCompleted))
-                                    }
-                                })
-                                
-                                upload.responseData(completionHandler: { (fullData) in
-                                    if upload.response != nil && fullData.data != nil {
-                                        observer.onNext((upload.response!, fullData.data!))
-                                        observer.onCompleted()
-                                    }
-                                    else {
-                                        observer.onError(SttBaseError.connectionError(SttConnectionError.responseIsNil))
-                                    }
-                                })
-                            case .failure(let encodingError):
-                                observer.onError(SttBaseError.unkown("\(encodingError)"))
+                        multipartFormData: { (multipart) in
+                            parameters.forEach({ multipart.append($0.value.data(using: .utf8)!, withName: $0.key) })
+                            if let object = object {
+                                multipart .append(object.data, withName: object.name, fileName: object.fileName, mimeType: object.mimeType)
                             }
+                    }, to: url, method: method, headers: headers) { (encodingResult) in
+                        
+                        switch encodingResult {
+                        case .success(let upload, _, _):
+                            upload.uploadProgress(closure: { (progress) in
+                                if let handler = progresHandler {
+                                    handler(Float(progress.fractionCompleted))
+                                }
+                            })
+                            
+                            upload.responseData(completionHandler: { (fullData) in
+                                if upload.response != nil && fullData.data != nil {
+                                    observer.onNext((upload.response!, fullData.data!))
+                                    observer.onCompleted()
+                                }
+                                else {
+                                    observer.onError(SttBaseError.connectionError(SttConnectionError.responseIsNil))
+                                }
+                            })
+                        case .failure(let encodingError):
+                            observer.onError(SttBaseError.unkown("\(encodingError)"))
+                        }
                     }
                     
                     return Disposables.create()
