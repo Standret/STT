@@ -52,7 +52,7 @@ public protocol SttHttpServiceType {
     
     func post(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool, encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)>
     
-    func delete(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)>
+    func delete(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)>
     
     func put(controller: ApiControllerType, data: [String: Any], headers: [String: String], insertToken: Bool, isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)>
     

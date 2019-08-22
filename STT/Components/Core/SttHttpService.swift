@@ -84,7 +84,7 @@ public class SttHttpService: SttHttpServiceType {
                        data: [String: Any],
                        headers: [String: String],
                        insertToken: Bool,
-                       isFormUrlEncoding: Bool) -> Observable<(HTTPURLResponse, Data)> {
+                       encoding: ParameterEncoding) -> Observable<(HTTPURLResponse, Data)> {
         
         return modifyHeaders(insertToken: insertToken, headers: headers)
             .flatMap({ headers -> Observable<(HTTPURLResponse, Data)> in
@@ -92,7 +92,7 @@ public class SttHttpService: SttHttpServiceType {
                     .delete,
                     "\(self.url!)\(controller.route)",
                     parameters: data,
-                    encoding: isFormUrlEncoding ? URLEncoding.httpBody : JSONEncoding.default,
+                    encoding: encoding,
                     headers: headers)
             })
             .timeout(timeout, scheduler: MainScheduler.instance)
