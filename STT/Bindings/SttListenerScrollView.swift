@@ -75,3 +75,25 @@ public class SttListenerTableView: UITableView {
         }
     }
 }
+
+public class SttListenerCollectionView: UICollectionView {
+    
+    private var handlers = [TypeActionScrollView: [() -> Void]]()
+    
+    public func addTarget(type: TypeActionScrollView, handler: @escaping () -> Void) {
+        handlers[type] = handlers[type] ?? [() -> Void]()
+        handlers[type]?.append(handler)
+    }
+    
+    override open var contentOffset: CGPoint {
+        didSet {
+            handlers[.contentOffsetChanged]?.forEach({ $0() })
+        }
+    }
+    
+    override open var contentSize: CGSize {
+        didSet {
+            handlers[.contentSizeChanged]?.forEach({ $0() })
+        }
+    }
+}
