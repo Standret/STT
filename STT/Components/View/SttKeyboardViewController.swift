@@ -38,6 +38,7 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
     private var scrollAmountGeneral: CGFloat = 0
     private var moveViewUp: Bool = false
     private var isMovingUp: Bool = false
+    private var isDisappearing: Bool = false
     
     private var statusAppDisposable: DisposeBag!
     
@@ -56,12 +57,10 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
         SttGlobalObserver.observableStatusApplication.subscribe(onNext: { [unowned self] (status) in
             switch status {
             case .didEnterBackgound:
-                //self.view.endEditing(true)
-                //self.navigationController?.navigationBar.endEditing(true)
                 KeyboardNotification.shared.removeObserver(delegate: self)
             case .willEnterForeground:
                 KeyboardNotification.shared.addObserver(delegate: self)
-            default: break;
+            default: break
             }
         }).disposed(by: statusAppDisposable)
     }
@@ -77,13 +76,11 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
         }
     }
     
-    private var firstInit = true
     private var originalViewSize = CGSize.zero
     override open func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         guard originalViewSize.height < view.bounds.size.height else { return }
-        firstInit = false
         
         originalViewSize = view.bounds.size
     }
@@ -94,35 +91,34 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
         if viewRect != CGRect.zero && originalViewSize == view.frame.size {
             view.frame = viewRect
         }
-    }
-    
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        if viewRect != CGRect.zero && originalViewSize == view.frame.size {
-            view.frame = viewRect
-        }
+        guard !isDisappearing && originalViewSize == view.frame.size  else { return }
         
         if KeyboardNotification.shared.isKeyboardShow {
             self.keyboardWillShow(height: KeyboardNotification.shared.heightKeyboard)
         }
-        else if !KeyboardNotification.shared.isKeyboardShow {
+        else {
             self.keyboardWillHide(height: KeyboardNotification.shared.heightKeyboard)
         }
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        isDisappearing = false
+        super.viewDidAppear(animated)
         
         KeyboardNotification.shared.addObserver(delegate: self)
         subsribeOnBackground()
     }
     
     override open func viewWillDisappear(_ animated: Bool) {
+        isDisappearing = true
         super.viewWillDisappear(animated)
         
         KeyboardNotification.shared.removeObserver(delegate: self)
         statusAppDisposable = nil
     }
     
-    // MARK: -- SttKeyboardNotificationDelegate
-    
+    // MARK: - SttKeyboardNotificationDelegate
     
     open var callIfKeyboardIsShow: Bool { return true }
     open var isAnimatedKeyboard: Bool { return isKeyboardAnimated }

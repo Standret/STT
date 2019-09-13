@@ -46,6 +46,7 @@ public class KeyboardNotification {
         if let frame: NSValue = notificationObject?.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             return frame.cgRectValue
         }
+        
         return CGRect()
     }
     
