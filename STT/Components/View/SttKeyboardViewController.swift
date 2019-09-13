@@ -28,57 +28,28 @@ import Foundation
 import UIKit
 import RxSwift
 
-open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewController<T>, SttKeyboardNotificationDelegate {
+open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewController<T>, KeyboardNotificationDelegate {
     
-    open var isKeyboardShow: Bool { return _isKeyboardShow }
+    open var isKeyboardAnimated = true
     open var useCancelGesture = true
     open var cancelsTouchesInView = true
     
-    public let keyboardNotification = SttKeyboardNotification()
-    fileprivate var scrollAmount: CGFloat = 0
-    fileprivate var scrollAmountGeneral: CGFloat = 0
-    
-    fileprivate var _isKeyboardShow = false
-    fileprivate var moveViewUp: Bool = false
+    private var scrollAmount: CGFloat = 0
+    private var scrollAmountGeneral: CGFloat = 0
+    private var moveViewUp: Bool = false
+    private var isMovingUp: Bool = false
+    private var isDisappearing: Bool = false
     
     private var statusAppDisposable: DisposeBag!
-    private var cnstrHeight: NSLayoutConstraint!
     
-    public var targetKeyboardConstraint: NSLayoutConstraint!
-        
     override open func viewDidLoad() {
         super.viewDidLoad()
-        
-        keyboardNotification.callIfKeyboardIsShow = true
-        keyboardNotification.delegate = self
         
         if useCancelGesture {
             let cancelGesture = UITapGestureRecognizer(target: self, action: #selector(handleClick(_:)))
             cancelGesture.cancelsTouchesInView = cancelsTouchesInView
-            self.view.addGestureRecognizer(cancelGesture)
+            view.addGestureRecognizer(cancelGesture)
         }
-        
-    }
-    
-    @objc
-    private func handleClick(_ sender: UITapGestureRecognizer?) {
-        let senderView = sender?.view?.hitTest(sender!.location(in: view), with: nil)
-        if !(senderView?.tag == 900) {
-            view.endEditing(true)
-        }
-    }
- 
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        keyboardNotification.addObserver()
-        subsribeOnBackground()
-    }
-    
-    override open func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        statusAppDisposable = nil
-        keyboardNotification.removeObserver()
     }
     
     private func subsribeOnBackground() {
@@ -86,53 +57,95 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
         SttGlobalObserver.observableStatusApplication.subscribe(onNext: { [unowned self] (status) in
             switch status {
             case .didEnterBackgound:
-                //self.view.endEditing(true)
-                //self.navigationController?.navigationBar.endEditing(true)
-                self.keyboardNotification.removeObserver()
-                print("remove")
+                KeyboardNotification.shared.removeObserver(delegate: self)
             case .willEnterForeground:
-                self.keyboardNotification.addObserver()
-                print("add")
-            default: break;
+                KeyboardNotification.shared.addObserver(delegate: self)
+            default: break
             }
         }).disposed(by: statusAppDisposable)
     }
     
-    public func updateKeyboardFrames() {
-        scrollAmount = keyboardNotification.heightKeyboard
-        scrollAmountGeneral = keyboardNotification.heightKeyboard
-        
-        var frame = view.frame
-        frame.size.height -= scrollAmount
-        if let cnstr = targetKeyboardConstraint {
-            cnstr.constant = scrollAmount
-        }
-        else {
-            view.frame = frame
+    open func shouldCloseKeyboard(sender: UIView?) -> Bool {
+        return true
+    }
+    
+    @objc
+    private func handleClick(_ sender: UITapGestureRecognizer?) {
+        if shouldCloseKeyboard(sender: sender?.view) {
+            view.endEditing(true)
         }
     }
     
-    // MARK: -- SttKeyboardNotificationDelegate
+    private var originalViewSize = CGSize.zero
+    override open func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        guard originalViewSize.height < view.bounds.size.height else { return }
+        
+        originalViewSize = view.bounds.size
+    }
+    
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if viewRect != CGRect.zero && originalViewSize == view.frame.size {
+            view.frame = viewRect
+        }
+        
+        guard !isDisappearing && originalViewSize == view.frame.size  else { return }
+        
+        if KeyboardNotification.shared.isKeyboardShow {
+            self.keyboardWillShow(height: KeyboardNotification.shared.heightKeyboard)
+        }
+        else {
+            self.keyboardWillHide(height: KeyboardNotification.shared.heightKeyboard)
+        }
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        isDisappearing = false
+        super.viewDidAppear(animated)
+        
+        KeyboardNotification.shared.addObserver(delegate: self)
+        subsribeOnBackground()
+    }
+    
+    override open func viewWillDisappear(_ animated: Bool) {
+        isDisappearing = true
+        super.viewWillDisappear(animated)
+        
+        KeyboardNotification.shared.removeObserver(delegate: self)
+        statusAppDisposable = nil
+    }
+    
+    // MARK: - SttKeyboardNotificationDelegate
+    
+    open var callIfKeyboardIsShow: Bool { return true }
+    open var isAnimatedKeyboard: Bool { return isKeyboardAnimated }
     
     open func keyboardWillShow(height: CGFloat) {
         if view != nil {
+            
             scrollAmount = height - scrollAmountGeneral
             scrollAmountGeneral = height
             
             moveViewUp = true
             scrollTheView(move: moveViewUp)
         }
-        _isKeyboardShow = true
     }
+    
     open func keyboardWillHide(height: CGFloat) {
         if moveViewUp {
             scrollTheView(move: false)
         }
-        _isKeyboardShow = false
     }
     
     private var viewRect = CGRect.zero
     private func scrollTheView(move: Bool) {
+        
+        guard !isMovingUp else { return }
+        isMovingUp = true
+        
         var frame = view.frame
         if move {
             frame.size.height -= scrollAmount
@@ -142,18 +155,16 @@ open class SttKeyboardViewController<T: SttViewControllerInjector>: SttViewContr
             scrollAmountGeneral = 0
             scrollAmount = 0
         }
+        
         viewRect = frame
-        if let cnstr = targetKeyboardConstraint {
-            cnstr.constant = scrollAmount
-            print(cnstr.constant)
-        }
-        else {
-            view.frame = frame
-        }
-        if keyboardNotification.isAnimation {
+        view.frame = frame
+        
+        if isAnimatedKeyboard {
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }
         }
+        
+        isMovingUp = false
     }
 }

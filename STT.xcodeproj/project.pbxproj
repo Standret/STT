@@ -46,7 +46,6 @@
 		5016C36A223907010080BD63 /* SttCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C369223907010080BD63 /* SttCommand.swift */; };
 		5016C36D223907820080BD63 /* SttConnectivityDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C36C223907820080BD63 /* SttConnectivityDelegate.swift */; };
 		5016C36F223909C50080BD63 /* SttTextFieldHandlerValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C36E223909C50080BD63 /* SttTextFieldHandlerValidator.swift */; };
-		5016C371223909E20080BD63 /* SttKeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C370223909E20080BD63 /* SttKeyboardNotification.swift */; };
 		5016C37422390A110080BD63 /* SttErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C37322390A110080BD63 /* SttErrorLabel.swift */; };
 		5016C37622390AB10080BD63 /* SttLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C37522390AB10080BD63 /* SttLabel.swift */; };
 		5016C37822390AF70080BD63 /* SttButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016C37722390AF70080BD63 /* SttButton.swift */; };
@@ -112,6 +111,8 @@
 		506804DA224233740057A78A /* SttTextViewBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506804D9224233740057A78A /* SttTextViewBindingContext.swift */; };
 		506C3F4B22CF64080022D218 /* DoubleGenericBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */; };
 		5075D92822E9D924007255E3 /* SttBaseScrollSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075D92722E9D924007255E3 /* SttBaseScrollSource.swift */; };
+		5087F799232BE1A100A5D409 /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5087F798232BE1A100A5D409 /* KeyboardNotification.swift */; };
+		5087F79B232BE1CF00A5D409 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5087F79A232BE1CF00A5D409 /* MulticastDelegate.swift */; };
 		508D5FB1223FFA9000F541B3 /* SttHandlerDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */; };
 		508D5FB4223FFB4900F541B3 /* SttDatePickerBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */; };
 		508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */; };
@@ -182,7 +183,6 @@
 		5016C369223907010080BD63 /* SttCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttCommand.swift; sourceTree = "<group>"; };
 		5016C36C223907820080BD63 /* SttConnectivityDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttConnectivityDelegate.swift; sourceTree = "<group>"; };
 		5016C36E223909C50080BD63 /* SttTextFieldHandlerValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttTextFieldHandlerValidator.swift; sourceTree = "<group>"; };
-		5016C370223909E20080BD63 /* SttKeyboardNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttKeyboardNotification.swift; sourceTree = "<group>"; };
 		5016C37322390A110080BD63 /* SttErrorLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttErrorLabel.swift; sourceTree = "<group>"; };
 		5016C37522390AB10080BD63 /* SttLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttLabel.swift; sourceTree = "<group>"; };
 		5016C37722390AF70080BD63 /* SttButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttButton.swift; sourceTree = "<group>"; };
@@ -248,6 +248,8 @@
 		506804D9224233740057A78A /* SttTextViewBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttTextViewBindingContext.swift; sourceTree = "<group>"; };
 		506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleGenericBindingTests.swift; sourceTree = "<group>"; };
 		5075D92722E9D924007255E3 /* SttBaseScrollSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttBaseScrollSource.swift; sourceTree = "<group>"; };
+		5087F798232BE1A100A5D409 /* KeyboardNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
+		5087F79A232BE1CF00A5D409 /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		508D5FB0223FFA9000F541B3 /* SttHandlerDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttHandlerDatePicker.swift; sourceTree = "<group>"; };
 		508D5FB3223FFB4900F541B3 /* SttDatePickerBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttDatePickerBindingContext.swift; sourceTree = "<group>"; };
 		508D5FB52240087400F541B3 /* SttGenericTwoWayBindingContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttGenericTwoWayBindingContext.swift; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				5016C3272238FE2F0080BD63 /* SttDelegatedCall.swift */,
 				5016C3A5223927960080BD63 /* SttGlobalObserver.swift */,
 				5016C35E223904090080BD63 /* Log.swift */,
+				5087F79A232BE1CF00A5D409 /* MulticastDelegate.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -379,10 +382,10 @@
 			children = (
 				50F0CABD22394B110034E1AA /* UIElement */,
 				50F0CABC22394AFD0034E1AA /* UIController */,
-				5016C370223909E20080BD63 /* SttKeyboardNotification.swift */,
 				5016C36E223909C50080BD63 /* SttTextFieldHandlerValidator.swift */,
 				5016C34F223902190080BD63 /* SttIdentifiers.swift */,
 				5016C337223900660080BD63 /* SttViewable.swift */,
+				5087F798232BE1A100A5D409 /* KeyboardNotification.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				504602B222A687AB00D1AB2D /* SttDictionaryExtensions.swift in Sources */,
 				5016C3322238FF1C0080BD63 /* Exceptions.swift in Sources */,
 				5016C3832239197C0080BD63 /* SttDisableButton.swift in Sources */,
+				5087F799232BE1A100A5D409 /* KeyboardNotification.swift in Sources */,
 				5016C37822390AF70080BD63 /* SttButton.swift in Sources */,
 				504602B422A68C5400D1AB2D /* SttSwitcherBindingContext.swift in Sources */,
 				508D5FB62240087400F541B3 /* SttGenericTwoWayBindingContext.swift in Sources */,
@@ -867,6 +871,7 @@
 				5016C3DA223927F40080BD63 /* SttHttpServiceTypeExtensions.swift in Sources */,
 				5016C37422390A110080BD63 /* SttErrorLabel.swift in Sources */,
 				5016C3E222392AE80080BD63 /* SttHttpServiceType.swift in Sources */,
+				5087F79B232BE1CF00A5D409 /* MulticastDelegate.swift in Sources */,
 				5016C3952239256F0080BD63 /* SttCollectionViewCell.swift in Sources */,
 				50F0CAB722394AA90034E1AA /* SttValidatorType.swift in Sources */,
 				5016C38F22391A8A0080BD63 /* SttCollectionViewWithSectionSource.swift in Sources */,
@@ -895,7 +900,6 @@
 				5016C38022390BB20080BD63 /* SttInputBox.swift in Sources */,
 				5016C3D9223927F40080BD63 /* SttUIViewControllerExtensions.swift in Sources */,
 				5016C3CD223927F40080BD63 /* SttCommandExtensions.swift in Sources */,
-				5016C371223909E20080BD63 /* SttKeyboardNotification.swift in Sources */,
 				5016C3252238FE0F0080BD63 /* SttHandlerButton.swift in Sources */,
 				5016C338223900660080BD63 /* SttViewable.swift in Sources */,
 				5016C3E522392AE80080BD63 /* SttNetworking.swift in Sources */,
