@@ -1,5 +1,5 @@
 //
-//  Presenter.swift
+//  UINavigationBarExtensions.swift
 //  STT
 //
 //  Created by Peter Standret on 9/14/19.
@@ -25,14 +25,21 @@
 //
 
 import Foundation
+import UIKit
 
-open class Presenter<View>: PresenterType {
+public extension UINavigationBar {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
-    
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
+    ///
+    /// Make navigation bar transparent.
+    /// - Parameter tint: tint color (default is .white).
+    ///
+    func makeTransparent(withTint tint: UIColor = .white) {
+        isTranslucent = true
+        backgroundColor = .clear
+        barTintColor = .clear
+        setBackgroundImage(UIImage(), for: .default)
+        tintColor = tint
+        titleTextAttributes = [.foregroundColor: tint]
+        shadowImage = UIImage()
     }
 }

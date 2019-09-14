@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  ArrayExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Piter Standret on 6/3/18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,13 +26,34 @@
 
 import Foundation
 
-open class Presenter<View>: PresenterType {
+public extension Array {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
+    ///
+    /// Return elements with given indexes
+    ///
+    func getElements(indexes: [Int]) -> [Element] {
+        
+        var result = [Element]()
+        for index in indexes {
+            result.append(self[index])
+        }
+        
+        return result
+    }
     
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
+    // MARK: - obsoleted block
+    
+    @available(swift, deprecated: 5.0, obsoleted: 5.1, message: "This will be removed in v5.1")
+    mutating func getAndDelete(index: Int) -> Element {
+        let elem = self[index]
+        self.remove(at: index)
+        return elem
+    }
+    
+    @available(swift, deprecated: 5.0, obsoleted: 5.1, message: "This will be removed in v5.1")
+    func insertAndReturn(element: Element, at index: Int) -> Array<Element> {
+        var newSequence = self
+        newSequence.insert(element, at: index)
+        return newSequence
     }
 }

@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "2.2.8"
+  s.version      = "3.0.0"
   s.summary      = "Simple reusable code with RxViper architecture provided by Standret, LightSide and Adnrew"
 
   s.description  = <<-DESC
@@ -21,11 +21,5 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   s.swift_version = "5.0"
 
   s.source       = { :git => "https://github.com/Standret/STT.git", :tag => "#{s.version}" }
-  s.source_files = "STT/Bindings/*.swift", "STT/Extensions/*.swift", "STT/Components/*.swift", "STT/Components/Core/*.swift", "STT/Components/View/*.swift"
-
-  s.dependency "RxSwift", "~> 5"
-  s.dependency "Alamofire", "~> 4.8.2"
-  s.dependency "RxAlamofire"
-  s.dependency "TinyConstraints"
-  s.dependency "KeychainSwift", "~> 16.0"
+  s.source_files = "STT/Core/*.swift"
 end

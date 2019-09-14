@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  JsonDecoderExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Piter Standret on 6/22/18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,13 +26,17 @@
 
 import Foundation
 
-open class Presenter<View>: PresenterType {
+public extension JSONDecoder.DateDecodingStrategy {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
-    
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
+    ///
+    /// Return formate for time with fractal seconds
+    ///
+    static let customISO8601: JSONDecoder.DateDecodingStrategy = custom { decoder throws -> Date in
+        let container = try decoder.singleValueContainer()
+        let string = try container.decode(String.self)
+        if let date = Formatter.iso8601.date(from: string) ?? Formatter.iso8601noFS.date(from: string) {
+            return date
+        }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date: \(string)")
     }
 }

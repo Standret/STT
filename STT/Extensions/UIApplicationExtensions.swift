@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  UIApplicationExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Piter Standret on 1/1/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,14 +25,19 @@
 //
 
 import Foundation
+import UIKit
 
-open class Presenter<View>: PresenterType {
+public extension UIApplication {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
-    
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
+    ///
+    /// Delete and readd again all view controllers in current windows
+    ///
+    func reloadViewControllers() {
+        for window in self.windows {
+            for view in window.subviews {
+                view.removeFromSuperview()
+                window.addSubview(view)
+            }
+        }
     }
 }

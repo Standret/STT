@@ -7,6 +7,8 @@ target 'STT' do
   target 'STTTests' do
     
   end
+  
+  pod 'NGSRouter', '~> 0.6.0'
 
 end
 

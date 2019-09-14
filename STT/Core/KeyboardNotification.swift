@@ -2,7 +2,7 @@
 //  KeyboardNotification.swift
 //  STT
 //
-//  Created by Standret on 22.06.18.
+//  Created by Peter Standret on 9/13/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,33 +27,37 @@
 import Foundation
 import UIKit
 
-public protocol KeyboardNotificationDelegate: class {
+public protocol KeyboardNotificationDelegate: AnyObject {
+    
+    var callIfKeyboardIsShow: Bool { get }
+    var isAnimatedKeyboard: Bool { get }
+    
     func keyboardWillShow(height: CGFloat)
     func keyboardWillHide(height: CGFloat)
 }
 
-public class KeyboardNotification {
+public final class KeyboardNotification {
     
-    public var isAnimation: Bool = true
-    public var callIfKeyboardIsShow: Bool = false
+    public static var shared = KeyboardNotification()
     
-    public weak var delegate: KeyboardNotificationDelegate!
-    
-    private var isActive: Bool = false
+    public var isEnabled = true
+    public private(set) var isActive: Bool = false
     
     public var bounds: CGRect {
         if let frame: NSValue = notificationObject?.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             return frame.cgRectValue
         }
+        
         return CGRect()
     }
     
+    public private(set) var isKeyboardShow: Bool = false
     public var heightKeyboard: CGFloat { return bounds.height }
     
-    private var isKeyboardShow: Bool = true
     private var notificationObject: Notification!
+    private var delegates = MulticastDelegate<KeyboardNotificationDelegate>()
     
-    init() {
+    private init() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow(_:)),
@@ -81,27 +85,35 @@ public class KeyboardNotification {
         )
     }
     
-    public func removeObserver() {
-        isActive = false
+    public func removeObserver(delegate: KeyboardNotificationDelegate) {
+        delegates -= delegate
     }
     
-    public func addObserver() {
-        isActive = true
+    public func addObserver(delegate: KeyboardNotificationDelegate) {
+        delegates += delegate
     }
-    
     
     @objc private func keyboardWillShow(_ notification: Notification?) {
-        notificationObject = notification
-        if (callIfKeyboardIsShow || !isKeyboardShow) && isActive {
-            delegate?.keyboardWillShow(height: heightKeyboard)
-        }
+        
         isKeyboardShow = true
-    }
-    @objc private func keyboardWillHide(_ notification: Notification?) {
         notificationObject = notification
-        if isActive {
-            delegate?.keyboardWillHide(height: heightKeyboard)
-        }
+        
+        delegates.invokeDelegates({
+            if $0.callIfKeyboardIsShow || !isKeyboardShow {
+                $0.keyboardWillShow(height: heightKeyboard)
+            }
+        })
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification?) {
+        
         isKeyboardShow = false
+        notificationObject = notification
+        
+        delegates.invokeDelegates({
+            if $0.callIfKeyboardIsShow || !isKeyboardShow {
+                $0.keyboardWillHide(height: heightKeyboard)
+            }
+        })
     }
 }

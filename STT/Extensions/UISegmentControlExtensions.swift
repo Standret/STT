@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  UISegmentControlExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Standret on 12.06.18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,15 +24,29 @@
 //  SOFTWARE.
 //
 
-import Foundation
 
-open class Presenter<View>: PresenterType {
+import Foundation
+import UIKit
+
+public extension UISegmentedControl {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
+    ///
+    /// Remove all borders in element
+    ///
+    func removeBorders() {
+        self.setBackgroundImage(imageWithColor(color: UIColor.clear), for: .normal, barMetrics: .default)
+        self.setBackgroundImage(imageWithColor(color:  UIColor.clear), for: .selected, barMetrics: .default)
+        self.setDividerImage(imageWithColor(color:  UIColor.clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+    }
     
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
+    fileprivate func imageWithColor(color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0.0, y: 0.0, width:  1.0, height: 1.0)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        context!.setFillColor(color.cgColor);
+        context!.fill(rect);
+        let image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return image!
     }
 }

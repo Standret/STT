@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  FormatterExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Standret on 15.06.18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,13 +26,17 @@
 
 import Foundation
 
-open class Presenter<View>: PresenterType {
+public extension Formatter {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
+    ///
+    /// Return iso8601 formatter
+    ///
+    static let iso8601: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
     
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
-    }
+    static let iso8601noFS = ISO8601DateFormatter()
 }
+

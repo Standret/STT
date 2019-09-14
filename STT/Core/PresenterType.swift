@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  PresenterType.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Peter Standret on 9/13/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,13 +26,32 @@
 
 import Foundation
 
-open class Presenter<View>: PresenterType {
+public protocol PresenterType {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
+    associatedtype View
     
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
-    }
+    var delegate: View? { get }
+    
+    func injectView(delegate: Viewable)
+    
+    // MARK: - LIFECYCLE
+    
+    func viewCreated()
+    
+    func viewAppearing()
+    func viewAppeared()
+    
+    func viewDisappearing()
+    func viewDisappeared()
+}
+
+public extension PresenterType {
+    
+    func viewCreated() { }
+    
+    func viewAppearing() { }
+    func viewAppeared() { }
+    
+    func viewDisappearing() { }
+    func viewDisappeared() { }
 }

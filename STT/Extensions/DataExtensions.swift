@@ -1,8 +1,8 @@
 //
-//  Presenter.swift
+//  DataExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Piter Standret on 1/22/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,13 +26,28 @@
 
 import Foundation
 
-open class Presenter<View>: PresenterType {
+public extension Data {
     
-    private weak var rawDelegate: Viewable?
-    public var delegate: View? { return rawDelegate as? View }
+    ///
+    /// Return object from JSON Data
+    /// - Parameter of: Target type
+    ///
+    func getObject<TResult: Decodable>(of _: TResult.Type) -> TResult? {
+        do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .customISO8601
+            return try decoder.decode(TResult.self, from: self)
+        }
+        catch {
+            return nil
+        }
+    }
     
-    public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
-        self.rawDelegate = delegate
+    ///
+    /// Return object from JSON Data
+    /// - Parameter of: Target type
+    ///
+    func getObject<TResult: Decodable>() -> TResult? {
+        return self.getObject(of: TResult.self)
     }
 }

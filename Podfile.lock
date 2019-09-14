@@ -1,3 +1,16 @@
-PODFILE CHECKSUM: 64f24e1058e777f0a3f83bfcd591f822934b697e
+PODS:
+  - NGSRouter (0.5.0)
+
+DEPENDENCIES:
+  - NGSRouter (~> 0.5.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - NGSRouter
+
+SPEC CHECKSUMS:
+  NGSRouter: 6f93796104a7dd03f4e5c499f1f8b8fdfd2042a7
+
+PODFILE CHECKSUM: 917b13e90d45ccaf65cfaf854a6d5b5d3ed134bd
 
 COCOAPODS: 1.7.5
