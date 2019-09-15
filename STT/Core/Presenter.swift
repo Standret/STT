@@ -31,8 +31,10 @@ open class Presenter<View>: PresenterType {
     private weak var rawDelegate: Viewable?
     public var delegate: View? { return rawDelegate as? View }
     
+    public init() { }
+    
     public func injectView(delegate: Viewable) {
-        assert(!(delegate is View), "injected view should be GenericType View")
+        assert(delegate is View, "injected view should be GenericType View")
         self.rawDelegate = delegate
     }
 }
