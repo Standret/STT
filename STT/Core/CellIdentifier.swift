@@ -1,8 +1,8 @@
 //
-//  View.swift
+//  CellIdentifier.swift
 //  STT
 //
-//  Created by Peter Standret on 9/13/19.
+//  Created by Peter Standret on 9/15/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,20 +26,20 @@
 
 import Foundation
 
-public protocol Viewable: AnyObject { }
-
-public protocol SttViewControllerType {
+public struct CellIdentifier {
     
-    associatedtype Presenter: PresenterType
+    let identifers: String
+    let nibName: String?
+    let isRegistered: Bool
     
-    var presenter: Presenter! { get }
-    
-    func style()
-    func bind()
-}
-
-public extension SttViewControllerType {
-    
-    func style() { }
-    func bind() { }
+    public init (
+        identifers: String,
+        nibName: String? = nil,
+        isRegistered: Bool = false
+        ) {
+        
+        self.identifers = identifers
+        self.nibName = nibName
+        self.isRegistered = isRegistered
+    }
 }

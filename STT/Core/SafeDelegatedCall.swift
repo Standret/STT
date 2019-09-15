@@ -1,8 +1,8 @@
 //
-//  View.swift
+//  SafeDelegatedCall.swift
 //  STT
 //
-//  Created by Peter Standret on 9/13/19.
+//  Created by Peter Standret on 9/15/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,20 +26,14 @@
 
 import Foundation
 
-public protocol Viewable: AnyObject { }
-
-public protocol SttViewControllerType {
+struct SafeDelegatedCall<Input> {
     
-    associatedtype Presenter: PresenterType
+    private(set) var callback: ((Input) -> Void)
     
-    var presenter: Presenter! { get }
-    
-    func style()
-    func bind()
-}
-
-public extension SttViewControllerType {
-    
-    func style() { }
-    func bind() { }
+    init<T: AnyObject>(to object: T, with callback: @escaping (T, Input) -> Void) {
+        self.callback = { [weak object] input in
+            guard let object = object else { return }
+            callback(object, input)
+        }
+    }
 }

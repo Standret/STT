@@ -27,6 +27,9 @@
 import Foundation
 import UIKit
 
+///
+/// The view controller which can automaticly manage keyboard and resize view to new size
+///
 open class SttKeyboardViewController<Presenter: PresenterType>: SttViewController<Presenter> {
     
     open var isKeyboardAnimated = true
@@ -53,13 +56,6 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
     
     open func shouldCloseKeyboard(sender: UIView?) -> Bool {
         return true
-    }
-    
-    @objc
-    private func handleClick(_ sender: UITapGestureRecognizer?) {
-        if shouldCloseKeyboard(sender: sender?.view) {
-            view.endEditing(true)
-        }
     }
     
     private var originalViewSize = CGSize.zero
@@ -102,6 +98,13 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
         
         KeyboardNotification.shared.removeObserver(delegate: self)
         GlobalObserver.shared.removeObserver(delegate: self)
+    }
+    
+    @objc
+    private func handleClick(_ sender: UITapGestureRecognizer?) {
+        if shouldCloseKeyboard(sender: sender?.view) {
+            view.endEditing(true)
+        }
     }
 }
 

@@ -59,7 +59,6 @@ open class SttBaseScrollSource: NSObject, UIScrollViewDelegate {
     open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) { }
     
     open func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool { return true }
-    
 }
 
 extension SttBaseScrollSource {

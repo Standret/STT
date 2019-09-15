@@ -27,22 +27,9 @@
 import Foundation
 import UIKit
 
-public protocol SttViewControllerType {
-    
-    associatedtype Presenter: PresenterType
-    
-    var presenter: Presenter! { get }
-    
-    func style()
-    func bind()
-}
-
-public extension SttViewControllerType {
-    
-    func style() { }
-    func bind() { }
-}
-
+///
+/// The view controller for auto manage presenter lifecycle
+///
 open class SttViewController<Presenter: PresenterType>: UIViewController, SttViewControllerType {
     
     open var presenter: Presenter!
@@ -72,6 +59,26 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, SttVie
         presenter.viewDisappeared()
     }
     
+    private var firstStart = true
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        guard firstStart else { return }
+        firstStart = false
+        
+        style()
+        bind()
+    }
+    
+    ///
+    /// manage apearance of view
+    /// - Important: do not call basic version
+    ///
     open func style() { }
+    
+    ///
+    /// manage all subsribtions
+    /// - Important: do not call basic version. Call after style()
+    ///
     open func bind() { }
 }

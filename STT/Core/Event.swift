@@ -3,7 +3,25 @@
 //  STT
 //
 //  Created by Peter Standret on 9/15/19.
-//  Copyright © 2019 standret. All rights reserved.
+//  Copyright © 2019 Peter Standret <pstandret@gmail.com>
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import Foundation
@@ -21,6 +39,13 @@ open class Disposable {
     ///
     open func dispose() {
         _dispose()
+    }
+    
+    ///
+    /// Add current disposable to array of disposables
+    ///
+    open func add(to disposal: inout [Disposable]) {
+        disposal.append(self)
     }
     
     deinit {
@@ -45,7 +70,7 @@ open class Event<Element> {
     /// - Parameter queue: observation queue
     /// - Parameter observer: target changes observer
     ///
-    open func subsribe(
+    open func subscribe(
         _ queue: DispatchQueue? = nil,
         _ observer: @escaping Observer
         ) -> Disposable {
@@ -55,6 +80,25 @@ open class Event<Element> {
         
         let id = uniqueID.next()!
         observers[id] = (observer, queue)
+        
+        let disposable = Disposable { [weak self] in
+            self?.observers[id] = nil
+        }
+        
+        return disposable
+    }
+    
+    ///
+    /// Subsribe on new changes
+    /// - Parameter observer: target changes observer
+    ///
+    open func subscribe(_ observer: @escaping Observer) -> Disposable {
+        
+        lock.lock()
+        defer { lock.unlock() }
+        
+        let id = uniqueID.next()!
+        observers[id] = (observer, nil)
         
         let disposable = Disposable { [weak self] in
             self?.observers[id] = nil
