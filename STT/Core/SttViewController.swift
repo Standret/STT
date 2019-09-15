@@ -1,8 +1,8 @@
 //
-//  SttGlobalObserver.swift
+//  SttViewController.swift
 //  STT
 //
-//  Created by Standret on 22.06.18.
+//  Created by Peter Standret on 9/13/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,45 +25,53 @@
 //
 
 import Foundation
-import RxSwift
+import UIKit
 
-public enum SttApplicationStatus {
-    case willBecomeInActive
-    case didEnterBackgound
-    case willEnterForeground
-    case didBecomeActive
-    case wilTerminate
+public protocol SttViewControllerType {
+    
+    associatedtype Presenter: PresenterType
+    
+    var presenter: Presenter! { get }
+    
+    func style()
+    func bind()
 }
 
-public class SttGlobalObserver {
-    private static let publisher = PublishSubject<SttApplicationStatus>()
+public extension SttViewControllerType {
     
-    public static var observableStatusApplication: Observable<SttApplicationStatus> { return publisher }
-    
-    public class func applicationStatusChanged(status: SttApplicationStatus) {
-        publisher.onNext(status)
-    }
+    func style() { }
+    func bind() { }
 }
 
-public class SttAppLifecycle
-{
-    public class func willBecomeInActive() {
-        SttGlobalObserver.applicationStatusChanged(status: .willBecomeInActive)
+open class SttViewController<Presenter: PresenterType>: UIViewController, SttViewControllerType {
+    
+    open var presenter: Presenter!
+    
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        presenter.viewCreated()
     }
     
-    public class func didEnterBackground() {
-        SttGlobalObserver.applicationStatusChanged(status: .didEnterBackgound)
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewAppearing()
     }
     
-    public class func willEnterForeground() {
-        SttGlobalObserver.applicationStatusChanged(status: .willEnterForeground)
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presenter.viewAppeared()
     }
     
-    public class func didBecomeActive() {
-        SttGlobalObserver.applicationStatusChanged(status: .didBecomeActive)
+    override open func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        presenter.viewDisappearing()
     }
     
-    public class func willTerminate() {
-        SttGlobalObserver.applicationStatusChanged(status: .wilTerminate)
+    override open func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        presenter.viewDisappeared()
     }
+    
+    open func style() { }
+    open func bind() { }
 }

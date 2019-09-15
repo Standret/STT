@@ -1,5 +1,5 @@
 //
-//  KeyboardViewController.swift
+//  SttKeyboardViewController.swift
 //  STT
 //
 //  Created by Peter Standret on 9/14/19.
@@ -27,7 +27,7 @@
 import Foundation
 import UIKit
 
-open class KeyboardViewController<Presenter: PresenterType>: ViewController<Presenter> {
+open class SttKeyboardViewController<Presenter: PresenterType>: SttViewController<Presenter> {
     
     open var isKeyboardAnimated = true
     open var useCancelGesture = true
@@ -107,7 +107,7 @@ open class KeyboardViewController<Presenter: PresenterType>: ViewController<Pres
 
 // MARK: - implementation of KeyboardNotificationDelegate
 
-extension KeyboardViewController: KeyboardNotificationDelegate {
+extension SttKeyboardViewController: KeyboardNotificationDelegate {
     
     open var callIfKeyboardIsShow: Bool { return true }
     open var isAnimatedKeyboard: Bool { return isKeyboardAnimated }
@@ -159,7 +159,7 @@ extension KeyboardViewController: KeyboardNotificationDelegate {
 
 // MARK: - implementation of GlobalObserverDelegate
 
-extension KeyboardViewController: GlobalObserverDelegate {
+extension SttKeyboardViewController: GlobalObserverDelegate {
     
     public func applicationStatusChanged(with status: ApplicationStatus) {
         switch status {

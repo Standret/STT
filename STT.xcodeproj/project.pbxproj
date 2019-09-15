@@ -13,11 +13,11 @@
 		506C3F4B22CF64080022D218 /* DoubleGenericBindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */; };
 		50DB4CDB232B7DC900FDADA5 /* PresenterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4CDA232B7DC900FDADA5 /* PresenterType.swift */; };
 		50DB4DC5232B7F6700FDADA5 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC4232B7F6700FDADA5 /* View.swift */; };
-		50DB4DC7232B856900FDADA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC6232B856900FDADA5 /* ViewController.swift */; };
+		50DB4DC7232B856900FDADA5 /* SttViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC6232B856900FDADA5 /* SttViewController.swift */; };
 		50DB4DCA232B8ACC00FDADA5 /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC9232B8ACC00FDADA5 /* KeyboardNotification.swift */; };
 		7D624669232CC1A3008D60E8 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */; };
 		7D62466B232CC299008D60E8 /* GlobalObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466A232CC299008D60E8 /* GlobalObserver.swift */; };
-		7D62466D232CC9A0008D60E8 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466C232CC9A0008D60E8 /* KeyboardViewController.swift */; };
+		7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */; };
 		7D62466F232CCA0B008D60E8 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466E232CCA0B008D60E8 /* Presenter.swift */; };
 		7D6F4714232CECFD00E86338 /* STT.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 7D6F4713232CECFD00E86338 /* STT.podspec */; };
 		7D98ECE1232D34BE00980EFC /* AVAssetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D98ECC7232D34BD00980EFC /* AVAssetExtensions.swift */; };
@@ -42,6 +42,8 @@
 		7D98ECF8232D34BE00980EFC /* JsonDecoderExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D98ECDE232D34BE00980EFC /* JsonDecoderExtensions.swift */; };
 		7D98ECF9232D34BE00980EFC /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D98ECDF232D34BE00980EFC /* UIImageExtensions.swift */; };
 		7D98ED36232D504800980EFC /* UINavigationBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D98ED35232D504800980EFC /* UINavigationBarExtensions.swift */; };
+		7DAFCF39232D6D6400FA1CBA /* ObservableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAFCF38232D6D6400FA1CBA /* ObservableCollection.swift */; };
+		7DD20538232E13BE003864E9 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD20537232E13BE003864E9 /* Event.swift */; };
 		E091BD464B3C8A8E268C2615 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F07C78CD80E06DA402D8120 /* Pods_STT.framework */; };
 		FEA627B2DAC18A2A07DDCD1D /* Pods_STT_STTTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */; };
 /* End PBXBuildFile section */
@@ -68,12 +70,12 @@
 		506C3F4A22CF64080022D218 /* DoubleGenericBindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleGenericBindingTests.swift; sourceTree = "<group>"; };
 		50DB4CDA232B7DC900FDADA5 /* PresenterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterType.swift; sourceTree = "<group>"; };
 		50DB4DC4232B7F6700FDADA5 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		50DB4DC6232B856900FDADA5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		50DB4DC6232B856900FDADA5 /* SttViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttViewController.swift; sourceTree = "<group>"; };
 		50DB4DC9232B8ACC00FDADA5 /* KeyboardNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
 		7BE2066B701C5513D731D7AA /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
 		7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		7D62466A232CC299008D60E8 /* GlobalObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalObserver.swift; sourceTree = "<group>"; };
-		7D62466C232CC9A0008D60E8 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttKeyboardViewController.swift; sourceTree = "<group>"; };
 		7D62466E232CCA0B008D60E8 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		7D6F4713232CECFD00E86338 /* STT.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STT.podspec; sourceTree = "<group>"; };
 		7D98ECC7232D34BD00980EFC /* AVAssetExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVAssetExtensions.swift; sourceTree = "<group>"; };
@@ -98,6 +100,8 @@
 		7D98ECDE232D34BE00980EFC /* JsonDecoderExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonDecoderExtensions.swift; sourceTree = "<group>"; };
 		7D98ECDF232D34BE00980EFC /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		7D98ED35232D504800980EFC /* UINavigationBarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtensions.swift; sourceTree = "<group>"; };
+		7DAFCF38232D6D6400FA1CBA /* ObservableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableCollection.swift; sourceTree = "<group>"; };
+		7DD20537232E13BE003864E9 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT_STTTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A23C0E38B1F75627C89381 /* Pods-STT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.release.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.release.xcconfig"; sourceTree = "<group>"; };
 		F2E47C50D2A21A4A8A712D2F /* Pods-STT-STTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT-STTTests.debug.xcconfig"; path = "Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -169,11 +173,12 @@
 		50DB4DC2232B7F4E00FDADA5 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7DAFCF37232D6D3E00FA1CBA /* UIControls */,
 				50DB4DC8232B8AB400FDADA5 /* Components */,
 				50DB4DC3232B7F5400FDADA5 /* Protocols */,
-				50DB4DC6232B856900FDADA5 /* ViewController.swift */,
-				7D62466C232CC9A0008D60E8 /* KeyboardViewController.swift */,
 				7D62466E232CCA0B008D60E8 /* Presenter.swift */,
+				7DAFCF38232D6D6400FA1CBA /* ObservableCollection.swift */,
+				7DD20537232E13BE003864E9 /* Event.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -268,6 +273,15 @@
 				7D98ECC7232D34BD00980EFC /* AVAssetExtensions.swift */,
 			);
 			name = Shared;
+			sourceTree = "<group>";
+		};
+		7DAFCF37232D6D3E00FA1CBA /* UIControls */ = {
+			isa = PBXGroup;
+			children = (
+				50DB4DC6232B856900FDADA5 /* SttViewController.swift */,
+				7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */,
+			);
+			name = UIControls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -455,7 +469,9 @@
 				7D98ECE9232D34BE00980EFC /* UINavigationControllerExtensions.swift in Sources */,
 				7D98ECF3232D34BE00980EFC /* UICollectionViewExtensions.swift in Sources */,
 				7D98ECEF232D34BE00980EFC /* EncodableExtensions.swift in Sources */,
-				50DB4DC7232B856900FDADA5 /* ViewController.swift in Sources */,
+				7DAFCF39232D6D6400FA1CBA /* ObservableCollection.swift in Sources */,
+				7DD20538232E13BE003864E9 /* Event.swift in Sources */,
+				50DB4DC7232B856900FDADA5 /* SttViewController.swift in Sources */,
 				7D98ECF9232D34BE00980EFC /* UIImageExtensions.swift in Sources */,
 				7D98ECE2232D34BE00980EFC /* DataExtensions.swift in Sources */,
 				7D98ECEC232D34BE00980EFC /* UISegmentControlExtensions.swift in Sources */,
@@ -472,7 +488,7 @@
 				50DB4CDB232B7DC900FDADA5 /* PresenterType.swift in Sources */,
 				7D98ECF8232D34BE00980EFC /* JsonDecoderExtensions.swift in Sources */,
 				7D98ECE6232D34BE00980EFC /* ArrayExtensions.swift in Sources */,
-				7D62466D232CC9A0008D60E8 /* KeyboardViewController.swift in Sources */,
+				7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */,
 				7D62466B232CC299008D60E8 /* GlobalObserver.swift in Sources */,
 				7D98ECE7232D34BE00980EFC /* UIColorExtensions.swift in Sources */,
 				50DB4DC5232B7F6700FDADA5 /* View.swift in Sources */,

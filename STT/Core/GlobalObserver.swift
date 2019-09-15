@@ -34,7 +34,7 @@ public enum ApplicationStatus {
     case didEnterBackgound
     case willEnterForeground
     case didBecomeActive
-    case wilTerminate
+    case willTerminate
 }
 
 ///

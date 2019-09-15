@@ -1,8 +1,8 @@
 //
-//  SttButton.swift
+//  CodableExtensions.swift
 //  STT
 //
-//  Created by Piter Standret on 1/16/19.
+//  Created by Standret on 25.05.18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,57 +25,43 @@
 //
 
 import Foundation
-import UIKit
 
-open class SttButton: UIButton {
+public extension Encodable {
     
-    @objc
-    open dynamic var titleFont: UIFont {
-        get { return titleLabel!.font }
-        set { titleLabel!.font = newValue }
-    }
-}
-
-open class SttToogleButton: SttButton {
-    
-    @objc
-    open dynamic var unSelectedBackground: UIColor? {
-        didSet {
-            if !isSelected {
-                self.backgroundColor = unSelectedBackground
-            }
+    func getDictionary() -> [String:Any] {
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let json = (try encoder.encode(self))
+            let jsonData = String(data: json, encoding: .utf8)?.data(using: .utf8)
+            return (try JSONSerialization.jsonObject(with: jsonData!, options: .mutableLeaves) as? [String:Any])!
+        }
+        catch {
+            return [:]
         }
     }
     
-    @objc
-    open dynamic var selectedBackground: UIColor? {
-        didSet {
-            if isSelected {
-                self.backgroundColor = selectedBackground
-            }
+    func getData() -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let json = (try encoder.encode(self))
+            return String(data: json, encoding: .utf8)?.data(using: .utf8)
+        }
+        catch {
+            return nil
         }
     }
     
-    @objc
-    open dynamic var highlightedColor: UIColor?
-    
-    override open var isSelected: Bool {
-        didSet {
-            if isSelected {
-                self.backgroundColor = selectedBackground
-            }
-            else {
-                self.backgroundColor = unSelectedBackground
-            }
-            self.setNeedsDisplay()
+    func getJsonString() -> String {
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            let json = (try encoder.encode(self))
+            return String(data: json, encoding: .utf8)!
         }
-    }
-    
-    open override var isHighlighted: Bool {
-        didSet {
-            if let color = highlightedColor {
-                self.backgroundColor = isHighlighted ? color : (isSelected ? selectedBackground : unSelectedBackground)
-            }
+        catch {
+            return "\"\(self)\""
         }
     }
 }

@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  SttStackViewExtensions.swift
 //  STT
 //
-//  Created by Peter Standret on 9/13/19.
+//  Created by Piter Standret on 10/26/18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,51 +27,19 @@
 import Foundation
 import UIKit
 
-public protocol ViewControllerType {
+public extension UIStackView {
     
-    associatedtype Presenter: PresenterType
-    
-    var presenter: Presenter! { get }
-    
-    func style()
-    func bind()
-}
-
-public extension ViewControllerType {
-    
-    func style() { }
-    func bind() { }
-}
-
-open class ViewController<Presenter: PresenterType>: UIViewController, ViewControllerType {
-    
-    open var presenter: Presenter!
-    
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        presenter.viewCreated()
+    func removeAllArrangedSubviews() {
+        
+        let removedSubviews = arrangedSubviews.reduce([]) { (allSubviews, subview) -> [UIView] in
+            self.removeArrangedSubview(subview)
+            return allSubviews + [subview]
+        }
+        
+        // Deactivate all constraints
+        NSLayoutConstraint.deactivate(removedSubviews.flatMap({ $0.constraints }))
+        
+        // Remove the views from self
+        removedSubviews.forEach({ $0.removeFromSuperview() })
     }
-    
-    override open func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.viewAppearing()
-    }
-    
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        presenter.viewAppeared()
-    }
-    
-    override open func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        presenter.viewDisappearing()
-    }
-    
-    override open func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        presenter.viewDisappeared()
-    }
-    
-    open func style() { }
-    open func bind() { }
 }
