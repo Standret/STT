@@ -1,8 +1,8 @@
 //
-//  SectionData.swift
+//  ErrorMessage.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 9/21/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,12 +26,16 @@
 
 import Foundation
 
-public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
-    let section: SectionPresenter
-    let cells: ObservableCollection<CellPresenter>
+public struct ErrorMessage {
+    let title: String
+    let description: String
     
-    public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
-        self.section = section
-        self.cells = cells
+    public init(
+        title: String,
+        description: String
+        ) {
+        
+        self.title = title
+        self.description = description
     }
 }

@@ -1,8 +1,8 @@
 //
-//  SectionData.swift
+//  ConnectionError.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 9/21/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,12 +26,34 @@
 
 import Foundation
 
-public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
-    let section: SectionPresenter
-    let cells: ObservableCollection<CellPresenter>
+public enum ConnectionError: ErrorType {
     
-    public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
-        self.section = section
-        self.cells = cells
+    case timeout
+    case noInternetConnection
+    case responseIsNil
+    case other(String)
+    
+    public var message: ErrorMessage {
+        var result: ErrorMessage
+        switch self {
+        case .noInternetConnection:
+            result = ErrorMessage(
+                title: "No internet connection",
+                description: "Check your settings or repeat later"
+            )
+        case .timeout:
+            result = ErrorMessage(
+                title: "Couldn't connect to server",
+                description: "There was a problem of loading data. Check your Internet connection and try again."
+            )
+        case .responseIsNil:
+            result = ErrorMessage(
+                title: "Request timeout",
+                description: "Please try again"
+            )
+        case .other(let message):
+            result = ErrorMessage(title: message, description: "UNKNOWN")
+        }
+        return result
     }
 }

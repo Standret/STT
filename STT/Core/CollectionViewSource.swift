@@ -34,7 +34,7 @@ open class CollectionViewSource<Presenter: PresenterType>: BaseCollectionViewSou
         get { return countData }
     }
     
-    private var disposable: Disposable?
+    private var disposable: EventDisposable?
     private var endScrollCallBack: (() -> Void)?
     
     private var collection: ObservableCollection<Presenter>!

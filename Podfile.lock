@@ -1,16 +1,20 @@
 PODS:
-  - NGSRouter (0.5.0)
+  - Alamofire (4.9.0)
+  - RxSwift (5.0.0)
 
 DEPENDENCIES:
-  - NGSRouter (~> 0.5.0)
+  - Alamofire (~> 4.9.0)
+  - RxSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - NGSRouter
+    - Alamofire
+    - RxSwift
 
 SPEC CHECKSUMS:
-  NGSRouter: 6f93796104a7dd03f4e5c499f1f8b8fdfd2042a7
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
 
-PODFILE CHECKSUM: 917b13e90d45ccaf65cfaf854a6d5b5d3ed134bd
+PODFILE CHECKSUM: bc6f061b96c72de8e54e42f6d473192e9d3adcf2
 
 COCOAPODS: 1.7.5

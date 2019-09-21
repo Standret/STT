@@ -1,8 +1,8 @@
 //
-//  SectionData.swift
+//  ApiControllerType.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 9/21/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,13 +25,17 @@
 //
 
 import Foundation
+import Alamofire
 
-public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
-    let section: SectionPresenter
-    let cells: ObservableCollection<CellPresenter>
+public protocol ApiControllerType: URLConvertible {
     
-    public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
-        self.section = section
-        self.cells = cells
+    var baseUrl: String { get }
+    var path: String { get }
+}
+
+extension ApiControllerType {
+    
+    func asURL() throws -> URL {
+        return URL(string: baseUrl + path)!
     }
 }

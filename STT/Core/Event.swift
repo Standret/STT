@@ -26,7 +26,7 @@
 
 import Foundation
 
-open class Disposable {
+open class EventDisposable {
     
     private let _dispose: () -> ()
     
@@ -44,7 +44,7 @@ open class Disposable {
     ///
     /// Add current disposable to array of disposables
     ///
-    open func add(to disposal: inout [Disposable]) {
+    open func add(to disposal: inout [EventDisposable]) {
         disposal.append(self)
     }
     
@@ -73,7 +73,7 @@ open class Event<Element> {
     open func subscribe(
         _ queue: DispatchQueue? = nil,
         _ observer: @escaping Observer
-        ) -> Disposable {
+        ) -> EventDisposable {
         
         lock.lock()
         defer { lock.unlock() }
@@ -81,7 +81,7 @@ open class Event<Element> {
         let id = uniqueID.next()!
         observers[id] = (observer, queue)
         
-        let disposable = Disposable { [weak self] in
+        let disposable = EventDisposable { [weak self] in
             self?.observers[id] = nil
         }
         
@@ -92,7 +92,7 @@ open class Event<Element> {
     /// Subsribe on new changes
     /// - Parameter observer: target changes observer
     ///
-    open func subscribe(_ observer: @escaping Observer) -> Disposable {
+    open func subscribe(_ observer: @escaping Observer) -> EventDisposable {
         
         lock.lock()
         defer { lock.unlock() }
@@ -100,7 +100,7 @@ open class Event<Element> {
         let id = uniqueID.next()!
         observers[id] = (observer, nil)
         
-        let disposable = Disposable { [weak self] in
+        let disposable = EventDisposable { [weak self] in
             self?.observers[id] = nil
         }
         

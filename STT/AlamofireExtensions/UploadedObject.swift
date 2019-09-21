@@ -1,8 +1,8 @@
 //
-//  SectionData.swift
+//  UploadedObject.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 9/21/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,12 +26,47 @@
 
 import Foundation
 
-public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
-    let section: SectionPresenter
-    let cells: ObservableCollection<CellPresenter>
+///
+/// Object for multipart data upload
+///
+public struct UploadObject {
     
-    public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
-        self.section = section
-        self.cells = cells
+    let data: Data
+    let name: String
+    let fileName: String
+    let mimeType: String
+    
+    public init(
+        data: Data,
+        name: String,
+        fileName: String,
+        mimeType: String
+        ) {
+        
+        self.data = data
+        self.name = name
+        self.fileName = fileName
+        self.mimeType = mimeType
+    }
+}
+
+
+@available(swift, obsoleted: 5.0, message: "This will be removed in v5.1")
+public struct UploadedObject {
+    
+    let data: Data
+    let name: String
+    let fileName: String
+    let mimeType: String
+    
+    public init(data: Data,
+                name: String,
+                fileName: String,
+                mimeType: String) {
+        
+        self.data = data
+        self.name = name
+        self.fileName = fileName
+        self.mimeType = mimeType
     }
 }

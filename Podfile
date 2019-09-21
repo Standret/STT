@@ -8,8 +8,8 @@ target 'STT' do
     
   end
   
-  pod 'NGSRouter', '~> 0.6.0'
-
+  pod 'Alamofire', '~> 4.9.0'
+  pod 'RxSwift'
 end
 
 

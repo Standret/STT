@@ -1,8 +1,8 @@
 //
-//  SectionData.swift
+//  SttError.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 9/21/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,14 +24,35 @@
 //  SOFTWARE.
 //
 
+
 import Foundation
 
-public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
-    let section: SectionPresenter
-    let cells: ObservableCollection<CellPresenter>
+public enum SttError: ErrorType {
     
-    public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
-        self.section = section
-        self.cells = cells
+    case apiError(ApiError)
+    case connectionError(ConnectionError)
+    case jsonConvert(String)
+    case unkown(String)
+    
+    public var message: ErrorMessage {
+        var result: ErrorMessage
+        switch self {
+        case .apiError(let error):
+            result = error.message
+        case .connectionError(let error):
+            result = error.message
+        case .jsonConvert(let debugDescription):
+            result = ErrorMessage(
+                title: "Json convert",
+                description: debugDescription
+            )
+        case .unkown(let message):
+            result = ErrorMessage(
+                title: message,
+                description: "UNKNOWN"
+            )
+        }
+        
+        return result
     }
 }

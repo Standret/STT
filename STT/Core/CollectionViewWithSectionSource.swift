@@ -34,8 +34,8 @@ open class CollectionViewWithSectionSource<CellPresenter: PresenterType, Section
     private var countData: [Int]!
     private var collection: CollectionType!
     
-    private var disposable: Disposable?
-    private var subCollectionDisposeBag = [Disposable]()
+    private var disposable: EventDisposable?
+    private var subCollectionDisposeBag = [EventDisposable]()
     
     private var lock = NSRecursiveLock()
 

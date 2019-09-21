@@ -39,7 +39,7 @@ open class TableViewSource<Presenter: PresenterType>: BaseTableViewSource<Presen
     
     private var collection: ObservableCollection<Presenter>!
     
-    private var disposable: Disposable?
+    private var disposable: EventDisposable?
     
     public convenience init(
         tableView: UITableView,

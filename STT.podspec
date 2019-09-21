@@ -27,4 +27,16 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   s.subspec 'Extensions' do |sp|
     sp.source_files  = "STT/Extensions/*.swift"
   end
+
+  # STT ErrorManager
+  s.subspec 'ErrorManager' do |sp|
+    sp.source_files = "STT/ErrorManager/*.swift"
+  end
+
+  # STT AlamofireExtensions
+  s.subspec 'AlamofireExtensions' do |sp|
+    sp.source_files = "STT/AlamofireExtensions/*.swift", "STT/ErrorManager/*.swift"
+    sp.dependency "Alamofire", "4.9.0"
+    sp.dependency "RxSwift", "~> 5"
+  end
 end

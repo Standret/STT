@@ -28,24 +28,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-public struct UploadedObject {
-    let data: Data
-    let name: String
-    let fileName: String
-    let mimeType: String
-    
-    public init(data: Data,
-                name: String,
-                fileName: String,
-                mimeType: String) {
-        
-        self.data = data
-        self.name = name
-        self.fileName = fileName
-        self.mimeType = mimeType
-    }
-}
-
 public protocol SttHttpServiceType {
     
     func get(controller: ApiControllerType, data: [String: Any], headers: [String:String], insertToken: Bool) -> Observable<(HTTPURLResponse, Data)>
