@@ -32,6 +32,8 @@
 		7D0C285B2336993B00A36CFE /* EventPublisherExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C285A2336993B00A36CFE /* EventPublisherExtensions.swift */; };
 		7D0C285D23369B7E00A36CFE /* Command+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C285C23369B7E00A36CFE /* Command+UIKit.swift */; };
 		7D0C285F23369F8A00A36CFE /* SttRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C285E23369F8A00A36CFE /* SttRefreshControl.swift */; };
+		7D0C28612336A05100A36CFE /* MessengerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C28602336A05100A36CFE /* MessengerType.swift */; };
+		7D0C28632336A0B500A36CFE /* MessengerType+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C28622336A0B500A36CFE /* MessengerType+Rx.swift */; };
 		7D624669232CC1A3008D60E8 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */; };
 		7D62466B232CC299008D60E8 /* GlobalObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466A232CC299008D60E8 /* GlobalObserver.swift */; };
 		7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */; };
@@ -120,6 +122,8 @@
 		7D0C285A2336993B00A36CFE /* EventPublisherExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPublisherExtensions.swift; sourceTree = "<group>"; };
 		7D0C285C23369B7E00A36CFE /* Command+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Command+UIKit.swift"; sourceTree = "<group>"; };
 		7D0C285E23369F8A00A36CFE /* SttRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttRefreshControl.swift; sourceTree = "<group>"; };
+		7D0C28602336A05100A36CFE /* MessengerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerType.swift; sourceTree = "<group>"; };
+		7D0C28622336A0B500A36CFE /* MessengerType+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessengerType+Rx.swift"; sourceTree = "<group>"; };
 		7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		7D62466A232CC299008D60E8 /* GlobalObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalObserver.swift; sourceTree = "<group>"; };
 		7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttKeyboardViewController.swift; sourceTree = "<group>"; };
@@ -214,7 +218,7 @@
 			children = (
 				7D0C28572336984000A36CFE /* RxExtensions */,
 				7D0C27522336220700A36CFE /* AlamofireExtensions */,
-				7D0C284E2336705700A36CFE /* ErrorManager */,
+				7D0C284E2336705700A36CFE /* Messenger */,
 				7D98ECC4232D348C00980EFC /* Extensions */,
 				50DB4DC2232B7F4E00FDADA5 /* Core */,
 				50106A212237E49E002C634A /* Info.plist */,
@@ -303,7 +307,7 @@
 			path = AlamofireExtensions;
 			sourceTree = "<group>";
 		};
-		7D0C284E2336705700A36CFE /* ErrorManager */ = {
+		7D0C284E2336705700A36CFE /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
 				7D0C284423366C2F00A36CFE /* ErrorMessage.swift */,
@@ -311,8 +315,9 @@
 				7D0C284823366C6E00A36CFE /* ConnectionError.swift */,
 				7D0C284A23366C8300A36CFE /* ApiError.swift */,
 				7D0C284C23366CA000A36CFE /* SttError.swift */,
+				7D0C28602336A05100A36CFE /* MessengerType.swift */,
 			);
-			path = ErrorManager;
+			path = Messenger;
 			sourceTree = "<group>";
 		};
 		7D0C28572336984000A36CFE /* RxExtensions */ = {
@@ -320,6 +325,7 @@
 			children = (
 				7D0C28582336985000A36CFE /* CommandExtensions.swift */,
 				7D0C285A2336993B00A36CFE /* EventPublisherExtensions.swift */,
+				7D0C28622336A0B500A36CFE /* MessengerType+Rx.swift */,
 			);
 			path = RxExtensions;
 			sourceTree = "<group>";
@@ -593,12 +599,14 @@
 				7D80630A232E2FC4003E69CB /* SafeDelegatedCall.swift in Sources */,
 				7D98ECF5232D34BE00980EFC /* UIApplicationExtensions.swift in Sources */,
 				7D98ECF4232D34BE00980EFC /* UITableViewExtensions.swift in Sources */,
+				7D0C28612336A05100A36CFE /* MessengerType.swift in Sources */,
 				7D98ECE9232D34BE00980EFC /* UINavigationControllerExtensions.swift in Sources */,
 				7D98ECF3232D34BE00980EFC /* UICollectionViewExtensions.swift in Sources */,
 				7D98ECEF232D34BE00980EFC /* EncodableExtensions.swift in Sources */,
 				7DAFCF39232D6D6400FA1CBA /* ObservableCollection.swift in Sources */,
 				7D8063F4232E317B003E69CB /* BaseTableViewSource.swift in Sources */,
 				7DD20538232E13BE003864E9 /* Event.swift in Sources */,
+				7D0C28632336A0B500A36CFE /* MessengerType+Rx.swift in Sources */,
 				50DB4DC7232B856900FDADA5 /* SttViewController.swift in Sources */,
 				7D98ECF9232D34BE00980EFC /* UIImageExtensions.swift in Sources */,
 				7D0C285B2336993B00A36CFE /* EventPublisherExtensions.swift in Sources */,

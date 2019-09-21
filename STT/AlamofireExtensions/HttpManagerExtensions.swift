@@ -66,13 +66,13 @@ public extension ObservableType where Element == (HTTPURLResponse, Data) {
                         SttLog.shared.error(message: "\(error)", key: "JSONCONVERT")
                         observer.onError(SttError.jsonConvert("\(error)"))
                     }
-                case 400 ... 499:
+                case 400:
                     let object = ServerErrorWrapper(description: String(data: data, encoding: String.Encoding.utf8) ?? "")
                     observer.onError(SttError.apiError(.badRequest(object)))
                 case 500:
                     observer.onError(SttError.apiError(.internalServerError(String(data: data, encoding: String.Encoding.utf8) ?? "UNKNOWN")))
                 default:
-                    observer.onError(SttError.apiError(.unkown(urlResponse.statusCode, String(data: data, encoding: String.Encoding.utf8))))
+                    observer.onError(SttError.apiError(.unknown(urlResponse.statusCode, String(data: data, encoding: String.Encoding.utf8))))
                 }
             }, onError: { (error) in
                 if let er = error as? SttError {
@@ -113,7 +113,7 @@ public extension ObservableType where Element == (HTTPURLResponse, Data) {
                         SttLog.shared.error(message: "\(error)", key: "JSONCONVERT")
                         observer.onError(SttError.jsonConvert("\(error)"))
                     }
-                case 400 ... 499:
+                case 400:
                     if let object = try? JSONDecoder().decode(TError.self, from: data) {
                         observer.onError(SttError.apiError(.badRequest(object)))
                     }
@@ -124,7 +124,7 @@ public extension ObservableType where Element == (HTTPURLResponse, Data) {
                 case 500:
                     observer.onError(SttError.apiError(.internalServerError(String(data: data, encoding: String.Encoding.utf8) ?? "UNKNOWN")))
                 default:
-                    observer.onError(SttError.apiError(.unkown(urlResponse.statusCode, String(data: data, encoding: String.Encoding.utf8))))
+                    observer.onError(SttError.apiError(.unknown(urlResponse.statusCode, String(data: data, encoding: String.Encoding.utf8))))
                 }
             }, onError: { (error) in
                 if let er = error as? SttError {
@@ -153,13 +153,13 @@ public extension ObservableType where Element == (HTTPURLResponse, Data) {
                 case 200 ... 299:
                     observer.onNext(())
                     observer.onCompleted()
-                case 400 ... 499:
+                case 400:
                     let object = ServerErrorWrapper(description: String(data: data, encoding: String.Encoding.utf8) ?? "")
                     observer.onError(SttError.apiError(.badRequest(object)))
                 case 500:
                     observer.onError(SttError.apiError(.internalServerError(String(data: data, encoding: String.Encoding.utf8) ?? "UNKNOWN")))
                 default:
-                    observer.onError(SttError.apiError(.unkown(urlResponse.statusCode, String(data: data, encoding: String.Encoding.utf8))))
+                    observer.onError(SttError.apiError(.unknown(urlResponse.statusCode, String(data: data, encoding: String.Encoding.utf8))))
                 }
             }, onError: { (error) in
                 if let er = error as? SttError {

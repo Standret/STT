@@ -1,5 +1,5 @@
 //
-//  ApiError.swift
+//  MessengerType.swift
 //  STT
 //
 //  Created by Peter Standret on 9/21/19.
@@ -26,32 +26,37 @@
 
 import Foundation
 
-public enum ApiError: ErrorType {
+public enum MessageLevelType {
+    case message
+    case trace
+    case warning
+    case error
+    case fatalError
+}
+
+public struct LogMessage {
     
-    case badRequest(ServerErrorType)
-    case internalServerError(String)
-    case unkown(Int, String?)
+    let type: MessageLevelType
+    let title: String
+    let description: String?
+    let debugDescription: String?
+}
+
+public protocol MessengerType: class {
     
-    public var message: ErrorMessage {
-        
-        var result: ErrorMessage
-        switch self {
-        case .badRequest(let error):
-            result = ErrorMessage(
-                title: "Bad request",
-                description: error.description
-            )
-        case .internalServerError(let message):
-            result = ErrorMessage(
-                title: "Internal Server Error",
-                description: message)
-            
-        case .unkown(let code, let description):
-            result = ErrorMessage(
-                title: "Unkown API Error with code: \(code)",
-                description: description ?? "UNKNOWN"
-            )
-        }
-        return result
+    var messages: Event<LogMessage> { get }
+    
+    func publish(message: LogMessage)
+}
+
+open class Messenger: MessengerType {
+    
+    private var messagesSubject = EventPublisher<LogMessage>()
+    open var messages: Event<LogMessage> { return messagesSubject }
+    
+    public init() { }
+    
+    public func publish(message: LogMessage) {
+        messagesSubject.invoke(message)
     }
 }
