@@ -1,5 +1,5 @@
 //
-//  Protocols.swift
+//  SttRefreshControl.swift
 //  STT
 //
 //  Created by Peter Standret on 9/21/19.
@@ -25,11 +25,30 @@
 //
 
 import Foundation
+import UIKit
 
-public protocol ErrorType: Error {
-    var message: ErrorMessage { get }
-}
-
-public protocol ServerErrorType: Decodable {
-    var description: String { get }
+public class SttRefreshControl: UIRefreshControl {
+    
+    private var lazyExecute: (() -> Void)!
+    
+    public func useCommand(
+        _ command: CommandType,
+        parameter: Any?
+        ) -> EventDisposable {
+        
+        lazyExecute = {
+            command.execute(parameter: parameter)
+        }
+        
+        self.addTarget(self, action: #selector(onValueChanged(_:)), for: .valueChanged)
+        
+        return command.observe(start: nil) { [weak self] in
+            self?.endRefreshing()
+        }
+    }
+    
+    @objc
+    private func onValueChanged(_ sender: UIRefreshControl) {
+        lazyExecute()
+    }
 }

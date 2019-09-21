@@ -1,5 +1,5 @@
 //
-//  Protocols.swift
+//  EventPublisherExtensions.swift
 //  STT
 //
 //  Created by Peter Standret on 9/21/19.
@@ -25,11 +25,27 @@
 //
 
 import Foundation
+import RxSwift
 
-public protocol ErrorType: Error {
-    var message: ErrorMessage { get }
+public extension EventPublisher {
+    
+    func asObservable() -> Observable<Element> {
+        return Observable.create({ (observer) -> Disposable in
+            
+            let disposable = self.subscribe(observer.onNext)
+            
+            return Disposables.create {
+                disposable.dispose()
+            }
+        })
+    }
 }
 
-public protocol ServerErrorType: Decodable {
-    var description: String { get }
+extension EventDisposable {
+    
+    func disposed(by bag: DisposeBag) {
+        bag.insert(Disposables.create {
+            self.dispose()
+        })
+    }
 }

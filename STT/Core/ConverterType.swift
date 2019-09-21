@@ -1,5 +1,5 @@
 //
-//  Protocols.swift
+//  ConverterType.swift
 //  STT
 //
 //  Created by Peter Standret on 9/21/19.
@@ -24,12 +24,41 @@
 //  SOFTWARE.
 //
 
+
 import Foundation
 
-public protocol ErrorType: Error {
-    var message: ErrorMessage { get }
+public protocol ConverterType: AnyObject {
+    
+    init()
+    
+    func convert(value: Any?, parametr: Any?) -> Any
+    func convertBack(value: Any?, parametr: Any?) -> Any
 }
 
-public protocol ServerErrorType: Decodable {
-    var description: String { get }
+open class Converter<TIn, TOut>: ConverterType {
+    
+    public required init() { }
+    
+    public func convert(value: Any?, parametr: Any?) -> Any {
+        return self.convert(value: value as! TIn, parametr: parametr)
+    }
+    
+    public func convertBack(value: Any?, parametr: Any?) -> Any {
+        return self.convertBack(value: value as! TOut, parametr: parametr)
+    }
+    
+    open func convert(value: TIn, parametr: Any?) -> TOut {
+        fatalError("should be implemented")
+    }
+    
+    open func convertBack(value: TOut, parametr: Any?) -> TIn {
+        fatalError("should be implemented")
+    }
+}
+
+public extension Converter {
+    
+    func convert(value: TIn) -> TOut {
+        return self.convert(value: value, parametr: nil)
+    }
 }

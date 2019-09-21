@@ -1,5 +1,5 @@
 //
-//  Protocols.swift
+//  CommandExtensions.swift
 //  STT
 //
 //  Created by Peter Standret on 9/21/19.
@@ -25,11 +25,36 @@
 //
 
 import Foundation
+import RxSwift
 
-public protocol ErrorType: Error {
-    var message: ErrorMessage { get }
+public extension CommandType {
+    
+    func useWork<T>(observable: Observable<T>) -> Observable<T> {
+        return observable.do(onNext: { (element) in
+            if self.singleCallEndCallback && self.isExecuting {
+                self.changeState(state: .end)
+            }
+        }, onError: { (error) in
+            if self.isExecuting {
+                self.changeState(state: .end)
+            }
+        }, onCompleted: {
+            if self.isExecuting {
+                self.changeState(state: .end)
+            }
+        }, onSubscribed: {
+            self.changeState(state: .start)
+        }, onDispose: {
+            if self.isExecuting {
+                self.changeState(state: .end)
+            }
+        })
+    }
 }
 
-public protocol ServerErrorType: Decodable {
-    var description: String { get }
+public extension Observable {
+    
+    func useWork(_ command: CommandType) -> Observable<Element> {
+        return command.useWork(observable: self)
+    }
 }
