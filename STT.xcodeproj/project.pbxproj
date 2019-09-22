@@ -81,6 +81,8 @@
 		7DE8742423379DB90086F166 /* BinderContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8742323379DB90086F166 /* BinderContext.swift */; };
 		7DE874262337A7A70086F166 /* ControlEventContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE874252337A7A70086F166 /* ControlEventContext.swift */; };
 		7DE874282337C4A70086F166 /* ValueCombiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE874272337C4A70086F166 /* ValueCombiner.swift */; };
+		7DE8742A2337EC230086F166 /* ControlPropertyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE874292337EC230086F166 /* ControlPropertyContext.swift */; };
+		7DE8742C2337F3C30086F166 /* ControlPropertyContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8742B2337F3C30086F166 /* ControlPropertyContextTests.swift */; };
 		E091BD464B3C8A8E268C2615 /* Pods_STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F07C78CD80E06DA402D8120 /* Pods_STT.framework */; };
 		FEA627B2DAC18A2A07DDCD1D /* Pods_STT_STTTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */; };
 /* End PBXBuildFile section */
@@ -176,6 +178,8 @@
 		7DE8742323379DB90086F166 /* BinderContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderContext.swift; sourceTree = "<group>"; };
 		7DE874252337A7A70086F166 /* ControlEventContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlEventContext.swift; sourceTree = "<group>"; };
 		7DE874272337C4A70086F166 /* ValueCombiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueCombiner.swift; sourceTree = "<group>"; };
+		7DE874292337EC230086F166 /* ControlPropertyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPropertyContext.swift; sourceTree = "<group>"; };
+		7DE8742B2337F3C30086F166 /* ControlPropertyContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPropertyContextTests.swift; sourceTree = "<group>"; };
 		B6708AD67BF4A9E371E2ADCA /* Pods_STT_STTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STT_STTTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A23C0E38B1F75627C89381 /* Pods-STT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.release.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.release.xcconfig"; sourceTree = "<group>"; };
 		F2E47C50D2A21A4A8A712D2F /* Pods-STT-STTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT-STTTests.debug.xcconfig"; path = "Target Support Files/Pods-STT-STTTests/Pods-STT-STTTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 				50106A2B2237E49E002C634A /* STTTests.swift */,
 				50106A2D2237E49E002C634A /* Info.plist */,
 				7DE8741F233798860086F166 /* BinderContextTests.swift */,
+				7DE8742B2337F3C30086F166 /* ControlPropertyContextTests.swift */,
 			);
 			path = STTTests;
 			sourceTree = "<group>";
@@ -428,9 +433,10 @@
 				7DE8741B233778D40086F166 /* Dynamic.swift */,
 				7DE8741D233780500086F166 /* BindingSet.swift */,
 				7DE8742123379CF80086F166 /* BindableExtensions.swift */,
+				7DE874272337C4A70086F166 /* ValueCombiner.swift */,
 				7DE8742323379DB90086F166 /* BinderContext.swift */,
 				7DE874252337A7A70086F166 /* ControlEventContext.swift */,
-				7DE874272337C4A70086F166 /* ValueCombiner.swift */,
+				7DE874292337EC230086F166 /* ControlPropertyContext.swift */,
 			);
 			path = Bindings;
 			sourceTree = "<group>";
@@ -669,6 +675,7 @@
 				7D8063FE232E9493003E69CB /* TableViewSourceWithSection.swift in Sources */,
 				7D98ECE3232D34BE00980EFC /* UIViewControllerExtensions.swift in Sources */,
 				50DB4CDB232B7DC900FDADA5 /* PresenterType.swift in Sources */,
+				7DE8742A2337EC230086F166 /* ControlPropertyContext.swift in Sources */,
 				7D98ECF8232D34BE00980EFC /* JsonDecoderExtensions.swift in Sources */,
 				7D98ECE6232D34BE00980EFC /* ArrayExtensions.swift in Sources */,
 				7D80621B232E2C67003E69CB /* SttCollectionReusableView.swift in Sources */,
@@ -691,6 +698,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50106A2C2237E49E002C634A /* STTTests.swift in Sources */,
+				7DE8742C2337F3C30086F166 /* ControlPropertyContextTests.swift in Sources */,
 				7DE87420233798860086F166 /* BinderContextTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

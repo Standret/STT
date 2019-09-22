@@ -113,11 +113,16 @@ public class BindingSet<T: AnyObject>: BindingContextType {
         return context
     }
     
-    public func bind<Command: CommandType>(_ command: Command) -> ControlEventContext<Command> {
-        fatalError()
-//        let context = ControlEventContext(event)
-//        sets.append(context)
-//        return context
+    public func bind<EventType>(_ event: ControlEvent<EventType>) -> ControlEventContext<EventType> {
+        let context = ControlEventContext(event)
+        sets.append(context)
+        return context
+    }
+    
+    public func bind<Element: Equatable>(_ event: ControlProperty<Element>) -> ControlPropertyContext<Element> {
+        let context = ControlPropertyContext(event)
+        sets.append(context)
+        return context
     }
     
     @discardableResult
@@ -131,13 +136,29 @@ public class BindingSet<T: AnyObject>: BindingContextType {
     }
 }
 
-//public extension BindingSet {
-//    
-//    func bind<Element>(_ closure: @escaping (T, Element) -> Void) -> BinderContext<Element> {
-//        return self.bind(Binder<Element>(parent, binding: closure))
-//    }
-//
-//    func bind<T: UILabel>(_ label: T) -> BinderContext<String> {
-//        return self.bind(label.rx.text)
-//    }
-//}
+public extension BindingSet {
+    
+    func bind(_ searchBar: UISearchBar) -> ControlPropertyContext<String> {
+        let context = ControlPropertyContext(searchBar.rx.text.orEmpty)
+        sets.append(context)
+        return context
+    }
+    
+    func bind(_ textField: UITextField) -> ControlPropertyContext<String> {
+        let context = ControlPropertyContext(textField.rx.text.orEmpty)
+        sets.append(context)
+        return context
+    }
+    
+    func bind(_ textView: UITextView) -> ControlPropertyContext<String> {
+        let context = ControlPropertyContext(textView.rx.text.orEmpty)
+        sets.append(context)
+        return context
+    }
+    
+    func bind(_ datePicker: UIDatePicker) -> ControlPropertyContext<Date> {
+        let context = ControlPropertyContext(datePicker.rx.date)
+        sets.append(context)
+        return context
+    }
+}
