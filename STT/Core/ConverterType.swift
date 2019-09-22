@@ -32,19 +32,19 @@ public protocol ConverterType: AnyObject {
     associatedtype TIn
     associatedtype TOut
     
-    func convert(value: TIn, parametr: Any?) -> TOut
-    func convertBack(value: TOut, parametr: Any?) -> TIn
+    func convert(value: TIn, parameter: Any?) -> TOut
+    func convertBack(value: TOut, parameter: Any?) -> TIn
 }
 
 public extension ConverterType {
     
-    func convert(value: TIn, parametr: Any?) -> TOut { fatalError("Should be implemented") }
-    func convertBack(value: TOut, parametr: Any?) -> TIn { fatalError("Should be implemented") }
+    func convert(value: TIn, parameter: Any?) -> TOut { fatalError("Should be implemented") }
+    func convertBack(value: TOut, parameter: Any?) -> TIn { fatalError("Should be implemented") }
     
     func convert(value: TIn) -> TOut {
-        return self.convert(value: value, parametr: nil)
+        return self.convert(value: value, parameter: nil)
     }
     func convertBack(value: TOut) -> TIn {
-        return self.convertBack(value: value, parametr: nil)
+        return self.convertBack(value: value, parameter: nil)
     }
 }

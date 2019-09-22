@@ -52,7 +52,7 @@ open class SttLog: SttLogType {
 
 internal class SttLogDateConverter: ConverterType {
     
-    func convert(value: Date, parametr: Any?) -> String {
+    func convert(value: Date, parameter: Any?) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
         formatter.timeZone = TimeZone.current
@@ -64,7 +64,7 @@ internal class SttLogDateConverter: ConverterType {
 
 internal class DateConverter: ConverterType {
     
-    func convert(value: Date, parametr: Any?) -> String {
+    func convert(value: Date, parameter: Any?) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale.current
         formatter.timeZone = TimeZone.current

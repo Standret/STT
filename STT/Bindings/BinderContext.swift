@@ -13,13 +13,14 @@ import RxCocoa
 public typealias Applier = () -> Disposable
 public class BinderContext<Element>: BindingContextType {
     
-    private let binder: Binder<Element>
+    private let property: Dynamic<Element>
     private var bindingMode: BindingMode = .readBind
     
+    private var innerContext: BindingContextType?
     private var lazyApplier: Applier!
     
-    init(_ binder: Binder<Element>) {
-        self.binder = binder
+    init(_ property: Dynamic<Element>) {
+        self.property = property
     }
     
     /**
@@ -42,14 +43,68 @@ public class BinderContext<Element>: BindingContextType {
      ````
      */
     @discardableResult
-    open func withConverter<Converter: ConverterType>(_ converter: Converter)
-        -> BinderContext<Converter.TIn> where Converter.TOut == Element {
+    open func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+        -> BinderContext<Converter.TOut> where Converter.TIn == Element {
             
-            let converterBinder = Binder<Converter.TIn>.init(self) { (object, value) in
-                self.binder.onNext(converter.convert(value: value))
+            let newProperty = Dynamic(converter.convert(value: self.property.value, parameter: parameter))
+            
+            let binderContext = BinderContext<Converter.TOut>(newProperty)
+            binderContext.bindingMode = self.bindingMode
+            innerContext = binderContext
+            
+            lazyApplier = { [unowned self] in
+                switch self.bindingMode {
+                case .readBind, .twoWayBind:
+                    return self.property.bind({ newProperty.value = converter.convert(value: $0, parameter: parameter) })
+                case .readListener, .twoWayListener:
+                    return self.property.addListener({ newProperty.value = converter.convert(value: $0, parameter: parameter) })
+                default:
+                    fatalError("Incorrect type")
+                }
             }
-            let binderContext = BinderContext<Converter.TIn>(converterBinder)
-            lazyApplier = binderContext.apply
+            
+            return binderContext
+    }
+    
+    /**
+     Add to context converter
+     
+     - Important:
+     
+     Type on binding function and result of converter have to have the same type.
+     
+     Also, the type of dynamic property and type of converter's parameter have to have the same type.
+     
+     Otherwise program throw faralError
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     .withConverter(Converter.self)
+     
+     ````
+     */
+    @discardableResult
+    open func withConverter<TOut>(_ converter: @escaping (Element) -> TOut)
+        -> BinderContext<TOut> {
+            
+            let newProperty = Dynamic(converter(self.property.value))
+            
+            let binderContext = BinderContext<TOut>(newProperty)
+            binderContext.bindingMode = self.bindingMode
+            innerContext = binderContext
+            
+            lazyApplier = { [unowned self] in
+                switch self.bindingMode {
+                case .readBind, .twoWayBind:
+                    return self.property.bind({ newProperty.value = converter($0) })
+                case .readListener, .twoWayListener:
+                    return self.property.addListener({ newProperty.value = converter( $0) })
+                default:
+                    fatalError("Incorrect type")
+                }
+            }
             
             return binderContext
     }
@@ -65,42 +120,15 @@ public class BinderContext<Element>: BindingContextType {
      ````
      */
     @discardableResult
-    public func to(_ value: Dynamic<Element>) -> BinderContext<Element> {
+    public func to(_ binder: Binder<Element>) -> BindingContextType {
         
         lazyApplier = { [unowned self] in
             
             switch self.bindingMode {
             case .readBind, .twoWayBind:
-                return value.bind({ [unowned self] value in self.binder.onNext(value) })
+                return self.property.bind(binder.onNext)
             case .readListener, .twoWayListener:
-                return value.addListener({ [unowned self] value in self.binder.onNext(value) })
-            default:
-                fatalError("Incorrect type")
-            }
-        }
-        
-        return self
-    }
-    
-    /**
-     Add to context Dynamic property for handler
-     
-     ### Usage Example: ###
-     ````
-     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
-     .to(dynamicProperty)
-     
-     ````
-     */
-    public func to(_ value: Dynamic<Element?>, fallbackValue: Element) -> BinderContext<Element> {
-        
-        lazyApplier = { [unowned self] in
-            
-            switch self.bindingMode {
-            case .readBind, .twoWayBind:
-                return value.bind({ [unowned self] value in self.binder.onNext(value ?? fallbackValue) })
-            case .readListener, .twoWayListener:
-                return value.addListener({ [unowned self] value in self.binder.onNext(value ?? fallbackValue) })
+                return self.property.addListener(binder.onNext)
             default:
                 fatalError("Incorrect type")
             }
@@ -134,7 +162,47 @@ public class BinderContext<Element>: BindingContextType {
     
     @discardableResult
     public func apply() -> Disposable {
+        
+        if let disp = innerContext?.apply() {
+            return Disposables.create(disp, lazyApplier())
+        }
+        
         return lazyApplier()
+    }
+}
+
+public extension BinderContext where Element == Int {
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    func to(_ binder: Binder<String>) -> BindingContextType {
+        return self
+            .withConverter({ String($0) })
+            .to(binder)
+    }
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    func to(_ label: UILabel) -> BindingContextType {
+        return self.to(label.rx.text)
     }
 }
 
@@ -151,76 +219,14 @@ public extension BinderContext where Element == String {
      ````
      */
     @discardableResult
-    func to(_ value: Dynamic<Int>) -> BinderContext<Element> {
-        
-        lazyApplier = { [unowned self] in
-            
-            switch self.bindingMode {
-            case .readBind, .twoWayBind:
-                return value.bind({ [unowned self] value in self.binder.onNext(String(value)) })
-            case .readListener, .twoWayListener:
-                return value.addListener({ [unowned self] value in self.binder.onNext(String(value)) })
-            default:
-                fatalError("Incorrect type")
-            }
-        }
-        
-        return self
+    func to(_ label: UILabel) -> BindingContextType {
+        return self.to(label.rx.text)
     }
+}
+
+public extension BinderContext where Element == Bool {
     
-    /**
-     Add to context Dynamic property for handler
-     
-     ### Usage Example: ###
-     ````
-     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
-     .to(dynamicProperty)
-     
-     ````
-     */
-    @discardableResult
-    func to(_ value: Dynamic<Int?>, fallbackValue: Int) -> BinderContext<Element> {
-        
-        lazyApplier = { [unowned self] in
-            
-            switch self.bindingMode {
-            case .readBind, .twoWayBind:
-                return value.bind({ [unowned self] value in self.binder.onNext(String(value ?? fallbackValue)) })
-            case .readListener, .twoWayListener:
-                return value.addListener({ [unowned self] value in self.binder.onNext(String(value ?? fallbackValue)) })
-            default:
-                fatalError("Incorrect type")
-            }
-        }
-        
-        return self
-    }
-    
-    /**
-     Add to context Dynamic property for handler
-     
-     ### Usage Example: ###
-     ````
-     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
-     .to(dynamicProperty)
-     
-     ````
-     */
-    @discardableResult
-    func to(_ value: Dynamic<String?>, fallbackValue: String) -> BinderContext<Element> {
-        
-        lazyApplier = { [unowned self] in
-            
-            switch self.bindingMode {
-            case .readBind, .twoWayBind:
-                return value.bind({ [unowned self] value in self.binder.onNext(value ?? fallbackValue) })
-            case .readListener, .twoWayListener:
-                return value.addListener({ [unowned self] value in self.binder.onNext(value ?? fallbackValue) })
-            default:
-                fatalError("Incorrect type")
-            }
-        }
-        
-        return self
+    func withNegativeConverter() -> BinderContext<Element> {
+        return self.withConverter({ !$0 })
     }
 }

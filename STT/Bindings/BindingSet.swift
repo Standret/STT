@@ -57,204 +57,87 @@ public protocol BindingContextType {
  
  ````
  */
-public class BindingSet<T: AnyObject> {
+public class BindingSet<T: AnyObject>: BindingContextType {
     
     private unowned var parent: T
     
     private var sets = [BindingContextType]()
+    private var disposable: Disposable?
     
     public init (_ parent: T) {
         self.parent = parent
     }
     
-    public func bind<Element>(_ binder: Binder<Element>) -> BinderContext<Element> {
-        let context = BinderContext(binder)
+    public func bind<Element>(_ value: Dynamic<Element>) -> BinderContext<Element> {
+        let context = BinderContext(value)
         sets.append(context)
         return context
     }
     
-    public func bind<Type>(_ event: ControlEvent<Type>) -> ControlEventContext<Type> {
-        let context = ControlEventContext(event)
+    public func bind<Element1, Element2>(
+        _ value1: Dynamic<Element1>,
+        _ value2: Dynamic<Element2>
+        ) -> ValueCombiner<Element1, Element2> {
+        
+        let context = ValueCombiner(value1, value2)
         sets.append(context)
         return context
     }
     
-    //    public func bind(_ interactionData: SttBindingInteractionData) -> SttGenericBindingContext<TViewController, String?> {
-    //
-    //        let set = SttInteractionBindingContext(viewController: parent, data: interactionData)
-    //        sets.append(set)
-    //        return set
-    //    }
-    //
-    //    /**
-    //     Use for text field (one way and two way bindings)
-    //
-    //     - Important:
-    //     property delegate in target textfield have to be empty or have type **SttHandlerTextField**
-    //     otherwise this method throw fatalError()
-    //
-    //     */
-    //    public func bind(_ textField: UITextField) -> SttTextFieldBindingContext<TViewController> {
-    //
-    //        var data: (SttHandlerTextField, UITextField)!
-    //
-    //        if let handler = textField.delegate as? SttHandlerTextField {
-    //            data = (handler, textField)
-    //        }
-    //        else if textField.delegate != nil {
-    //            fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
-    //        }
-    //        else {
-    //            let handler = SttHandlerTextField(textField)
-    //            textField.delegate = handler
-    //
-    //            data = (handler, textField)
-    //        }
-    //
-    //        let set = SttTextFieldBindingContext<TViewController>(viewController: parent, handler: data.0, textField: data.1)
-    //        sets.append(set)
-    //
-    //        return set
-    //    }
-    //
-    //    /**
-    //     Use for search bar (one way and two way bindings)
-    //
-    //     - Important:
-    //     property delegate in target searchBar have to be empty or have type **SttHandlerSearchBar**
-    //     otherwise this method throw fatalError()
-    //
-    //     */
-    //    public func bind(_ searchBar: UISearchBar) -> SttSearchBarBindingContext<TViewController> {
-    //
-    //        var data: (SttHanlderSearchBar, UISearchBar)!
-    //
-    //        if let handler = searchBar.delegate as? SttHanlderSearchBar {
-    //            data = (handler, searchBar)
-    //        }
-    //        else if searchBar.delegate != nil {
-    //            fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
-    //        }
-    //        else {
-    //            let handler = SttHanlderSearchBar()
-    //            searchBar.delegate = handler
-    //
-    //            data = (handler, searchBar)
-    //        }
-    //
-    //        let set = SttSearchBarBindingContext<TViewController>(viewController: parent, handler: data.0, searchBar: data.1)
-    //        sets.append(set)
-    //
-    //        return set
-    //    }
-    //
-    //    /**
-    //     Use for text view (one way and two way bindings)
-    //
-    //     - Important:
-    //     property delegate in target textView have to be empty or have type **SttHandlerTextView**
-    //     otherwise this method throw fatalError()
-    //
-    //     */
-    //    public func bind(_ textView: UITextView) -> SttTextViewBindingContext<TViewController> {
-    //
-    //        var data: (SttHandlerTextView, UITextView)!
-    //
-    //        if let handler = textView.delegate as? SttHandlerTextView {
-    //            data = (handler, textView)
-    //        }
-    //        else if textView.delegate != nil {
-    //            fatalError("Incorrect delegate in TextField. Expected type nil or SttHandlerTextField")
-    //        }
-    //        else {
-    //            let handler = SttHandlerTextView()
-    //            textView.delegate = handler
-    //
-    //            data = (handler, textView)
-    //        }
-    //
-    //        let set = SttTextViewBindingContext(viewController: parent, handler: data.0, textView: data.1)
-    //        sets.append(set)
-    //
-    //        return set
-    //    }
-    //
-    //    public func bind(_ button: UIButton) -> SttButtonBindingSet {
-    //
-    //        let set = SttButtonBindingSet(button: button)
-    //        sets.append(set)
-    //        return set
-    //    }
-    //
-    //    public func bind(_ datePicker: UIDatePicker) -> SttDatePickerBindingContext<TViewController> {
-    //
-    //        let set = SttDatePickerBindingContext(viewController: parent, handler: SttHandlerDatePicker(datePicker), datePicker: datePicker)
-    //        sets.append(set)
-    //        return set
-    //    }
-    //
-    //    public func bind(_ switcher: UISwitch) -> SttSwitcherBindingContext<TViewController> {
-    //
-    //        let set = SttSwitcherBindingContext(viewController: parent, switcher: switcher)
-    //        sets.append(set)
-    //        return set
-    //    }
-    //
-    //    /**
-    //     Use for abstract binding.
-    //
-    //     - REMARK:
-    //     It is reccomend to use only if there are not any **specific** bindings.
-    //
-    //     - PARAMETER context: Target type which you expect to assign in binding cloisure
-    //
-    //     ### Usage Example: ###
-    //     ````
-    //     set.bind(TargetType.self)
-    //
-    //     ````
-    //     */
-    //    public func bind<T>(_ context: T.Type) -> SttGenericBindingContext<TViewController, T> {
-    //
-    //        let set = SttGenericBindingContext<TViewController, T>(vc: parent)
-    //        sets.append(set)
-    //        return set
-    //    }
-    //
-    //    /**
-    //     Use for abstract double binding.
-    //
-    //     - REMARK:
-    //     It is reccomend to use only if there are not any **specific** bindings.
-    //
-    //     - PARAMETER context: Target type which you expect to assign in binding cloisure
-    //
-    //     ### Usage Example: ###
-    //     ````
-    //     set.bind(TargetType.self)
-    //
-    //     ````
-    //     */
-    //    public func bind<T1, T2>(_ context1: T1.Type, _ context2: T2.Type) -> SttDoubleGenericBindingContext<TViewController, T1, T2> {
-    //
-    //        let set = SttDoubleGenericBindingContext<TViewController, T1, T2>(vc: parent)
-    //        sets.append(set)
-    //        return set
-    //    }
-    //
-    //    /// apply all bindings setted in set
-    //    public func apply() {
-    //        sets.forEach({ $0.apply() })
-    //    }
-}
-
-public extension BindingSet {
+    public func bind<Element1, Element2, Element3>(
+        _ value1: Dynamic<Element1>,
+        _ value2: Dynamic<Element2>,
+        _ value3: Dynamic<Element3>
+        ) -> Value3Combiner<Element1, Element2, Element3> {
+        
+        let context = Value3Combiner(value1, value2, value3)
+        sets.append(context)
+        return context
+    }
     
-    func bind<Element>(_ closure: @escaping (T, Element) -> Void) -> BinderContext<Element> {
-        return self.bind(Binder<Element>(parent, binding: closure))
+    public func bind<Element1, Element2, Element3, Element4>(
+        _ value1: Dynamic<Element1>,
+        _ value2: Dynamic<Element2>,
+        _ value3: Dynamic<Element3>,
+        _ value4: Dynamic<Element4>
+        ) -> Value4Combiner<Element1, Element2, Element3, Element4> {
+        
+        let context = Value4Combiner(value1, value2, value3, value4)
+        sets.append(context)
+        return context
     }
-
-    func bind(_ label: UILabel) -> BinderContext<String> {
-        return self.bind(label.rx.text)
+    
+    public func bind<Element>(_ value: Dynamic<Element?>, fallbackValue: Element) -> BinderContext<Element> {
+        let context = BinderContext(value).withConverter({ $0 ?? fallbackValue })
+        sets.append(context)
+        return context
+    }
+    
+    public func bind<Command: CommandType>(_ command: Command) -> ControlEventContext<Command> {
+        fatalError()
+//        let context = ControlEventContext(event)
+//        sets.append(context)
+//        return context
+    }
+    
+    @discardableResult
+    public func apply() -> Disposable {
+        disposable = Disposables.create(sets.map({ $0.apply() }))
+        return disposable!
+    }
+    
+    public func dispose() {
+        disposable?.dispose()
     }
 }
+
+//public extension BindingSet {
+//    
+//    func bind<Element>(_ closure: @escaping (T, Element) -> Void) -> BinderContext<Element> {
+//        return self.bind(Binder<Element>(parent, binding: closure))
+//    }
+//
+//    func bind<T: UILabel>(_ label: T) -> BinderContext<String> {
+//        return self.bind(label.rx.text)
+//    }
+//}

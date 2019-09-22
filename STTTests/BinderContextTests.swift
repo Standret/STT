@@ -16,7 +16,7 @@ import Nimble
 
 class IntConverter: ConverterType {
     
-    func convert(value: Int, parametr: Any?)  -> String {
+    func convert(value: Int, parameter: Any?)  -> String {
         return "(\(value))"
     }
 }
@@ -40,26 +40,26 @@ class BinderContextTests: QuickSpec {
                 }
                 
                 it("should set inital value") {
-                    set.bind(label)
-                        .to(variable)
+                    set.bind(variable)
+                        .to(label)
                         .apply()
                     
                     expect(label.text).to(equal("initial"))
                 }
                 
                 it("should not set inital value") {
-                    set.bind(label)
+                    set.bind(variable)
                         .withMode(.readListener)
-                        .to(variable)
+                        .to(label)
                         .apply()
                     
                     expect(label.text).to(beNil())
                 }
                 
                 it("should set inital next value") {
-                    set.bind(label)
+                    set.bind(variable)
                         .withMode(.readListener)
-                        .to(variable)
+                        .to(label)
                         .apply()
                     
                     variable.value = "text"
@@ -83,8 +83,8 @@ class BinderContextTests: QuickSpec {
                     it("should set inital 5 value") {
                         let variable = Dynamic<Int>(5)
 
-                        set.bind(label)
-                            .to(variable)
+                        set.bind(variable)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("5"))
@@ -93,8 +93,8 @@ class BinderContextTests: QuickSpec {
                     it("should set inital 5 value from Optional") {
                         let variable = Dynamic<Int?>(5)
 
-                        set.bind(label)
-                            .to(variable, fallbackValue: 0)
+                        set.bind(variable, fallbackValue: 0)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("5"))
@@ -103,8 +103,8 @@ class BinderContextTests: QuickSpec {
                     it("should set default next value") {
                         let variable = Dynamic<Int?>(nil)
 
-                        set.bind(label)
-                            .to(variable, fallbackValue: 0)
+                        set.bind(variable, fallbackValue: 0)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("0"))
@@ -113,8 +113,8 @@ class BinderContextTests: QuickSpec {
                     it("should set fallback next value") {
                         let variable = Dynamic<Int?>(nil)
                         
-                        set.bind(label)
-                            .to(variable, fallbackValue: 2319)
+                        set.bind(variable, fallbackValue: 2319)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("2319"))
@@ -126,9 +126,9 @@ class BinderContextTests: QuickSpec {
                     it("should set inital 5 value") {
                         let variable = Dynamic<Int>(5)
                         
-                        set.bind(label)
+                        set.bind(variable)
                             .withConverter(IntConverter())
-                            .to(variable)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("(5)"))
@@ -137,9 +137,9 @@ class BinderContextTests: QuickSpec {
                     it("should set inital 5 value from Optional") {
                         let variable = Dynamic<Int?>(5)
                         
-                        set.bind(label)
+                        set.bind(variable, fallbackValue: 2319)
                             .withConverter(IntConverter())
-                            .to(variable, fallbackValue: 2319)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("(5)"))
@@ -148,9 +148,9 @@ class BinderContextTests: QuickSpec {
                     it("should set default next value") {
                         let variable = Dynamic<Int?>(nil)
                         
-                        set.bind(label)
+                        set.bind(variable, fallbackValue: 2319)
                             .withConverter(IntConverter())
-                            .to(variable, fallbackValue: 2319)
+                            .to(label)
                             .apply()
                         
                         expect(label.text).to(equal("(2319)"))
@@ -162,8 +162,8 @@ class BinderContextTests: QuickSpec {
                     it("should dispose simple sequence") {
                         let variable = Dynamic<String>("value")
                         
-                        set.bind(label)
-                            .to(variable)
+                        set.bind(variable)
+                            .to(label)
                             .apply()
                             .dispose()
                         
@@ -175,9 +175,9 @@ class BinderContextTests: QuickSpec {
                     it("should dispose converter value") {
                         let variable = Dynamic<Int?>(5)
                         
-                        set.bind(label)
+                        set.bind(variable, fallbackValue: 2319)
                             .withConverter(IntConverter())
-                            .to(variable, fallbackValue: 2319)
+                            .to(label)
                             .apply()
                             .dispose()
                         

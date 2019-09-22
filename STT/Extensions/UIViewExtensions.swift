@@ -45,6 +45,16 @@ public extension UIView {
     }
     
     ///
+    /// Set corner radius to view
+    /// - Parameter radius: target radius
+    /// - Parameter clipsToBounds: target clipsToBounds
+    ///
+    func setCornerRadius(_ radius: CGFloat, clipsToBounds: Bool = true) {
+        self.layer.cornerRadius = radius
+        self.clipsToBounds = clipsToBounds
+    }
+    
+    ///
     /// Set border in layer for current view
     /// - Parameter color: determine color for border
     /// - Parameter size: determine size for border. Default is 1
