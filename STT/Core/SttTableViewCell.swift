@@ -35,6 +35,12 @@ open class SttTableViewCell<Presenter: PresenterType>: UITableViewCell, Viewable
         }
     }
     
+    override open func prepareForReuse() {
+        super.prepareForReuse()
+        
+        presenter.clearDelegate()
+    }
+    
     open func prepareBind() {
         presenter.injectView(delegate: self)
     }

@@ -5,11 +5,15 @@ use_frameworks!
 target 'STT' do
   
   target 'STTTests' do
-    
+    pod 'RxTest'
+    pod 'RxBlocking'
+    pod 'Quick'
+    pod 'Nimble'
   end
   
   pod 'Alamofire', '~> 4.9.0'
   pod 'RxSwift'
+  pod 'RxCocoa'
 end
 
 

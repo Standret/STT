@@ -37,4 +37,8 @@ open class Presenter<View>: PresenterType {
         assert(delegate is View, "injected view should be GenericType View")
         self.rawDelegate = delegate
     }
+    
+    public func clearDelegate() {
+        rawDelegate = nil
+    }
 }

@@ -34,7 +34,7 @@ public enum CollectionObserverType {
 }
 
 open class ObservableCollection<Element>: Collection {
-
+    
     private var datas = [Element]()
     
     private var lock = NSRecursiveLock()
@@ -46,87 +46,89 @@ open class ObservableCollection<Element>: Collection {
     public var capacity: Int { return datas.capacity }
     public var startIndex: Int { return datas.startIndex }
     public var endIndex: Int { return datas.endIndex }
-
+    
     open var array: [Element] { return datas }
-
+    
     public init() { }
     public init(_ data: [Element]) {
         datas = data
     }
-
+    
     deinit {
         datas.removeAll()
         notifyPublisher.clearAllSubsribtion()
     }
-
+    
     open func index(after i: Int) -> Int {
         lock.lock()
         defer { lock.unlock() }
         
         return datas.index(after: i)
     }
-
+    
     open func append(_ newElement: Element) {
         lock.lock()
-        defer { lock.unlock() }
-        
         datas.append(newElement)
+        lock.unlock()
+        
         notifyPublisher.invoke(([datas.count - 1], .insert))
     }
     open func append(contentsOf sequence: [Element]) {
-        lock.lock()
-        defer { lock.unlock() }
+        guard sequence.count > 0 else { return }
         
-        if sequence.count > 0 {
-            let startIndex = datas.count
-            datas.append(contentsOf: sequence)
-            notifyPublisher.invoke((Array(startIndex..<datas.count), .insert))
-        }
+        lock.lock()
+        let startIndex = datas.count
+        datas.append(contentsOf: sequence)
+        lock.unlock()
+        
+        notifyPublisher.invoke((Array(startIndex..<datas.count), .insert))
     }
-
+    
     open func insert(_ newElement: Element, at index: Int) {
         lock.lock()
-        defer { lock.unlock() }
-        
         datas.insert(newElement, at: index)
+        lock.unlock()
+        
         notifyPublisher.invoke(([index], .insert))
     }
     open func insert(contentsOf: [Element], at index: Int) {
         lock.lock()
-        defer { lock.unlock() }
-        
         datas.insert(contentsOf: contentsOf, at: index)
+        lock.unlock()
+        
         notifyPublisher.invoke((Array(index..<(index + contentsOf.count)), .insert))
     }
-
+    
     open func index(where predicate: (Element) throws -> Bool) rethrows -> Int? {
         lock.lock()
         defer { lock.unlock() }
         
         return try datas.firstIndex(where: predicate)
     }
-
+    
     open func remove(at index: Int) {
         lock.lock()
-        defer { lock.unlock() }
-        
         datas.remove(at: index)
+        lock.unlock()
+        
         notifyPublisher.invoke(([index], .delete))
     }
     open func removeAll() {
-        lock.lock()
-        defer { lock.unlock() }
         guard datas.count > 0 else { return }
         
+        lock.lock()
         datas.removeAll()
+        lock.unlock()
+        
         notifyPublisher.invoke(([], .reload))
     }
     open func removeAll(where closure: (Element) -> Bool) {
-        lock.lock()
-        defer { lock.unlock() }
         guard datas.count > 0 else { return }
-
+        
+        lock.lock()
         self.datas.removeAll(where: closure)
+        lock.unlock()
+        
         notifyPublisher.invoke(([], .reload))
     }
     
@@ -142,7 +144,7 @@ open class ObservableCollection<Element>: Collection {
         
         return datas.first
     }
-
+    
     open subscript(index: Int) -> Element {
         get {
             lock.lock()
@@ -152,9 +154,9 @@ open class ObservableCollection<Element>: Collection {
         }
         set(newValue) {
             lock.lock()
-            defer { lock.unlock() }
-            
             datas[index] = newValue
+            lock.unlock()
+            
             notifyPublisher.invoke(([index], .update))
         }
     }

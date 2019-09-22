@@ -25,18 +25,29 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   
   # STT Extensions
   s.subspec 'Extensions' do |sp|
-    sp.source_files  = "STT/Extensions/*.swift"
+    sp.source_files  = "STT/Extensions/*.swift", "STT/Messenger/*.swift"
   end
 
-  # STT ErrorManager
-  s.subspec 'ErrorManager' do |sp|
-    sp.source_files = "STT/ErrorManager/*.swift"
+  # STT RxExtensions
+    s.subspec 'RxExtensions' do |sp|
+    sp.source_files  = "STT/Core/*.swift", "STT/RxExtensions/*.swift"
+  end
+
+  # STT Messenger
+  s.subspec 'Messenger' do |sp|
+    sp.source_files = "STT/Messenger/*.swift"
   end
 
   # STT AlamofireExtensions
   s.subspec 'AlamofireExtensions' do |sp|
-    sp.source_files = "STT/AlamofireExtensions/*.swift", "STT/ErrorManager/*.swift"
+    sp.source_files = "STT/Messenger/*.swift", "STT/AlamofireExtensions/*.swift"
     sp.dependency "Alamofire", "4.9.0"
     sp.dependency "RxSwift", "~> 5"
+  end
+  
+  # STT Bindings
+  s.subspec 'Bindings' do |sp|
+      sp.source_files = "STT/Bindings/*.swift"
+      sp.dependency "RxCocoa", "~> 5"
   end
 end

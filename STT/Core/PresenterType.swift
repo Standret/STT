@@ -33,6 +33,7 @@ public protocol PresenterType {
     var delegate: View? { get }
     
     func injectView(delegate: Viewable)
+    func clearDelegate()
     
     // MARK: - LIFECYCLE
     

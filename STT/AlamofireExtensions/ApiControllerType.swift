@@ -33,7 +33,7 @@ public protocol ApiControllerType: URLConvertible {
     var path: String { get }
 }
 
-extension ApiControllerType {
+public extension ApiControllerType {
     
     func asURL() throws -> URL {
         return URL(string: baseUrl + path)!

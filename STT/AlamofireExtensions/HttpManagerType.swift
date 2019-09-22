@@ -50,7 +50,7 @@ public protocol HttpManagerType {
         ) -> Observable<(HTTPURLResponse, Data)>
 }
 
-extension HttpManagerType {
+public extension HttpManagerType {
     
     // MARK: - request
     

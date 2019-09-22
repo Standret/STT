@@ -29,36 +29,22 @@ import Foundation
 
 public protocol ConverterType: AnyObject {
     
-    init()
+    associatedtype TIn
+    associatedtype TOut
     
-    func convert(value: Any?, parametr: Any?) -> Any
-    func convertBack(value: Any?, parametr: Any?) -> Any
+    func convert(value: TIn, parametr: Any?) -> TOut
+    func convertBack(value: TOut, parametr: Any?) -> TIn
 }
 
-open class Converter<TIn, TOut>: ConverterType {
+public extension ConverterType {
     
-    public required init() { }
-    
-    public func convert(value: Any?, parametr: Any?) -> Any {
-        return self.convert(value: value as! TIn, parametr: parametr)
-    }
-    
-    public func convertBack(value: Any?, parametr: Any?) -> Any {
-        return self.convertBack(value: value as! TOut, parametr: parametr)
-    }
-    
-    open func convert(value: TIn, parametr: Any?) -> TOut {
-        fatalError("should be implemented")
-    }
-    
-    open func convertBack(value: TOut, parametr: Any?) -> TIn {
-        fatalError("should be implemented")
-    }
-}
-
-public extension Converter {
+    func convert(value: TIn, parametr: Any?) -> TOut { fatalError("Should be implemented") }
+    func convertBack(value: TOut, parametr: Any?) -> TIn { fatalError("Should be implemented") }
     
     func convert(value: TIn) -> TOut {
         return self.convert(value: value, parametr: nil)
+    }
+    func convertBack(value: TOut) -> TIn {
+        return self.convertBack(value: value, parametr: nil)
     }
 }
