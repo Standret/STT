@@ -38,7 +38,15 @@ open class Presenter<View>: PresenterType {
         self.rawDelegate = delegate
     }
     
-    public func clearDelegate() {
+    open func clearDelegate() {
         rawDelegate = nil
     }
+    
+    open func viewCreated() { }
+    
+    open func viewAppearing() { }
+    open func viewAppeared() { }
+    
+    open func viewDisappearing() { }
+    open func viewDisappeared() { }
 }

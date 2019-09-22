@@ -41,7 +41,7 @@ public extension EventPublisher {
     }
 }
 
-extension EventDisposable {
+public extension EventDisposable {
     
     func disposed(by bag: DisposeBag) {
         bag.insert(Disposables.create {

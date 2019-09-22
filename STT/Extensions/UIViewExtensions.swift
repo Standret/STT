@@ -127,10 +127,13 @@ public extension UIView {
         ) -> UIActivityIndicatorView {
         
         let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
         indicator.style = style
         indicator.color = color
         
         self.addSubview(indicator)
+        
         indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         indicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         

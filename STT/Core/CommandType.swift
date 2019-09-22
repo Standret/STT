@@ -74,8 +74,8 @@ public extension CommandType {
 
 open class Command: CommandType {
     
-    private var canNextSubject = EventPublisher<Bool>()
-    internal var eventSubject = EventPublisher<Bool>()
+    private var canNextSubject = EventPublisher<Bool>(hasBuffer: true)
+    internal var eventSubject = EventPublisher<Bool>(hasBuffer: true)
     
     private var executeHandler: (() -> Void)
     private var canExecuteHandler: (() -> Bool)?
@@ -145,7 +145,6 @@ open class Command: CommandType {
     }
     
     public func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
-        
         return eventSubject.subscribe({ isStart in isStart ? start?() : end?() })
     }
     
@@ -161,8 +160,8 @@ open class Command: CommandType {
 
 open class CommandWithParameter<TParameter>: CommandType {
     
-    private var canNextSubject = EventPublisher<Bool>()
-    private var eventSubject = EventPublisher<Bool>()
+    private var canNextSubject = EventPublisher<Bool>(hasBuffer: true)
+    private var eventSubject = EventPublisher<Bool>(hasBuffer: true)
     
     private var executeHandler: ((TParameter) -> Void)
     internal var canExecuteHandler: ((TParameter) -> Bool)?

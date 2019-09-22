@@ -79,7 +79,7 @@ public extension HttpManagerType {
         controller: ApiControllerType,
         parameter: Parameters? = nil,
         headers: HTTPHeaders? = nil,
-        encoding: ParameterEncoding = URLEncoding.default,
+        encoding: ParameterEncoding = URLEncoding.methodDependent,
         isAuthorized: Bool = false
         ) -> Observable<(HTTPURLResponse, Data)> {
         
@@ -97,7 +97,7 @@ public extension HttpManagerType {
         controller: ApiControllerType,
         object: Encodable,
         headers: HTTPHeaders? = nil,
-        encoding: ParameterEncoding = URLEncoding.default,
+        encoding: ParameterEncoding = URLEncoding.methodDependent,
         isAuthorized: Bool = false
         ) -> Observable<(HTTPURLResponse, Data)> {
         
@@ -155,7 +155,7 @@ public extension HttpManagerType {
         controller: ApiControllerType,
         parameter: Parameters? = nil,
         headers: HTTPHeaders? = nil,
-        encoding: ParameterEncoding = URLEncoding.default,
+        encoding: ParameterEncoding = URLEncoding.methodDependent,
         isAuthorized: Bool = false
         ) -> Observable<(HTTPURLResponse, Data)> {
         
@@ -173,7 +173,7 @@ public extension HttpManagerType {
         controller: ApiControllerType,
         object: Encodable,
         headers: HTTPHeaders? = nil,
-        encoding: ParameterEncoding = URLEncoding.default,
+        encoding: ParameterEncoding = URLEncoding.methodDependent,
         isAuthorized: Bool = false
         ) -> Observable<(HTTPURLResponse, Data)> {
         

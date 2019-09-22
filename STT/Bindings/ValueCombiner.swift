@@ -49,7 +49,9 @@ public class ValueCombiner<Element1, Element2>: BindingContextType {
             }
         }
         
-        return BinderContext<Result>(newProperty)
+        let binder = BinderContext<Result>(newProperty)
+        innerContext = binder
+        return binder
     }
     
     public func apply() -> Disposable {

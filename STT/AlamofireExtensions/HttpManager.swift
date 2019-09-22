@@ -62,6 +62,10 @@ public class HttpManager: HttpManagerType {
         return Observable.create({ (observer) -> Disposable in
             
             let mamager = self.requestSessionManager ?? SessionManager.default
+            var headers = headers ?? [:]
+            if isAuthorized {
+                headers["Authorization"] = ""
+            }
             
             let dataRequest = mamager.request(
                 controller,

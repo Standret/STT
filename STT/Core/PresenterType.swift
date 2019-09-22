@@ -45,14 +45,3 @@ public protocol PresenterType {
     func viewDisappearing()
     func viewDisappeared()
 }
-
-public extension PresenterType {
-    
-    func viewCreated() { }
-    
-    func viewAppearing() { }
-    func viewAppeared() { }
-    
-    func viewDisappearing() { }
-    func viewDisappeared() { }
-}

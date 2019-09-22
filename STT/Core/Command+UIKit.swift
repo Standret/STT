@@ -19,9 +19,9 @@ public extension CommandType {
         ) -> EventDisposable {
         
         let indicator = button.setIndicator()
-        
-        indicator.color = color
         indicator.style = style
+        indicator.color = color
+        indicator.setNeedsDisplay()
         
         let title = button.titleLabel?.text
         let image = button.image(for: .normal)
@@ -51,8 +51,9 @@ public extension CommandType {
         ) -> EventDisposable {
         
         let indicator = view.setIndicator()
-        indicator.color = UIColor.white
         indicator.style = style
+        indicator.color = UIColor.white
+        indicator.setNeedsDisplay()
         
         return self.observe(start: {
             indicator.startAnimating()

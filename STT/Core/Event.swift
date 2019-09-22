@@ -65,6 +65,13 @@ open class Event<Element> {
     fileprivate var lock = NSRecursiveLock()
     fileprivate var observers: [Int: (Observer, DispatchQueue?)] = [:]
     
+    fileprivate var hasBuffer: Bool = false
+    fileprivate var lastElement: Element?
+    
+    public init(hasBuffer: Bool = false) {
+        self.hasBuffer = hasBuffer
+    }
+    
     ///
     /// Subsribe on new changes
     /// - Parameter queue: observation queue
@@ -83,6 +90,17 @@ open class Event<Element> {
         
         let disposable = EventDisposable { [weak self] in
             self?.observers[id] = nil
+        }
+        
+        if hasBuffer, let element = lastElement {
+            if let queue = queue {
+                queue.async {
+                    observer(element)
+                }
+            }
+            else {
+                observer(element)
+            }
         }
         
         return disposable
@@ -104,6 +122,10 @@ open class Event<Element> {
             self?.observers[id] = nil
         }
         
+        if hasBuffer, let element = lastElement {
+           observer(element)
+        }
+        
         return disposable
     }
 }
@@ -120,6 +142,7 @@ open class EventPublisher<Element>: Event<Element> {
         lock.lock()
         defer { lock.unlock() }
         
+        lastElement = element
         observers.values.forEach { observer, dispatchQueue in
             if let dispatchQueue = dispatchQueue {
                 dispatchQueue.async {
