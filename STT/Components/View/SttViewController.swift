@@ -70,8 +70,8 @@ open class SttViewController<T: SttViewControllerInjector>: UIViewController {
         backgroundLayer.edgesToSuperview()
         
         viewError = SttErrorLabel()
-        viewError.errorColor = UIColor(red:0.98, green:0.26, blue:0.26, alpha:1)
-        viewError.messageColor = UIColor(red: 0.251, green: 0.482, blue: 0.316, alpha:1)
+        viewError.errorColor = UIColor(red: 0.98, green: 0.26, blue: 0.26, alpha:1)
+        viewError.messageColor = UIColor(hexString: "58d028").withAlphaComponent(0.9)
         view.addSubview(viewError)
         viewError.delegate = self
         
