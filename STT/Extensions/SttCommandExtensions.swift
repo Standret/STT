@@ -38,10 +38,16 @@ public extension Observable {
 public extension SttCommandType {
     
     @discardableResult
-    func useIndicator(button: UIButton, style: UIActivityIndicatorView.Style = .gray) -> Disposable {
+    func useIndicator(
+        button: UIButton,
+        style: UIActivityIndicatorView.Style = .gray,
+        color: UIColor = .gray
+        ) -> Disposable {
+        
         let indicator = button.setIndicator()
-        indicator.color = UIColor.white
+        indicator.color = color
         indicator.style = style
+        indicator.setNeedsLayout()
         
         let title = button.titleLabel?.text
         var image, disImage: UIImage?
@@ -65,11 +71,16 @@ public extension SttCommandType {
     }
     
     @discardableResult
-    func useIndicator(view:  UIView, style: UIActivityIndicatorView.Style = .gray) -> Disposable {
+    func useIndicator(
+        view:  UIView,
+        style: UIActivityIndicatorView.Style = .gray,
+        color: UIColor = .gray
+        ) -> Disposable {
         
         let indicator = view.setIndicator()
-        indicator.color = UIColor.white
+        indicator.color = color
         indicator.style = style
+        indicator.setNeedsLayout()
         
         return self.useWork(start: {
             indicator.startAnimating()
