@@ -27,8 +27,9 @@
 import Foundation
 
 public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
-    let section: SectionPresenter
-    let cells: ObservableCollection<CellPresenter>
+    
+    public let section: SectionPresenter
+    public let cells: ObservableCollection<CellPresenter>
     
     public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
         self.section = section

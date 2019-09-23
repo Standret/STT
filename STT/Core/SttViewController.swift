@@ -39,9 +39,14 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, SttVie
         presenter.viewCreated()
     }
     
+    private var willApearFirstStart = true
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.viewAppearing()
+        
+        guard willApearFirstStart else { return }
+        willApearFirstStart = false
+        bind()
     }
     
     override open func viewDidAppear(_ animated: Bool) {
@@ -67,7 +72,6 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, SttVie
         firstStart = false
         
         style()
-        bind()
     }
     
     ///
@@ -78,7 +82,7 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, SttVie
     
     ///
     /// manage all subsribtions
-    /// - Important: do not call basic version. Call after style()
+    /// - Important: do not call basic version. Call before style()
     ///
     open func bind() { }
 }

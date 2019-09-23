@@ -138,6 +138,34 @@ public class BinderContext<Element>: BindingContextType {
     }
     
     /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    public func to(_ binder: Binder<Element?>) -> BindingContextType {
+        
+        lazyApplier = { [unowned self] in
+            
+            switch self.bindingMode {
+            case .readBind, .twoWayBind:
+                return self.property.bind(binder.onNext)
+            case .readListener, .twoWayListener:
+                return self.property.addListener(binder.onNext)
+            default:
+                fatalError("Incorrect type")
+            }
+        }
+        
+        return self
+    }
+    
+    /**
      Add to context binding mode
      
      - Important:
