@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Photos
 
 public extension AVAsset {
