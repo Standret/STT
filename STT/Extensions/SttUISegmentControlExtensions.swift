@@ -31,9 +31,9 @@ import UIKit
 public extension UISegmentedControl {
     
     func removeBorders() {
-        self.setBackgroundImage(imageWithColor(color: UIColor.clear), for: .normal, barMetrics: .default)
-        self.setBackgroundImage(imageWithColor(color:  UIColor.clear), for: .selected, barMetrics: .default)
-        self.setDividerImage(imageWithColor(color:  UIColor.clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        self.setBackgroundImage(imageWithColor(color: UIColor.clear), for: .normal, barMetrics: .compact)
+        self.setBackgroundImage(imageWithColor(color:  UIColor.clear), for: .selected, barMetrics: .compact)
+        self.setDividerImage(imageWithColor(color:  UIColor.clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .compact)
     }
     
     // create a 1x1 image with this color

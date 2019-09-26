@@ -27,7 +27,7 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
     @objc
     public dynamic var isEquealWidth: Bool {
         get { return segmentControl.apportionsSegmentWidthsByContent }
-        set { segmentControl.apportionsSegmentWidthsByContent = newValue }
+        set { segmentControl.apportionsSegmentWidthsByContent = !newValue }
     }
     
     @objc
@@ -78,6 +78,16 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
     public dynamic var underlineCarretCollor: UIColor? {
         get { return underlineCarret.backgroundColor }
         set { underlineCarret.backgroundColor = newValue }
+    }
+    
+    @objc
+    public dynamic var segmentBackground: UIColor? {
+        get { return segmentControl?.tintColor }
+        set {
+            segmentControl?.tintColor = newValue
+            segmentControl.ensureiOS12Style()
+            
+        }
     }
     
     private var segmentControl: UISegmentedControl!
@@ -170,8 +180,9 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
         scrollView.isPagingEnabled = true
         redrawUnderline()
         
-        segmentControl.tintColor = .clear
+        segmentControl.tintColor = segmentBackground
         segmentControl.ensureiOS12Style()
+        
         // TODO: implemented max width
         
         if true {
@@ -241,15 +252,28 @@ fileprivate extension UISegmentedControl {
         if #available(iOS 13, *) {
             let tintColorImage = UIImage(color: tintColor)
             selectedSegmentTintColor = .clear
-            // Must set the background image for normal to something (even clear) else the rest won't work
-            setBackgroundImage(UIImage(color: backgroundColor ?? .clear), for: .normal, barMetrics: .default)
-            setBackgroundImage(tintColorImage, for: .selected, barMetrics: .default)
-            setBackgroundImage(tintColorImage, for: .highlighted, barMetrics: .default)
-            setBackgroundImage(tintColorImage, for: [.highlighted, .selected], barMetrics: .default)
+            
+            for view in subviews {
+                if let image = view as? UIImageView {
+                    image.image = UIImage(color: tintColor, size: image.frame.size)
+                    image.setNeedsDisplay()
+                    
+                    for view in subviews {
+                        if let image = view as? UIImageView {
+                           image.image = UIImage(color: tintColor, size: image.frame.size)
+                           image.setNeedsDisplay()
+                        }
+                    }
+                }
+            }
+            
             setDividerImage(tintColorImage, forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-                        
-            layer.borderWidth = 1
+
+            layer.borderWidth = 0
             layer.borderColor = tintColor.cgColor
+        }
+        else {
+            self.tintColor = .clear
         }
     }
 }
