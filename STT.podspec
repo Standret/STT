@@ -45,6 +45,12 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
     sp.dependency "RxSwift", "~> 5"
   end
   
+  # STT SDWebImageExtensions
+  s.subspec 'SDWebImageExtensions' do |sp|
+    sp.source_files = "STT/SDWebImageExtensions/*.swift"
+    sp.dependency "SDWebImage", "~> 5.0.0"
+  end
+  
   # STT Bindings
   s.subspec 'Bindings' do |sp|
       sp.source_files = "STT/Bindings/*.swift"

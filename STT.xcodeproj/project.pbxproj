@@ -32,6 +32,10 @@
 		7D0C285F23369F8A00A36CFE /* SttRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C285E23369F8A00A36CFE /* SttRefreshControl.swift */; };
 		7D0C28612336A05100A36CFE /* MessengerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C28602336A05100A36CFE /* MessengerType.swift */; };
 		7D0C28632336A0B500A36CFE /* MessengerType+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C28622336A0B500A36CFE /* MessengerType+Rx.swift */; };
+		7D10CFF0233FE5A500D7CEF1 /* ImagePlaceholderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFEF233FE5A500D7CEF1 /* ImagePlaceholderType.swift */; };
+		7D10CFF2233FE60200D7CEF1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFF1233FE60200D7CEF1 /* Image.swift */; };
+		7D10CFF4233FE72A00D7CEF1 /* CachedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFF3233FE72A00D7CEF1 /* CachedImageView.swift */; };
+		7D10CFF6233FE76600D7CEF1 /* UIImageView+SDWebImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFF5233FE76600D7CEF1 /* UIImageView+SDWebImage.swift */; };
 		7D624669232CC1A3008D60E8 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */; };
 		7D62466B232CC299008D60E8 /* GlobalObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466A232CC299008D60E8 /* GlobalObserver.swift */; };
 		7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */; };
@@ -129,6 +133,10 @@
 		7D0C285E23369F8A00A36CFE /* SttRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttRefreshControl.swift; sourceTree = "<group>"; };
 		7D0C28602336A05100A36CFE /* MessengerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerType.swift; sourceTree = "<group>"; };
 		7D0C28622336A0B500A36CFE /* MessengerType+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessengerType+Rx.swift"; sourceTree = "<group>"; };
+		7D10CFEF233FE5A500D7CEF1 /* ImagePlaceholderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlaceholderType.swift; sourceTree = "<group>"; };
+		7D10CFF1233FE60200D7CEF1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		7D10CFF3233FE72A00D7CEF1 /* CachedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImageView.swift; sourceTree = "<group>"; };
+		7D10CFF5233FE76600D7CEF1 /* UIImageView+SDWebImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+SDWebImage.swift"; sourceTree = "<group>"; };
 		7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		7D62466A232CC299008D60E8 /* GlobalObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalObserver.swift; sourceTree = "<group>"; };
 		7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttKeyboardViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +238,7 @@
 		50106A1F2237E49E002C634A /* STT */ = {
 			isa = PBXGroup;
 			children = (
+				7D10CFEE233FE52A00D7CEF1 /* SDWebImageExtensions */,
 				7DE8741A2337787A0086F166 /* Bindings */,
 				7D0C28572336984000A36CFE /* RxExtensions */,
 				7D0C27522336220700A36CFE /* AlamofireExtensions */,
@@ -343,6 +352,17 @@
 				7D0C28622336A0B500A36CFE /* MessengerType+Rx.swift */,
 			);
 			path = RxExtensions;
+			sourceTree = "<group>";
+		};
+		7D10CFEE233FE52A00D7CEF1 /* SDWebImageExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				7D10CFEF233FE5A500D7CEF1 /* ImagePlaceholderType.swift */,
+				7D10CFF1233FE60200D7CEF1 /* Image.swift */,
+				7D10CFF3233FE72A00D7CEF1 /* CachedImageView.swift */,
+				7D10CFF5233FE76600D7CEF1 /* UIImageView+SDWebImage.swift */,
+			);
+			path = SDWebImageExtensions;
 			sourceTree = "<group>";
 		};
 		7D80621E232E2E00003E69CB /* DataSources */ = {
@@ -622,6 +642,7 @@
 				7D806219232E2C1E003E69CB /* SttTableViewCell.swift in Sources */,
 				7D0C285423368E1500A36CFE /* ConverterType.swift in Sources */,
 				7D80621D232E2DC0003E69CB /* SttCollectionViewCell.swift in Sources */,
+				7D10CFF2233FE60200D7CEF1 /* Image.swift in Sources */,
 				7DE8742423379DB90086F166 /* BinderContext.swift in Sources */,
 				7D0C284923366C6E00A36CFE /* ConnectionError.swift in Sources */,
 				7D98ECE8232D34BE00980EFC /* UIStackViewExtensions.swift in Sources */,
@@ -662,6 +683,7 @@
 				7DE874262337A7A70086F166 /* ControlEventContext.swift in Sources */,
 				7D98ECF2232D34BE00980EFC /* FormatterExtensions.swift in Sources */,
 				7D98ECEE232D34BE00980EFC /* URLExtensions.swift in Sources */,
+				7D10CFF6233FE76600D7CEF1 /* UIImageView+SDWebImage.swift in Sources */,
 				7D98ECF6232D34BE00980EFC /* StringExtensions.swift in Sources */,
 				7D806222232E2E9A003E69CB /* ScrollViewHandler.swift in Sources */,
 				7D8063F6232E8D0F003E69CB /* CollectionViewSource.swift in Sources */,
@@ -672,6 +694,7 @@
 				7D0C27562336229E00A36CFE /* HttpManagerType.swift in Sources */,
 				7D98ECE1232D34BE00980EFC /* AVAssetExtensions.swift in Sources */,
 				7D624669232CC1A3008D60E8 /* MulticastDelegate.swift in Sources */,
+				7D10CFF4233FE72A00D7CEF1 /* CachedImageView.swift in Sources */,
 				7D8063FE232E9493003E69CB /* TableViewSourceWithSection.swift in Sources */,
 				7D98ECE3232D34BE00980EFC /* UIViewControllerExtensions.swift in Sources */,
 				50DB4CDB232B7DC900FDADA5 /* PresenterType.swift in Sources */,
@@ -680,6 +703,7 @@
 				7D98ECE6232D34BE00980EFC /* ArrayExtensions.swift in Sources */,
 				7D80621B232E2C67003E69CB /* SttCollectionReusableView.swift in Sources */,
 				7D0C284B23366C8300A36CFE /* ApiError.swift in Sources */,
+				7D10CFF0233FE5A500D7CEF1 /* ImagePlaceholderType.swift in Sources */,
 				7D8063FC232E9414003E69CB /* TableViewSource.swift in Sources */,
 				7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */,
 				7D0C28592336985000A36CFE /* CommandExtensions.swift in Sources */,

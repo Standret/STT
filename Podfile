@@ -14,6 +14,7 @@ target 'STT' do
   pod 'Alamofire', '~> 4.9.0'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'SDWebImage', '~> 5.0'
 end
 
 

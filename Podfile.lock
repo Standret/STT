@@ -12,6 +12,9 @@ PODS:
   - RxSwift (5.0.0)
   - RxTest (5.0.0):
     - RxSwift (~> 5)
+  - SDWebImage (5.2.0):
+    - SDWebImage/Core (= 5.2.0)
+  - SDWebImage/Core (5.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.9.0)
@@ -21,9 +24,10 @@ DEPENDENCIES:
   - RxCocoa
   - RxSwift
   - RxTest
+  - SDWebImage (~> 5.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - Nimble
     - Quick
@@ -32,6 +36,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - RxTest
+    - SDWebImage
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
@@ -42,7 +47,8 @@ SPEC CHECKSUMS:
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   RxTest: 4349afe98f564e0a9bc19063368904622d17d49a
+  SDWebImage: 609192dcf3898c910a2848032372ead951e66364
 
-PODFILE CHECKSUM: 384e3e6809837bb579ea4893c4a95024cceef902
+PODFILE CHECKSUM: eeda45c7e80ae6ec558c0a8c705df07c7f249ddb
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.0

@@ -35,6 +35,13 @@ public extension String {
     }
 }
 
+public extension Bool {
+    
+    var string: String {
+        return self ? "true" : "false"
+    }
+}
+
 // MARK: - obsoleted block
 
 @available(swift, obsoleted: 5.0, renamed: "String")

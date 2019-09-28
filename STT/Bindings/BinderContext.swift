@@ -13,6 +13,8 @@ import RxCocoa
 public typealias Applier = () -> Disposable
 public class BinderContext<Element>: BindingContextType {
     
+    public typealias ObserveClosure = (Element) -> Void
+    
     private let property: Dynamic<Element>
     private var bindingMode: BindingMode = .readBind
     
@@ -157,6 +159,34 @@ public class BinderContext<Element>: BindingContextType {
                 return self.property.bind(binder.onNext)
             case .readListener, .twoWayListener:
                 return self.property.addListener(binder.onNext)
+            default:
+                fatalError("Incorrect type")
+            }
+        }
+        
+        return self
+    }
+    
+    /**
+     Add to context Dynamic property for handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    public func to(_ closure: @escaping ObserveClosure) -> BindingContextType {
+        
+        lazyApplier = { [unowned self] in
+            
+            switch self.bindingMode {
+            case .readBind, .twoWayBind:
+                return self.property.bind(closure)
+            case .readListener, .twoWayListener:
+                return self.property.addListener(closure)
             default:
                 fatalError("Incorrect type")
             }
