@@ -33,7 +33,7 @@ public extension MessengerType {
         observable: Observable<T>,
         ignoreBadRequest: Bool = false,
         customMessage: String? = nil
-        ) -> Observable<T> {
+    ) -> Observable<T> {
         
         return observable.do(onError: { (error) in
             if let error = error as? SttError {
@@ -51,21 +51,30 @@ public extension MessengerType {
                         }
                     default: break
                     }
-                }
-                if flag {
-                    self.publish(message: LogMessage(
-                        type: .error,
-                        title: "Something wen wrong.",
-                        description: "Try again later.",
-                        debugDescription: "\(error)"
+                    if flag {
+                        self.publish(message: LogMessage(
+                            type: .error,
+                            title: "Something went wrong.",
+                            description: "Try again later.",
+                            debugDescription: "\(error)"
+                            )
                         )
-                    )
+                    }
+                    else if let messageError = customMessage {
+                        self.publish(message: LogMessage(
+                            type: .error,
+                            title: messageError,
+                            description: nil,
+                            debugDescription: "\(error)"
+                            )
+                        )
+                    }
                 }
-                else if let messageError = customMessage {
+                else {
                     self.publish(message: LogMessage(
                         type: .error,
-                        title: messageError,
-                        description: nil,
+                        title: error.message.title,
+                        description: error.message.description,
                         debugDescription: "\(error)"
                         )
                     )
@@ -90,7 +99,7 @@ public extension Observable {
         service: MessengerType,
         ignoreBadRequest: Bool = false,
         customMessage: String? = nil
-        ) -> Observable<Element> {
+    ) -> Observable<Element> {
         
         return service.useError(
             observable: self,

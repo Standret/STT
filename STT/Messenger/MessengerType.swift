@@ -34,12 +34,23 @@ public enum MessageLevelType {
     case fatalError
 }
 
-public struct LogMessage {
+public struct LogMessage: Equatable {
     
-    let type: MessageLevelType
-    let title: String
-    let description: String?
-    let debugDescription: String?
+    public let type: MessageLevelType
+    public let title: String
+    public let description: String?
+    public let debugDescription: String?
+    
+    init(type: MessageLevelType,
+         title: String,
+         description: String?,
+         debugDescription: String?) {
+        
+        self.type = type
+        self.title = title
+        self.description = description
+        self.debugDescription = debugDescription
+    }
 }
 
 public protocol MessengerType: class {
@@ -54,7 +65,9 @@ open class Messenger: MessengerType {
     private var messagesSubject = EventPublisher<LogMessage>()
     open var messages: Event<LogMessage> { return messagesSubject }
     
-    public init() { }
+    public init() {
+        
+    }
     
     public func publish(message: LogMessage) {
         messagesSubject.invoke(message)

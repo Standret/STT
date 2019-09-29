@@ -13,6 +13,10 @@
 		50DB4DC5232B7F6700FDADA5 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC4232B7F6700FDADA5 /* View.swift */; };
 		50DB4DC7232B856900FDADA5 /* SttViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC6232B856900FDADA5 /* SttViewController.swift */; };
 		50DB4DCA232B8ACC00FDADA5 /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4DC9232B8ACC00FDADA5 /* KeyboardNotification.swift */; };
+		7D0C0C1F2340FC1D00E29F95 /* FloatingNotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C0C1B2340FC1D00E29F95 /* FloatingNotificationBanner.swift */; };
+		7D0C0C202340FC1D00E29F95 /* BannerAppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C0C1C2340FC1D00E29F95 /* BannerAppearanceType.swift */; };
+		7D0C0C212340FC1D00E29F95 /* BannerQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C0C1D2340FC1D00E29F95 /* BannerQueue.swift */; };
+		7D0C0C222340FC1D00E29F95 /* BannerHapticGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C0C1E2340FC1D00E29F95 /* BannerHapticGenerator.swift */; };
 		7D0C27542336221A00A36CFE /* UploadedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C27532336221A00A36CFE /* UploadedObject.swift */; };
 		7D0C27562336229E00A36CFE /* HttpManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C27552336229E00A36CFE /* HttpManagerType.swift */; };
 		7D0C283E23365B8800A36CFE /* ApiControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0C283D23365B8800A36CFE /* ApiControllerType.swift */; };
@@ -114,6 +118,10 @@
 		50DB4DC6232B856900FDADA5 /* SttViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttViewController.swift; sourceTree = "<group>"; };
 		50DB4DC9232B8ACC00FDADA5 /* KeyboardNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotification.swift; sourceTree = "<group>"; };
 		7BE2066B701C5513D731D7AA /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
+		7D0C0C1B2340FC1D00E29F95 /* FloatingNotificationBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingNotificationBanner.swift; sourceTree = "<group>"; };
+		7D0C0C1C2340FC1D00E29F95 /* BannerAppearanceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAppearanceType.swift; sourceTree = "<group>"; };
+		7D0C0C1D2340FC1D00E29F95 /* BannerQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerQueue.swift; sourceTree = "<group>"; };
+		7D0C0C1E2340FC1D00E29F95 /* BannerHapticGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerHapticGenerator.swift; sourceTree = "<group>"; };
 		7D0C27532336221A00A36CFE /* UploadedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadedObject.swift; sourceTree = "<group>"; };
 		7D0C27552336229E00A36CFE /* HttpManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpManagerType.swift; sourceTree = "<group>"; };
 		7D0C283D23365B8800A36CFE /* ApiControllerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiControllerType.swift; sourceTree = "<group>"; };
@@ -238,6 +246,7 @@
 		50106A1F2237E49E002C634A /* STT */ = {
 			isa = PBXGroup;
 			children = (
+				7D0C0C1A2340FC1D00E29F95 /* NotificationBanner */,
 				7D10CFEE233FE52A00D7CEF1 /* SDWebImageExtensions */,
 				7DE8741A2337787A0086F166 /* Bindings */,
 				7D0C28572336984000A36CFE /* RxExtensions */,
@@ -317,6 +326,17 @@
 				4CB31041FCD1F0EA231A42E4 /* Pods-STT-STTTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		7D0C0C1A2340FC1D00E29F95 /* NotificationBanner */ = {
+			isa = PBXGroup;
+			children = (
+				7D0C0C1B2340FC1D00E29F95 /* FloatingNotificationBanner.swift */,
+				7D0C0C1C2340FC1D00E29F95 /* BannerAppearanceType.swift */,
+				7D0C0C1D2340FC1D00E29F95 /* BannerQueue.swift */,
+				7D0C0C1E2340FC1D00E29F95 /* BannerHapticGenerator.swift */,
+			);
+			path = NotificationBanner;
 			sourceTree = "<group>";
 		};
 		7D0C27522336220700A36CFE /* AlamofireExtensions */ = {
@@ -644,6 +664,7 @@
 				7D80621D232E2DC0003E69CB /* SttCollectionViewCell.swift in Sources */,
 				7D10CFF2233FE60200D7CEF1 /* Image.swift in Sources */,
 				7DE8742423379DB90086F166 /* BinderContext.swift in Sources */,
+				7D0C0C202340FC1D00E29F95 /* BannerAppearanceType.swift in Sources */,
 				7D0C284923366C6E00A36CFE /* ConnectionError.swift in Sources */,
 				7D98ECE8232D34BE00980EFC /* UIStackViewExtensions.swift in Sources */,
 				7D98ED36232D504800980EFC /* UINavigationBarExtensions.swift in Sources */,
@@ -659,6 +680,7 @@
 				7DD20538232E13BE003864E9 /* Event.swift in Sources */,
 				7D0C28632336A0B500A36CFE /* MessengerType+Rx.swift in Sources */,
 				50DB4DC7232B856900FDADA5 /* SttViewController.swift in Sources */,
+				7D0C0C212340FC1D00E29F95 /* BannerQueue.swift in Sources */,
 				7DE8741E233780500086F166 /* BindingSet.swift in Sources */,
 				7DE8742223379CF80086F166 /* BindableExtensions.swift in Sources */,
 				7D98ECF9232D34BE00980EFC /* UIImageExtensions.swift in Sources */,
@@ -668,6 +690,7 @@
 				7D98ECE2232D34BE00980EFC /* DataExtensions.swift in Sources */,
 				7D98ECEC232D34BE00980EFC /* UISegmentControlExtensions.swift in Sources */,
 				7D0C285023368D2C00A36CFE /* HttpManagerExtensions.swift in Sources */,
+				7D0C0C222340FC1D00E29F95 /* BannerHapticGenerator.swift in Sources */,
 				7D0C285D23369B7E00A36CFE /* Command+UIKit.swift in Sources */,
 				7DE8741C233778D40086F166 /* Dynamic.swift in Sources */,
 				7D0C27542336221A00A36CFE /* UploadedObject.swift in Sources */,
@@ -707,6 +730,7 @@
 				7D8063FC232E9414003E69CB /* TableViewSource.swift in Sources */,
 				7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */,
 				7D0C28592336985000A36CFE /* CommandExtensions.swift in Sources */,
+				7D0C0C1F2340FC1D00E29F95 /* FloatingNotificationBanner.swift in Sources */,
 				7D62466B232CC299008D60E8 /* GlobalObserver.swift in Sources */,
 				7D8063FA232E9073003E69CB /* SectionData.swift in Sources */,
 				7D98ECE7232D34BE00980EFC /* UIColorExtensions.swift in Sources */,
