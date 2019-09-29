@@ -36,10 +36,6 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
     open var useCancelGesture = true
     open var cancelsTouchesInView = true
     
-    private var scrollAmount: CGFloat = 0
-    private var scrollAmountGeneral: CGFloat = 0
-    private var viewRect = CGRect.zero
-    
     private var moveViewUp: Bool = false
     private var isMovingUp: Bool = false
     private var isDisappearing: Bool = false
@@ -59,29 +55,19 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
     }
     
     private var originalViewSize = CGSize.zero
+    private var orientation = UIDevice.current.orientation
     override open func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        guard originalViewSize.height < view.bounds.size.height else { return }
-        
+        guard originalViewSize == CGSize.zero || orientation != UIDevice.current.orientation else { return }
         originalViewSize = view.bounds.size
     }
     
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if viewRect != CGRect.zero && originalViewSize == view.frame.size {
-            view.frame = viewRect
-        }
-        
-        guard !isDisappearing && originalViewSize == view.frame.size  else { return }
-        
-        if KeyboardNotification.shared.isKeyboardShow {
-            self.keyboardWillShow(height: KeyboardNotification.shared.heightKeyboard)
-        }
-        else {
-            self.keyboardWillHide(height: KeyboardNotification.shared.heightKeyboard)
-        }
+        guard !isDisappearing && !isRotating && originalViewSize == view.frame.size else { return }
+        scrollTheView(move: KeyboardNotification.shared.isKeyboardShow, animated: false)
     }
     
     override open func viewDidAppear(_ animated: Bool) {
@@ -106,6 +92,16 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
             view.endEditing(true)
         }
     }
+    
+    private var isRotating = false
+    open override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        isRotating = true
+    }
+    
+    override open func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        isRotating = false
+        orientation = UIDevice.current.orientation
+    }
 }
 
 // MARK: - implementation of KeyboardNotificationDelegate
@@ -118,9 +114,6 @@ extension SttKeyboardViewController: KeyboardNotificationDelegate {
     open func keyboardWillShow(height: CGFloat) {
         if view != nil {
             
-            scrollAmount = height - scrollAmountGeneral
-            scrollAmountGeneral = height
-            
             moveViewUp = true
             scrollTheView(move: moveViewUp)
         }
@@ -132,25 +125,22 @@ extension SttKeyboardViewController: KeyboardNotificationDelegate {
         }
     }
     
-    private func scrollTheView(move: Bool) {
+    private func scrollTheView(move: Bool, animated: Bool = true) {
         
         guard !isMovingUp else { return }
         isMovingUp = true
         
         var frame = view.frame
         if move {
-            frame.size.height -= scrollAmount
+            frame.size.height = originalViewSize.height - KeyboardNotification.shared.heightKeyboard
         }
         else {
-            frame.size.height += scrollAmountGeneral
-            scrollAmountGeneral = 0
-            scrollAmount = 0
+            frame.size.height = originalViewSize.height
         }
         
-        viewRect = frame
         view.frame = frame
         
-        if isAnimatedKeyboard {
+        if animated && isAnimatedKeyboard {
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }

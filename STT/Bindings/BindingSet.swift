@@ -139,26 +139,22 @@ public class BindingSet<T: AnyObject>: BindingContextType {
 public extension BindingSet {
     
     func bind(_ searchBar: UISearchBar) -> ControlPropertyContext<String> {
-        let context = ControlPropertyContext(searchBar.rx.text.orEmpty)
-        sets.append(context)
-        return context
+        return self.bind(searchBar.rx.text.orEmpty)
     }
     
     func bind(_ textField: UITextField) -> ControlPropertyContext<String> {
-        let context = ControlPropertyContext(textField.rx.text.orEmpty)
-        sets.append(context)
-        return context
+        return self.bind(textField.rx.text.orEmpty)
     }
     
     func bind(_ textView: UITextView) -> ControlPropertyContext<String> {
-        let context = ControlPropertyContext(textView.rx.text.orEmpty)
-        sets.append(context)
-        return context
+        return self.bind(textView.rx.text.orEmpty)
     }
     
     func bind(_ datePicker: UIDatePicker) -> ControlPropertyContext<Date> {
-        let context = ControlPropertyContext(datePicker.rx.date)
-        sets.append(context)
-        return context
+        return self.bind(datePicker.rx.date)
+    }
+    
+    func bind(_ button: UIButton) -> ControlEventContext<Void> {
+        return self.bind(button.rx.tap)
     }
 }

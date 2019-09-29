@@ -43,17 +43,17 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
      */
     @discardableResult
     open func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
-        -> ControlPropertyContext<Converter.TOut>
-        where Converter.TIn == Element, Converter.TOut: Equatable {
+        -> ControlPropertyContext<Converter.TIn>
+        where Converter.TOut == Element, Converter.TIn: Equatable {
             
-            let newProperty = ControlProperty<Converter.TOut>.init(
-                values: self.property.map({ converter.convert(value: $0, parameter: parameter) }),
-                valueSink: Binder<Converter.TOut>.init(self, binding: { $0.property.onNext(converter.convertBack(value: $1, parameter: parameter)) })
+            let newProperty = ControlProperty<Converter.TIn>.init(
+                values: self.property.map({ converter.convertBack(value: $0, parameter: parameter) }),
+                valueSink: Binder<Converter.TIn>.init(self, binding: { $0.property.onNext(converter.convert(value: $1, parameter: parameter)) })
             )
             
             lazyApplier = { return Disposables.create() }
             
-            let context = ControlPropertyContext<Converter.TOut>(newProperty)
+            let context = ControlPropertyContext<Converter.TIn>(newProperty)
             context.bindingMode = self.bindingMode
             innerContext = context
             
