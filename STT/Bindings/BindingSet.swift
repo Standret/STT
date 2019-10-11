@@ -158,3 +158,24 @@ public extension BindingSet {
         return self.bind(button.rx.tap)
     }
 }
+
+public extension Reactive where Base: UIView {
+    
+    func tap(numberOfTouches: Int = 1) -> ControlEvent<Void> {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.numberOfTouchesRequired = numberOfTouches
+        
+        self.base.addGestureRecognizer(tapGesture)
+        
+        return ControlEvent(events: tapGesture.rx.event.map({ _ in () }))
+    }
+    
+    func longTap(minimumPressDuration: TimeInterval = 0.5) -> ControlEvent<Void> {
+        let tapGesture = UILongPressGestureRecognizer()
+        tapGesture.minimumPressDuration = minimumPressDuration
+        
+        self.base.addGestureRecognizer(tapGesture)
+        
+        return ControlEvent(events: tapGesture.rx.event.map({ _ in () }))
+    }
+}
