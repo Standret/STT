@@ -33,7 +33,27 @@ public class ControlEventContext<EventType>: BindingContextType {
     public func to<T: CommandType>(_ command: T) -> ControlEventContext<EventType> {
         
         lazyApplier = { [unowned self] in
-            self.event.subscribe(onNext: command.execute)
+            self.event.subscribe(onNext: { _ in command.execute() })
+        }
+        
+        return self
+    }
+    
+    /**
+     Add to context Command handler
+     
+     ### Usage Example: ###
+     ````
+     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
+     .to(dynamicProperty)
+     
+     ````
+     */
+    @discardableResult
+    public func to<T: CommandType>(_ command: T, parameter: Any) -> ControlEventContext<EventType> {
+        
+        lazyApplier = { [unowned self] in
+            self.event.subscribe(onNext: { _ in command.execute(parameter: parameter) })
         }
         
         return self
