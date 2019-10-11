@@ -41,10 +41,12 @@ public struct LogMessage: Equatable {
     public let description: String?
     public let debugDescription: String?
     
-    init(type: MessageLevelType,
-         title: String,
-         description: String?,
-         debugDescription: String?) {
+    public init(
+        type: MessageLevelType,
+        title: String,
+        description: String?,
+        debugDescription: String?
+        ) {
         
         self.type = type
         self.title = title
