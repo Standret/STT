@@ -1,8 +1,8 @@
 //
-//  SttCollectionViewCell.swift
+//  ValidationResult.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 3/13/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,23 +25,16 @@
 //
 
 import Foundation
-import UIKit
 
-open class SttCollectionViewCell<Presenter: PresenterType>: UICollectionViewCell, Viewable {
-    
-    public var presenter: Presenter! {
-        didSet {
-            prepareBind()
-        }
-    }
-    
-    override open func prepareForReuse() {
-        super.prepareForReuse()
-        
-        presenter.clearDelegate()
-    }
-    
-    open func prepareBind() {
-        presenter.injectView(delegate: self)
-    }
+/// Use for throw unsupported exception in extensions
+public enum ValidatorError: Error {
+    case unsupportedResultType
+}
+
+/// Represent result of validation
+public enum ValidationResult {
+    case ok, taken
+    case toShort, toLong, empty
+    case isNotMatch
+    case inCorrect, specialIncorrect
 }

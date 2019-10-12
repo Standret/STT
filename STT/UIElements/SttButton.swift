@@ -1,8 +1,8 @@
 //
-//  SttCollectionViewCell.swift
+//  SttButton.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Piter Standret on 1/16/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,21 +27,55 @@
 import Foundation
 import UIKit
 
-open class SttCollectionViewCell<Presenter: PresenterType>: UICollectionViewCell, Viewable {
+open class SttButton: UIButton {
     
-    public var presenter: Presenter! {
+    @objc
+    open dynamic var titleFont: UIFont {
+        get { return titleLabel!.font }
+        set { titleLabel!.font = newValue }
+    }
+}
+
+open class SttToogleButton: SttButton {
+    
+    @objc
+    open dynamic var unSelectedBackground: UIColor? {
         didSet {
-            prepareBind()
+            if !isSelected {
+                self.backgroundColor = unSelectedBackground
+            }
         }
     }
     
-    override open func prepareForReuse() {
-        super.prepareForReuse()
-        
-        presenter.clearDelegate()
+    @objc
+    open dynamic var selectedBackground: UIColor? {
+        didSet {
+            if isSelected {
+                self.backgroundColor = selectedBackground
+            }
+        }
     }
     
-    open func prepareBind() {
-        presenter.injectView(delegate: self)
+    @objc
+    open dynamic var highlightedColor: UIColor?
+    
+    override open var isSelected: Bool {
+        didSet {
+            if isSelected {
+                self.backgroundColor = selectedBackground
+            }
+            else {
+                self.backgroundColor = unSelectedBackground
+            }
+            self.setNeedsDisplay()
+        }
+    }
+    
+    open override var isHighlighted: Bool {
+        didSet {
+            if let color = highlightedColor {
+                self.backgroundColor = isHighlighted ? color : (isSelected ? selectedBackground : unSelectedBackground)
+            }
+        }
     }
 }

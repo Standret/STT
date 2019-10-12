@@ -40,6 +40,11 @@
 		7D10CFF2233FE60200D7CEF1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFF1233FE60200D7CEF1 /* Image.swift */; };
 		7D10CFF4233FE72A00D7CEF1 /* CachedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFF3233FE72A00D7CEF1 /* CachedImageView.swift */; };
 		7D10CFF6233FE76600D7CEF1 /* UIImageView+SDWebImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10CFF5233FE76600D7CEF1 /* UIImageView+SDWebImage.swift */; };
+		7D25A4A02351BEAE002EBEF4 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25A49C2351BEAE002EBEF4 /* Validator.swift */; };
+		7D25A4A12351BEAE002EBEF4 /* ValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25A49D2351BEAE002EBEF4 /* ValidationResult.swift */; };
+		7D25A4A22351BEAE002EBEF4 /* ValidatorBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25A49E2351BEAE002EBEF4 /* ValidatorBuilder.swift */; };
+		7D25A4A32351BEAE002EBEF4 /* ValidatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D25A49F2351BEAE002EBEF4 /* ValidatorType.swift */; };
+		7D499EAA2351BAF200D1A1B4 /* MessengerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D499EA92351BAF200D1A1B4 /* MessengerExtensions.swift */; };
 		7D624669232CC1A3008D60E8 /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */; };
 		7D62466B232CC299008D60E8 /* GlobalObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466A232CC299008D60E8 /* GlobalObserver.swift */; };
 		7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */; };
@@ -81,6 +86,9 @@
 		7D98ECF9232D34BE00980EFC /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D98ECDF232D34BE00980EFC /* UIImageExtensions.swift */; };
 		7D98ED36232D504800980EFC /* UINavigationBarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D98ED35232D504800980EFC /* UINavigationBarExtensions.swift */; };
 		7DAFCF39232D6D6400FA1CBA /* ObservableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAFCF38232D6D6400FA1CBA /* ObservableCollection.swift */; };
+		7DCC84C32351C3EB006736F0 /* SttTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCC84BF2351C3EA006736F0 /* SttTextField.swift */; };
+		7DCC84C52351C3EB006736F0 /* SttButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCC84C12351C3EB006736F0 /* SttButton.swift */; };
+		7DCC84C62351C3EB006736F0 /* SttLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCC84C22351C3EB006736F0 /* SttLabel.swift */; };
 		7DD20538232E13BE003864E9 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD20537232E13BE003864E9 /* Event.swift */; };
 		7DE8741C233778D40086F166 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8741B233778D40086F166 /* Dynamic.swift */; };
 		7DE8741E233780500086F166 /* BindingSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8741D233780500086F166 /* BindingSet.swift */; };
@@ -145,6 +153,11 @@
 		7D10CFF1233FE60200D7CEF1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		7D10CFF3233FE72A00D7CEF1 /* CachedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImageView.swift; sourceTree = "<group>"; };
 		7D10CFF5233FE76600D7CEF1 /* UIImageView+SDWebImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+SDWebImage.swift"; sourceTree = "<group>"; };
+		7D25A49C2351BEAE002EBEF4 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		7D25A49D2351BEAE002EBEF4 /* ValidationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationResult.swift; sourceTree = "<group>"; };
+		7D25A49E2351BEAE002EBEF4 /* ValidatorBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatorBuilder.swift; sourceTree = "<group>"; };
+		7D25A49F2351BEAE002EBEF4 /* ValidatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatorType.swift; sourceTree = "<group>"; };
+		7D499EA92351BAF200D1A1B4 /* MessengerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerExtensions.swift; sourceTree = "<group>"; };
 		7D624668232CC1A3008D60E8 /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		7D62466A232CC299008D60E8 /* GlobalObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalObserver.swift; sourceTree = "<group>"; };
 		7D62466C232CC9A0008D60E8 /* SttKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SttKeyboardViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +199,9 @@
 		7D98ECDF232D34BE00980EFC /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		7D98ED35232D504800980EFC /* UINavigationBarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBarExtensions.swift; sourceTree = "<group>"; };
 		7DAFCF38232D6D6400FA1CBA /* ObservableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableCollection.swift; sourceTree = "<group>"; };
+		7DCC84BF2351C3EA006736F0 /* SttTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttTextField.swift; sourceTree = "<group>"; };
+		7DCC84C12351C3EB006736F0 /* SttButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttButton.swift; sourceTree = "<group>"; };
+		7DCC84C22351C3EB006736F0 /* SttLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttLabel.swift; sourceTree = "<group>"; };
 		7DD20537232E13BE003864E9 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		7DE8741B233778D40086F166 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		7DE8741D233780500086F166 /* BindingSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingSet.swift; sourceTree = "<group>"; };
@@ -246,6 +262,8 @@
 		50106A1F2237E49E002C634A /* STT */ = {
 			isa = PBXGroup;
 			children = (
+				7DCC84B82351C395006736F0 /* UIElements */,
+				7D499EAB2351BB4700D1A1B4 /* Validator */,
 				7D0C0C1A2340FC1D00E29F95 /* NotificationBanner */,
 				7D10CFEE233FE52A00D7CEF1 /* SDWebImageExtensions */,
 				7DE8741A2337787A0086F166 /* Bindings */,
@@ -360,6 +378,7 @@
 				7D0C284A23366C8300A36CFE /* ApiError.swift */,
 				7D0C284C23366CA000A36CFE /* SttError.swift */,
 				7D0C28602336A05100A36CFE /* MessengerType.swift */,
+				7D499EA92351BAF200D1A1B4 /* MessengerExtensions.swift */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
@@ -383,6 +402,17 @@
 				7D10CFF5233FE76600D7CEF1 /* UIImageView+SDWebImage.swift */,
 			);
 			path = SDWebImageExtensions;
+			sourceTree = "<group>";
+		};
+		7D499EAB2351BB4700D1A1B4 /* Validator */ = {
+			isa = PBXGroup;
+			children = (
+				7D25A49D2351BEAE002EBEF4 /* ValidationResult.swift */,
+				7D25A49C2351BEAE002EBEF4 /* Validator.swift */,
+				7D25A49E2351BEAE002EBEF4 /* ValidatorBuilder.swift */,
+				7D25A49F2351BEAE002EBEF4 /* ValidatorType.swift */,
+			);
+			path = Validator;
 			sourceTree = "<group>";
 		};
 		7D80621E232E2E00003E69CB /* DataSources */ = {
@@ -465,6 +495,16 @@
 				7D0C285E23369F8A00A36CFE /* SttRefreshControl.swift */,
 			);
 			name = UIControls;
+			sourceTree = "<group>";
+		};
+		7DCC84B82351C395006736F0 /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				7DCC84C12351C3EB006736F0 /* SttButton.swift */,
+				7DCC84C22351C3EB006736F0 /* SttLabel.swift */,
+				7DCC84BF2351C3EA006736F0 /* SttTextField.swift */,
+			);
+			path = UIElements;
 			sourceTree = "<group>";
 		};
 		7DE8741A2337787A0086F166 /* Bindings */ = {
@@ -660,8 +700,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D806219232E2C1E003E69CB /* SttTableViewCell.swift in Sources */,
+				7D25A4A02351BEAE002EBEF4 /* Validator.swift in Sources */,
 				7D0C285423368E1500A36CFE /* ConverterType.swift in Sources */,
 				7D80621D232E2DC0003E69CB /* SttCollectionViewCell.swift in Sources */,
+				7DCC84C62351C3EB006736F0 /* SttLabel.swift in Sources */,
 				7D10CFF2233FE60200D7CEF1 /* Image.swift in Sources */,
 				7DE8742423379DB90086F166 /* BinderContext.swift in Sources */,
 				7D0C0C202340FC1D00E29F95 /* BannerAppearanceType.swift in Sources */,
@@ -678,6 +720,7 @@
 				7DAFCF39232D6D6400FA1CBA /* ObservableCollection.swift in Sources */,
 				7D8063F4232E317B003E69CB /* BaseTableViewSource.swift in Sources */,
 				7DD20538232E13BE003864E9 /* Event.swift in Sources */,
+				7DCC84C52351C3EB006736F0 /* SttButton.swift in Sources */,
 				7D0C28632336A0B500A36CFE /* MessengerType+Rx.swift in Sources */,
 				50DB4DC7232B856900FDADA5 /* SttViewController.swift in Sources */,
 				7D0C0C212340FC1D00E29F95 /* BannerQueue.swift in Sources */,
@@ -704,6 +747,7 @@
 				7D8063F8232E8DF9003E69CB /* CollectionViewWithSectionSource.swift in Sources */,
 				7D0C285F23369F8A00A36CFE /* SttRefreshControl.swift in Sources */,
 				7DE874262337A7A70086F166 /* ControlEventContext.swift in Sources */,
+				7D499EAA2351BAF200D1A1B4 /* MessengerExtensions.swift in Sources */,
 				7D98ECF2232D34BE00980EFC /* FormatterExtensions.swift in Sources */,
 				7D98ECEE232D34BE00980EFC /* URLExtensions.swift in Sources */,
 				7D10CFF6233FE76600D7CEF1 /* UIImageView+SDWebImage.swift in Sources */,
@@ -711,6 +755,7 @@
 				7D806222232E2E9A003E69CB /* ScrollViewHandler.swift in Sources */,
 				7D8063F6232E8D0F003E69CB /* CollectionViewSource.swift in Sources */,
 				7D62466F232CCA0B008D60E8 /* Presenter.swift in Sources */,
+				7D25A4A32351BEAE002EBEF4 /* ValidatorType.swift in Sources */,
 				7D98ECE5232D34BE00980EFC /* DateExtensions.swift in Sources */,
 				7D0C285223368D8200A36CFE /* SttLog.swift in Sources */,
 				7D0C284523366C2F00A36CFE /* ErrorMessage.swift in Sources */,
@@ -723,11 +768,14 @@
 				50DB4CDB232B7DC900FDADA5 /* PresenterType.swift in Sources */,
 				7DE8742A2337EC230086F166 /* ControlPropertyContext.swift in Sources */,
 				7D98ECF8232D34BE00980EFC /* JsonDecoderExtensions.swift in Sources */,
+				7D25A4A22351BEAE002EBEF4 /* ValidatorBuilder.swift in Sources */,
 				7D98ECE6232D34BE00980EFC /* ArrayExtensions.swift in Sources */,
 				7D80621B232E2C67003E69CB /* SttCollectionReusableView.swift in Sources */,
 				7D0C284B23366C8300A36CFE /* ApiError.swift in Sources */,
 				7D10CFF0233FE5A500D7CEF1 /* ImagePlaceholderType.swift in Sources */,
 				7D8063FC232E9414003E69CB /* TableViewSource.swift in Sources */,
+				7DCC84C32351C3EB006736F0 /* SttTextField.swift in Sources */,
+				7D25A4A12351BEAE002EBEF4 /* ValidationResult.swift in Sources */,
 				7D62466D232CC9A0008D60E8 /* SttKeyboardViewController.swift in Sources */,
 				7D0C28592336985000A36CFE /* CommandExtensions.swift in Sources */,
 				7D0C0C1F2340FC1D00E29F95 /* FloatingNotificationBanner.swift in Sources */,

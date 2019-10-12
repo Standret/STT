@@ -1,5 +1,5 @@
 //
-//  SttValidatorFilter.swift
+//  ValidatorType.swift
 //  STT
 //
 //  Created by Peter Standret on 2/6/19.
@@ -26,49 +26,34 @@
 
 import Foundation
 
-public final class SttValidatorBuilder<Target: SttValidatorType> {
+/// Represent base of type for all validator
+public protocol ValidatorType {
     
-    private let name: String
+    var name: String { get }
     
-    private var min = Int.min
-    private var max = Int.max
+    var customIncorrectError: String? { get }
     
-    private var isUnique = false
+    var isRequired: Bool { get }
+    var regexPattern: String? { get }
     
-    private var pattern: String? = nil
+    var min: Int { get }
+    var max: Int { get }
     
-    private var customIncorrectError: String? = nil
+    init (name: String, isRequired: Bool, regexPattern: String?, min: Int, max: Int, customIncorrectError: String?)
     
-    public init (name: String) {
-        self.name = name
-    }
+    var validationError: String { get }
+    var validationResult: ValidationResult { get }
     
-    public func useMin(_ value: Int) -> SttValidatorBuilder<Target> {
-        min = value
-        return self
-    }
-    public func useMax(_ value: Int) -> SttValidatorBuilder<Target> {
-        max = value
-        return self
-    }
+    @discardableResult
+    func validate(object: String?, parametr: Any?) -> ValidationResult
+}
 
-    public func useUnique(_ value: Bool) -> SttValidatorBuilder<Target> {
-        isUnique = value
-        return self
-    }
+public extension ValidatorType {
     
-    public func usePattern(_ value: String) -> SttValidatorBuilder<Target> {
-        pattern = value
-        return self
-    }
-
-    public func useCustomError(_ value: String) -> SttValidatorBuilder<Target> {
-        customIncorrectError = value
-        return self
-    }
+    var isError: Bool { return validationResult != .ok }
     
-    public func build() -> SttValidatorType {
-        return Target(name: name, isRequired: isUnique, regexPattern: pattern, min: min, max: max, customIncorrectError: customIncorrectError)
+    @discardableResult
+    func validate(object: String?, parametr: Any? = nil) -> ValidationResult {
+        return self.validate(object: object, parametr: parametr)
     }
-
 }

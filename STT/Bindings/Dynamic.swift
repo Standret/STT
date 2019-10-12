@@ -69,7 +69,6 @@ public class Dynamic<Element> {
     ///
     /// Subscribe on changes and read current value
     ///
-    @discardableResult
     public func bind(_ listener: @escaping Listener) -> Disposable {
         let disposable = publisher.asObservable()
             .subscribe(onNext: listener)
@@ -84,7 +83,6 @@ public class Dynamic<Element> {
     ///
     /// Subscribe only on changes
     ///
-    @discardableResult
     public func addListener(_ listener: @escaping Listener) -> Disposable {
         let disposable = publisher.asObservable()
             .subscribe(onNext: listener)

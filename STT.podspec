@@ -57,8 +57,18 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
       sp.dependency "RxCocoa", "~> 5"
   end
   
-  # STT Bindings
+  # STT NotificationBanner
   s.subspec 'NotificationBanner' do |sp|
       sp.source_files = "STT/NotificationBanner/*.swift"
+  end
+  
+  # STT Validator
+  s.subspec 'Validator' do |sp|
+      sp.source_files = "STT/Core/*.swift", "STT/Validator/*.swift"
+  end
+  
+  # STT UIElements
+  s.subspec 'UIElements' do |sp|
+      sp.source_files = "STT/UIElements/*.swift"
   end
 end

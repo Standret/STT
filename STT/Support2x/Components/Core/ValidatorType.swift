@@ -1,8 +1,8 @@
 //
-//  SttCollectionViewCell.swift
+//  ValidatorType.swift
 //  STT
 //
-//  Created by Peter Standret on 9/15/19.
+//  Created by Peter Standret on 2/6/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,23 +25,35 @@
 //
 
 import Foundation
-import UIKit
 
-open class SttCollectionViewCell<Presenter: PresenterType>: UICollectionViewCell, Viewable {
+/// Represent base of type for all validator
+public protocol ValidatorType {
     
-    public var presenter: Presenter! {
-        didSet {
-            prepareBind()
-        }
-    }
+    var name: String { get }
     
-    override open func prepareForReuse() {
-        super.prepareForReuse()
-        
-        presenter.clearDelegate()
-    }
+    var customIncorrectError: String? { get }
     
-    open func prepareBind() {
-        presenter.injectView(delegate: self)
+    var isRequired: Bool { get }
+    var regexPattern: String? { get }
+    
+    var min: Int { get }
+    var max: Int { get }
+    
+    init (name: String, isRequired: Bool, regexPattern: String?, min: Int, max: Int, customIncorrectError: String?)
+    
+    var validationError: String { get }
+    var validationResult: ValidationResult { get }
+    
+    @discardableResult
+    func validate(object: String?, parametr: Any?) -> ValidationResult
+}
+
+public extension ValidatorType {
+    
+    var isError: Bool { return validationResult != .ok }
+    
+    @discardableResult
+    func validate(object: String?, parametr: Any? = nil) -> ValidationResult {
+        return self.validate(object: object, parametr: parametr)
     }
 }

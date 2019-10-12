@@ -1,8 +1,8 @@
 //
-//  SttValidatorType.swift
+//  SttLabel.swift
 //  STT
 //
-//  Created by Peter Standret on 2/6/19.
+//  Created by Peter Standret on 1/29/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,35 +25,39 @@
 //
 
 import Foundation
+import UIKit
 
-/// Represent base of type for all validator
-public protocol SttValidatorType {
+open class SttLabel: UILabel {
     
-    var name: String { get }
+    @objc
+    open dynamic var highlightedFont: UIFont? {
+        didSet {
+            if isHighlighted {
+                self.font = highlightedFont
+                self.setNeedsDisplay()
+            }
+        }
+    }
     
-    var customIncorrectError: String? { get }
+    @objc
+    open dynamic var usualFont: UIFont? {
+        didSet {
+            if !isHighlighted {
+                self.font = usualFont
+                self.setNeedsDisplay()
+            }
+        }
+    }
     
-    var isRequired: Bool { get }
-    var regexPattern: String? { get }
-    
-    var min: Int { get }
-    var max: Int { get }
-    
-    init (name: String, isRequired: Bool, regexPattern: String?, min: Int, max: Int, customIncorrectError: String?)
-    
-    var validationError: String { get }
-    var validationResult: SttValidationResult { get }
-    
-    @discardableResult
-    func validate(object: String?, parametr: Any?) -> SttValidationResult
-}
-
-public extension SttValidatorType {
-    
-    var isError: Bool { return validationResult != .ok }
-    
-    @discardableResult
-    func validate(object: String?, parametr: Any? = nil) -> SttValidationResult {
-        return self.validate(object: object, parametr: parametr)
+    override open var isHighlighted: Bool {
+        didSet {
+            self.setNeedsDisplay()
+            if isHighlighted {
+                self.font = highlightedFont
+            }
+            else {
+                self.font = usualFont
+            }
+        }
     }
 }

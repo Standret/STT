@@ -1,8 +1,8 @@
 //
-//  SttValidationResult.swift
+//  SttTextField.swift
 //  STT
 //
-//  Created by Peter Standret on 3/13/19.
+//  Created by Admin on 5/17/18.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,16 +25,31 @@
 //
 
 import Foundation
+import UIKit
 
-/// Use for throw unsupported exception in extensions
-public enum ValidatorError: Error {
-    case unsupportedResultType
-}
-
-/// Represent result of validation
-public enum SttValidationResult {
-    case ok, taken
-    case toShort, toLong, empty
-    case isNotMatch
-    case inCorrect, specialIncorrect
+@IBDesignable
+open class SttTextField: UITextField {
+    
+    @objc
+    open dynamic var insets: UIEdgeInsets = UIEdgeInsets.zero
+    
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return insertRect(rect: bounds, insets: insets)
+    }
+    
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        return insertRect(rect: bounds, insets: insets)
+    }
+    
+    override open func caretRect(for position: UITextPosition) -> CGRect {
+        
+        var rect = super.caretRect(for: position)
+        rect.size.width = 2
+        return rect
+    }
+    
+    private func insertRect(rect: CGRect, insets: UIEdgeInsets) -> CGRect {
+        return CGRect(x: Double(rect.minX + insets.left), y: Double(rect.minY + insets.top),
+                      width: Double(rect.width - insets.left - insets.right), height: Double(rect.height - insets.top - insets.bottom))
+    }
 }
