@@ -114,7 +114,13 @@ public class BindingSet<T: AnyObject>: BindingContextType {
     }
     
     public func bind<EventType>(_ event: ControlEvent<EventType>) -> ControlEventContext<EventType> {
-        let context = ControlEventContext(event)
+        let context = ControlEventContext(event, control: nil)
+        sets.append(context)
+        return context
+    }
+    
+    public func bind<EventType>(_ event: ControlEvent<EventType>, control: UIControl) -> ControlEventContext<EventType> {
+        let context = ControlEventContext(event, control: control)
         sets.append(context)
         return context
     }
@@ -155,7 +161,7 @@ public extension BindingSet {
     }
     
     func bind(_ button: UIButton) -> ControlEventContext<Void> {
-        return self.bind(button.rx.tap)
+        return self.bind(button.rx.tap, control: button)
     }
 }
 

@@ -14,9 +14,11 @@ public class ControlEventContext<EventType>: BindingContextType {
     
     private let event: ControlEvent<EventType>
     private var lazyApplier: Applier!
+    private let control: UIControl?
     
-    init(_ event: ControlEvent<EventType>) {
+    init(_ event: ControlEvent<EventType>, control: UIControl?) {
         self.event = event
+        self.control = control
     }
     
     /**
@@ -33,7 +35,13 @@ public class ControlEventContext<EventType>: BindingContextType {
     public func to<T: CommandType>(_ command: T) -> ControlEventContext<EventType> {
         
         lazyApplier = { [unowned self] in
-            self.event.subscribe(onNext: { _ in command.execute() })
+            let canNextDisp = command.canNext.subscribe({ [weak self] isEnabled in self?.control?.isEnabled = isEnabled })
+            let subscriber = self.event.subscribe(onNext: { _ in command.execute() })
+            
+            return Disposables.create {
+                canNextDisp.dispose()
+                subscriber.dispose()
+            }
         }
         
         return self
@@ -53,7 +61,13 @@ public class ControlEventContext<EventType>: BindingContextType {
     public func to<T: CommandType>(_ command: T, parameter: Any) -> ControlEventContext<EventType> {
         
         lazyApplier = { [unowned self] in
-            self.event.subscribe(onNext: { _ in command.execute(parameter: parameter) })
+            let canNextDisp = command.canNext.subscribe({ [weak self] isEnabled in self?.control?.isEnabled = isEnabled })
+            let subscriber = self.event.subscribe(onNext: { _ in command.execute(parameter: parameter) })
+            
+            return Disposables.create {
+                canNextDisp.dispose()
+                subscriber.dispose()
+            }
         }
         
         return self
