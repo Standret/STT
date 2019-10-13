@@ -27,7 +27,7 @@
 import Foundation
 import UIKit
 
-extension Dictionary where Key == NSAttributedString.Key, Value == Any {
+public extension Dictionary where Key == NSAttributedString.Key, Value == Any {
 
     var font: UIFont? { return self[.font] as? UIFont }
     var paragrapStyle: NSParagraphStyle? { return self[.paragraphStyle] as? NSParagraphStyle }
