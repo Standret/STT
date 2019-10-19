@@ -61,13 +61,13 @@ public class HttpManager: HttpManagerType {
         
         return Observable.create({ (observer) -> Disposable in
             
-            let mamager = self.requestSessionManager ?? SessionManager.default
+            let manager = self.requestSessionManager ?? SessionManager.default
             var headers = headers ?? [:]
             if isAuthorized {
                 headers["Authorization"] = ""
             }
             
-            let dataRequest = mamager.request(
+            let dataRequest = manager.request(
                 controller,
                 method: method,
                 parameters: parameter,
@@ -104,6 +104,11 @@ public class HttpManager: HttpManagerType {
             
             let sessionManager = self.uploadSessionManager ?? SessionManager.default
             var request: UploadRequest?
+            
+            var headers = headers ?? [:]
+            if isAuthorized {
+                headers["Authorization"] = ""
+            }
             
             sessionManager.upload(
                 multipartFormData: { (multipart) in
