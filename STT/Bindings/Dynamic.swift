@@ -96,3 +96,18 @@ public class Dynamic<Element> {
         disposeBag = DisposeBag()
     }
 }
+
+extension Dynamic: Equatable where Element: Equatable {
+    
+    public static func == (lhs: Dynamic<Element>, rhs: Dynamic<Element>) -> Bool {
+        return lhs.value == rhs.value
+    }
+    
+    public static func == (lhs: Dynamic<Element>, rhs: Element) -> Bool {
+        return lhs.value == rhs
+    }
+    
+    public static func == (lhs: Element, rhs: Dynamic<Element>) -> Bool {
+        return lhs == rhs.value
+    }
+}
