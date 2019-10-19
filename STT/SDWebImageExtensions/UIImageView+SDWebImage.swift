@@ -13,7 +13,7 @@ import SDWebImage
 public extension UIImageView {
     
     func loadImage(url: String?, placeholder: String?, shouldLoadPlaceholder: Bool) {
-        if let url = url {
+        if let url = url?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             
             var placeHolderImage: UIImage?
             if shouldLoadPlaceholder {
