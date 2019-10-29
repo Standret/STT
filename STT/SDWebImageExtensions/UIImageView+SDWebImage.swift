@@ -28,7 +28,7 @@ public extension UIImageView {
             self.sd_setImage(
                 with: URL(string: url),
                 placeholderImage: placeHolderImage,
-                options: SDWebImageOptions.decodeFirstFrameOnly,
+                options: [.decodeFirstFrameOnly, .refreshCached],
                 completed: { [weak self] (image: UIImage?, error: Error?, _, _) in
                     
                     if error == nil && image != nil {

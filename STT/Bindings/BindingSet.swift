@@ -68,6 +68,10 @@ public class BindingSet<T: AnyObject>: BindingContextType {
         self.parent = parent
     }
     
+    deinit {
+        disposable?.dispose()
+    }
+    
     public func bind<Element>(_ value: Dynamic<Element>) -> BinderContext<Element> {
         let context = BinderContext(value)
         sets.append(context)
@@ -158,6 +162,10 @@ public extension BindingSet {
     
     func bind(_ datePicker: UIDatePicker) -> ControlPropertyContext<Date> {
         return self.bind(datePicker.rx.date)
+    }
+    
+    func bind(_ switcher: UISwitch) -> ControlPropertyContext<Bool> {
+        return self.bind(switcher.rx.isOn)
     }
     
     func bind(_ button: UIButton) -> ControlEventContext<Void> {

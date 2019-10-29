@@ -21,7 +21,7 @@ open class SttCollectionView: UICollectionView {
     }
 }
 
-open class SttTableView: UICollectionView {
+open class SttTableView: UITableView {
     
     private var contentSizeChangedPublisher = EventPublisher<CGSize>()
     public var contentSizeChanged: Event<CGSize> { return contentSizeChangedPublisher }

@@ -101,7 +101,8 @@ public extension UIView {
     /// - Parameter color2: second color
     /// - Parameter isVertical: determine gradient direction
     ///
-    func setGradient(color1: UIColor, color2: UIColor, isVertical: Bool = true) {
+    @discardableResult
+    func setGradient(color1: UIColor, color2: UIColor, isVertical: Bool = true) -> CAGradientLayer {
         
         let gradient = CAGradientLayer()
         
@@ -113,6 +114,8 @@ public extension UIView {
         
         self.layer.masksToBounds = true
         self.layer.insertSublayer(gradient, at: 0)
+        
+        return gradient
     }
     
     ///
