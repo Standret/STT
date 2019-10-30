@@ -27,59 +27,12 @@
 import Foundation
 import RxSwift
 
-open class SttPresenter<TDelegate> : SttViewControllerInjector {
+@available(swift, obsoleted: 5.0, renamed: "Presenter")
+open class SttPresenter<TDelegate> {
     
-    private weak var _delegate: SttViewable!
-    private var _notificationError: SttNotificationErrorServiceType?
-    private var messageDisposable: Disposable?
-    
-    public var disposableBag = DisposeBag()
-    public var listenerDisposableBag = DisposeBag()
-    
-    open var delegate: TDelegate? { return _delegate as? TDelegate }
-    
-    public init (notificationError: SttNotificationErrorServiceType?) {
-        _notificationError = notificationError
-    }
-    
-    public func injectView(delegate: SttViewable) {
-        self._delegate = delegate
-        
-        viewDidInjected()
-    }
-    
-    open func viewAppearing() { }
-    open func viewAppeared() {
-        messageDisposable = _notificationError?.errorObservable
-            .observeInUI()
-            .subscribe(onNext: { [weak self] (err) in
-                if (self?._delegate is SttViewableListener) {
-                    (self?._delegate as! SttViewableListener).sendError(error: err)
-                }
-            })
-    }
-    
-    open func viewDissapearing() { }
-    open func viewDissapeared() {
-        messageDisposable?.dispose()
-    }
-    
-    open func viewDidInjected() { }
-    
-    open func prepare(parametr: Any?) { }
-    
-    open func disposeAllSequence() {
-        disposableBag = DisposeBag()
-    }
 }
 
-open class SttPresenterWithParametr<TDelegate, TParametr>: SttPresenter<TDelegate> {
+@available(swift, obsoleted: 5.0, message: "Class has been deleted")
+open class SttPresenterWithParametr<TDelegate, TParametr> {
     
-    override open func prepare(parametr: Any?) {
-        if let param = parametr {
-            prepare(parametr: param as! TParametr)
-        }
-    }
-    
-    open func prepare(parametr: TParametr)  { }
 }

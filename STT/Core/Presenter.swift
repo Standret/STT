@@ -49,4 +49,9 @@ open class Presenter<View>: PresenterType {
     
     open func viewDisappearing() { }
     open func viewDisappeared() { }
+    
+    // MARK: - deprecated
+    
+    @available(swift, deprecated: 5.0, message: "use NGSRouter insted")
+    open func prepare(parametr: Any?) { }
 }

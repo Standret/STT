@@ -27,8 +27,8 @@
 import Foundation
 import UIKit
 
+@available(swift, obsoleted: 5.0, renamed: "ScrollViewHandler")
 open class SttBaseScrollSource: NSObject, UIScrollViewDelegate {
-    
     
     public var container = [SttTypeActionScrollView: [SttScrollViewHandlerType]]()
     
@@ -60,23 +60,4 @@ open class SttBaseScrollSource: NSObject, UIScrollViewDelegate {
     
     open func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool { return true }
     
-}
-
-extension SttBaseScrollSource {
-    
-    /// Add end scrolled handler
-    public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
-        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(
-            SttEndScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel:  callBackEndPixel)
-        )
-    }
-    
-    /// Add top scrolled handler
-    public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
-        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [SttScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(
-            SttTopScrollHandler(delegate: delegate, { (delegate, _) in callback(delegate) }, callBackEndPixel: callBackEndPixel)
-        )
-    }
 }

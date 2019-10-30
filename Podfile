@@ -15,6 +15,11 @@ target 'STT' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'SDWebImage', '~> 5.0'
+  
+  # Old for 2x
+  
+  pod 'TinyConstraints'
+  pod 'KeychainSwift'
 end
 
 

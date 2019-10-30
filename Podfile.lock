@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.9.0)
+  - KeychainSwift (17.0.0)
   - Nimble (8.0.4)
   - Quick (2.2.0)
   - RxBlocking (5.0.0):
@@ -15,9 +16,11 @@ PODS:
   - SDWebImage (5.2.0):
     - SDWebImage/Core (= 5.2.0)
   - SDWebImage/Core (5.2.0)
+  - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.9.0)
+  - KeychainSwift
   - Nimble
   - Quick
   - RxBlocking
@@ -25,10 +28,12 @@ DEPENDENCIES:
   - RxSwift
   - RxTest
   - SDWebImage (~> 5.0)
+  - TinyConstraints
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
+    - KeychainSwift
     - Nimble
     - Quick
     - RxBlocking
@@ -37,9 +42,11 @@ SPEC REPOS:
     - RxSwift
     - RxTest
     - SDWebImage
+    - TinyConstraints
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  KeychainSwift: 9f43f562dffc88af6efadb57d74b14c598eb337f
   Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
   Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
   RxBlocking: c67185d26498ea3cbe3e121917c3c16739e43123
@@ -48,7 +55,8 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   RxTest: 4349afe98f564e0a9bc19063368904622d17d49a
   SDWebImage: 609192dcf3898c910a2848032372ead951e66364
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: eeda45c7e80ae6ec558c0a8c705df07c7f249ddb
+PODFILE CHECKSUM: 7d2e5d0c6616d2a63920e384919b66e66cef83dc
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4

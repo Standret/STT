@@ -63,9 +63,9 @@ open class SttStorage<T: Codable>: SttStorageType {
     open func put(item: T) -> Bool {
         switch type {
         case .security:
-            return keychain.set(item.getData()!, forKey: key)
+            return keychain.set(item.jsonData!, forKey: key)
         case .userAccount:
-            userDefault.set(item.getData()!, forKey: key)
+            userDefault.set(item.jsonData!, forKey: key)
             return true
         }
     }

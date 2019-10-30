@@ -32,7 +32,7 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
     
     @objc
     public dynamic var selectedTitleTextColor: UIColor? {
-        get { return segmentControl.titleTextAttributes(for: .normal)?.color }
+        get { return segmentControl.titleTextAttributes(for: .normal)?.foregroundColor }
         set {
             var current = segmentControl.titleTextAttributes(for: .selected) ?? [NSAttributedString.Key: Any]()
             current[.foregroundColor] = newValue
@@ -51,7 +51,7 @@ public class SttViewPagerHeader: UIView, UIScrollViewDelegate {
     
     @objc
     public dynamic var titleTextColor: UIColor? {
-        get { return segmentControl.titleTextAttributes(for: .normal)?.color }
+        get { return segmentControl.titleTextAttributes(for: .normal)?.foregroundColor }
         set {
             var current = segmentControl.titleTextAttributes(for: .normal) ?? [NSAttributedString.Key: Any]()
             current[.foregroundColor] = newValue

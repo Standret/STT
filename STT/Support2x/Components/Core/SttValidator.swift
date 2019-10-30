@@ -64,7 +64,7 @@ open class SttValidator: SttValidatorType {
         var result: SttValidationResult = .ok
         
         do {
-            if SttString.isEmpty(string: object) {
+            if String.isEmpty(object) {
                 result = isRequired ? .empty : .ok
             }
             else if (object! as NSString).length < min {

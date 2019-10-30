@@ -48,6 +48,25 @@ open class SttLog: SttLogType {
             print("[\(type)][\(SttLogDateConverter().convert(value: Date()))] <\(key)> \(message)")
         }
     }
+    
+    // MARK: - Obsoleted
+    
+    @available(swift, obsoleted: 5.0, message: "instead of static use shared property")
+    public static var logInSystem = true
+    
+    open class func trace(message: String, key: String) {
+        log(type: "trace", message: message, key: key)
+    }
+    open class func warning(message: String, key: String) {
+        log(type: "warning", message: message, key: key)
+    }
+    open class func error(message: String, key: String) {
+        log(type: "error", message: message, key: key)
+    }
+    
+    fileprivate class func log(type: String, message: String, key: String) {
+        fatalError()
+    }
 }
 
 internal class SttLogDateConverter: ConverterType {

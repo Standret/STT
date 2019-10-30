@@ -46,7 +46,7 @@ open class SttInputView: UIView, SttViewable {
     
     public var isAnimate: Bool = true
     
-    public var isError: Bool { return !SttString.isWhiteSpace(string: error)}
+    public var isError: Bool { return !String.isWhiteSpace(error)}
     
     @IBInspectable
     public var labelName: String? {
@@ -69,7 +69,7 @@ open class SttInputView: UIView, SttViewable {
         didSet {
             errorLabel.text = error
             
-            if !SttString.isWhiteSpace(string: error) {
+            if !String.isWhiteSpace(error) {
                 underline.backgroundColor = errorColor
 //                if isEdited {
 //                    label.textColor = errorColor
@@ -198,7 +198,7 @@ open class SttInputView: UIView, SttViewable {
                                     self.changeCounterValue(to: self.textView.text.count)
                                     self.layoutIfNeeded()
                                     
-                                    if !SttString.isEmpty(string: tv.text) { v.startEditing() }
+                                    if !String.isEmpty(tv.text) { v.startEditing() }
                                     if !tv.isFirstResponder { v.endEditing() } })
     }
     private func initLabel() {
@@ -285,7 +285,7 @@ open class SttInputView: UIView, SttViewable {
             underline.backgroundColor = underlineDisableColor
         }
         
-        if SttString.isEmpty(string: textView.text) {
+        if String.isEmpty(textView.text) {
             UIView.animate(withDuration:  isAnimate ? 0.3 : 0) {
                 self.label.transform = CGAffineTransform.identity
             }

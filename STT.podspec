@@ -25,7 +25,7 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   
   # STT Extensions
   s.subspec 'Extensions' do |sp|
-    sp.source_files  = "STT/Extensions/*.swift", "STT/Messenger/*.swift"
+    sp.source_files  = "STT/Extensions/*.swift"
   end
 
   # STT RxExtensions
@@ -33,14 +33,9 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
     sp.source_files  = "STT/Core/*.swift", "STT/RxExtensions/*.swift"
   end
 
-  # STT Messenger
-  s.subspec 'Messenger' do |sp|
-    sp.source_files = "STT/Messenger/*.swift"
-  end
-
   # STT AlamofireExtensions
   s.subspec 'AlamofireExtensions' do |sp|
-    sp.source_files = "STT/Messenger/*.swift", "STT/AlamofireExtensions/*.swift"
+    sp.source_files = "STT/Core/*.swift", "STT/AlamofireExtensions/*.swift"
     sp.dependency "Alamofire", "4.9.0"
     sp.dependency "RxSwift", "~> 5"
   end
@@ -74,6 +69,8 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   
   # STT Support2x
   s.subspec 'Support2x' do |sp|
-      sp.source_files = "STT/Support2x/Bindings/*.swift", "STT/Support2x/Components/*.swift"
+      sp.source_files = "STT/Support2x/Bindings/*.swift", "STT/Support2x/Components/*.swift", "STT/Support2x/Components/Core/*.swift", "STT/Support2x/Components/View/*.swift"
+      sp.dependency "TinyConstraints"
+      sp.dependency "KeychainSwift"
   end
 end

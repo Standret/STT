@@ -73,7 +73,7 @@ open class SttInputBox: UIView, SttViewable {
     /// disable or enable all start and end editing animation
     public  var isAnimate: Bool = true
     
-    public  var isError: Bool { return !SttString.isWhiteSpace(string: error) }
+    public  var isError: Bool { return !String.isWhiteSpace(error) }
     
     @objc
     dynamic public var textEdges: UIEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8) {
@@ -128,9 +128,9 @@ open class SttInputBox: UIView, SttViewable {
     open var error: String? {
         didSet {
             
-            if !SttString.isWhiteSpace(string: error) {
+            if !String.isWhiteSpace(error) {
                 underline.backgroundColor = errorColor
-                if useVibrationOnError && SttString.isWhiteSpace(string: errorLabel.text) {
+                if useVibrationOnError && String.isWhiteSpace(errorLabel.text) {
                     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 }
             }
@@ -159,7 +159,7 @@ open class SttInputBox: UIView, SttViewable {
     
     @objc dynamic public var textFieldColor: UIColor? {
         get { return textField.textColor }
-        set { if SttString.isEmpty(string: text) { textField.textColor = newValue } }
+        set { if String.isEmpty(text) { textField.textColor = newValue } }
     }
     @objc dynamic public var errorColor: UIColor? {
         get { return errorLabel.textColor }
@@ -241,7 +241,7 @@ open class SttInputBox: UIView, SttViewable {
     
     public func setAttributedString(string: NSAttributedString) {
         textField.attributedText = string
-        if !SttString.isEmpty(string: text) {
+        if !String.isEmpty(text) {
             startEditing()
         }
     }
@@ -283,7 +283,7 @@ open class SttInputBox: UIView, SttViewable {
             underline.backgroundColor = underlineDisableColor
         }
         
-        if SttString.isEmpty(string: textField.text) {
+        if String.isEmpty(textField.text) {
             UIView.animate(withDuration: isAnimate ? 0.3 : 0) {
                 self.label.transform = CGAffineTransform.identity
             }
@@ -322,7 +322,7 @@ open class SttInputBox: UIView, SttViewable {
             .subscribe(onNext: { [weak self] in
                 guard let _self = self else { return }
                 
-                if !SttString.isEmpty(string: $0) && !_self.textField.isEditing  {
+                if !String.isEmpty($0) && !_self.textField.isEditing  {
                     _self.startEditing()
                 }
                 else if !_self.textField.isEditing {

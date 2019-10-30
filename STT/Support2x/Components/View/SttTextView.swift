@@ -67,7 +67,7 @@ open class SttTextView: UITextView {
             return enabledPlaceholder ? "" : super.text
         }
         set {
-            if SttString.isEmpty(string: newValue) {
+            if String.isEmpty(newValue) {
                 enabledPlaceholder = true
                 super.text = ""
                 super.text = PlaceHolder
@@ -100,7 +100,7 @@ open class SttTextView: UITextView {
             }
             
             _delegate.addTarget(type: .didEndEditing, delegate: self) { (view, textView) in
-                if SttString.isEmpty(string: super.text) {
+                if String.isEmpty( super.text) {
                     super.text = view.PlaceHolder
                     view.enabledPlaceholder = true
                     view.textColor = view.placeHolderColor
@@ -108,7 +108,7 @@ open class SttTextView: UITextView {
             }
             
             _delegate.addTarget(type: .editing, delegate: self) { (view, textView) in
-                if SttString.isEmpty(string: super.text) {
+                if String.isEmpty(super.text) {
                     view.enabledPlaceholder = true
                     super.text = view.PlaceHolder
                     view.textColor = view.placeHolderColor
@@ -126,7 +126,7 @@ open class SttTextView: UITextView {
     open override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        if SttString.isWhiteSpace(string: super.text) {
+        if String.isWhiteSpace(super.text) {
             super.text = self.PlaceHolder
             textColor = placeHolderColor
         }

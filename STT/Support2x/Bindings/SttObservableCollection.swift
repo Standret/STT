@@ -31,6 +31,7 @@ public enum NotifyCollectionType {
     case delete, insert, update, reload
 }
 
+@available(swift, obsoleted: 5.0, renamed: "ObservableCollection")
 open class SttObservableCollection<T>: Collection {
     
     private var datas = [T]()
