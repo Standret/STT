@@ -57,9 +57,9 @@ open class SttEndScrollHandler<Target: UIScrollView>: SttScrollViewHandlerType {
         if (scrollView.contentSize.height > scrollView.bounds.height) {
             if (y > height) {
                 if (!inPosition) {
+                    inPosition = true
                     handlers.forEach({ $0.callback(scrollView as! Target) })
                 }
-                inPosition = true
             }
             else {
                 inPosition = false
@@ -88,10 +88,9 @@ open class SttTopScrollHandler<Target: UIScrollView>: SttScrollViewHandlerType {
         if (scrollView.contentSize.height > scrollView.bounds.height) {
             if (y < callBackEndPixel) {
                 if (!inPosition) {
+                    inPosition = true
                     handlers.forEach({ $0.callback(scrollView as! Target) })
                 }
-                
-                inPosition = true
             }
             else {
                 inPosition = false
