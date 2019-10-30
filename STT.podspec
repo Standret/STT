@@ -71,4 +71,9 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   s.subspec 'UIElements' do |sp|
       sp.source_files = "STT/UIElements/*.swift"
   end
+  
+  # STT Support2x
+  s.subspec 'Support2x' do |sp|
+      sp.source_files = "STT/Support2x/Bindings/*.swift", "STT/Support2x/Components/*.swift"
+  end
 end

@@ -1,9 +1,9 @@
 //
-//  UIViewControllerDExt.swift
+//  SttValidationResult.swift
 //  STT
 //
-//  Created by Popel on 5/13/18.
-//  Copyright © 2019 Andriy Popel <andriypopel@gmail.com>
+//  Created by Peter Standret on 3/13/19.
+//  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,36 +25,16 @@
 //
 
 import Foundation
-import UIKit
 
-public extension UITableView {
-    
-    func scrollTableToBottom(tableView: UITableView, animate: Bool = true) {
-        
-        let rowCount = tableView.numberOfRows(inSection: 0)
-        
-        if rowCount == 0 { return }
-        
-        let indexPath = IndexPath(row: rowCount == 0 ? 0 : rowCount - 1, section: 0)
-        
-        var animated = animate
-        
-        if tableView.contentSize.height - tableView.contentOffset.y - tableView.bounds.height > 2 * tableView.bounds.height {
-            animated = false
-        }
-        
-        tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
-        
-    }
-    
-    func scrollTableToTop(tableView: UITableView, animate: Bool = true) {
-        
-        let rowCount = tableView.numberOfRows(inSection: 0)
-        
-        if rowCount == 0 { return }
-        
-        let indexPath = IndexPath(row: 0, section: 0)
-        
-        tableView.scrollToRow(at: indexPath, at: .top, animated: animate)
-    }
+/// Use for throw unsupported exception in extensions
+public enum ValidatorError: Error {
+    case unsupportedResultType
+}
+
+/// Represent result of validation
+public enum SttValidationResult {
+    case ok, taken
+    case toShort, toLong, empty
+    case isNotMatch
+    case inCorrect, specialIncorrect
 }

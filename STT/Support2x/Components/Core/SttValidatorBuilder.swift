@@ -1,5 +1,5 @@
 //
-//  ValidatorType.swift
+//  SttValidatorFilter.swift
 //  STT
 //
 //  Created by Peter Standret on 2/6/19.
@@ -26,34 +26,49 @@
 
 import Foundation
 
-/// Represent base of type for all validator
-public protocol ValidatorType {
+public final class SttValidatorBuilder<Target: SttValidatorType> {
     
-    var name: String { get }
+    private let name: String
     
-    var customIncorrectError: String? { get }
+    private var min = Int.min
+    private var max = Int.max
     
-    var isRequired: Bool { get }
-    var regexPattern: String? { get }
+    private var isUnique = false
     
-    var min: Int { get }
-    var max: Int { get }
+    private var pattern: String? = nil
     
-    init (name: String, isRequired: Bool, regexPattern: String?, min: Int, max: Int, customIncorrectError: String?)
+    private var customIncorrectError: String? = nil
     
-    var validationError: String { get }
-    var validationResult: ValidationResult { get }
-    
-    @discardableResult
-    func validate(object: String?, parametr: Any?) -> ValidationResult
-}
-
-public extension ValidatorType {
-    
-    var isError: Bool { return validationResult != .ok }
-    
-    @discardableResult
-    func validate(object: String?, parametr: Any? = nil) -> ValidationResult {
-        return self.validate(object: object, parametr: parametr)
+    public init (name: String) {
+        self.name = name
     }
+    
+    public func useMin(_ value: Int) -> SttValidatorBuilder<Target> {
+        min = value
+        return self
+    }
+    public func useMax(_ value: Int) -> SttValidatorBuilder<Target> {
+        max = value
+        return self
+    }
+
+    public func useUnique(_ value: Bool) -> SttValidatorBuilder<Target> {
+        isUnique = value
+        return self
+    }
+    
+    public func usePattern(_ value: String) -> SttValidatorBuilder<Target> {
+        pattern = value
+        return self
+    }
+
+    public func useCustomError(_ value: String) -> SttValidatorBuilder<Target> {
+        customIncorrectError = value
+        return self
+    }
+    
+    public func build() -> SttValidatorType {
+        return Target(name: name, isRequired: isUnique, regexPattern: pattern, min: min, max: max, customIncorrectError: customIncorrectError)
+    }
+
 }

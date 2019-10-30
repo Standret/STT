@@ -1,5 +1,5 @@
 //
-//  Validator.swift
+//  SttBaseValidator.swift
 //  STT
 //
 //  Created by Peter Standret on 2/6/19.
@@ -25,7 +25,7 @@
 //
 import Foundation
 
-open class Validator: ValidatorType {
+open class SttValidator: SttValidatorType {
     
     public var name: String
     
@@ -38,7 +38,7 @@ open class Validator: ValidatorType {
     public var max: Int
     
     open var validationError: String { return try! getValidationError(of: validationResult)}
-    open var validationResult: ValidationResult = .empty
+    open var validationResult: SttValidationResult = .empty
     
     public required init (name: String,
           isRequired: Bool = false,
@@ -59,12 +59,12 @@ open class Validator: ValidatorType {
         validationResult = isRequired ? .empty : .ok
     }
     
-    open func validate(object: String?, parametr: Any?) -> ValidationResult {
+    open func validate(object: String?, parametr: Any?) -> SttValidationResult {
         
-        var result: ValidationResult = .ok
+        var result: SttValidationResult = .ok
         
         do {
-            if String.isEmpty(object) {
+            if SttString.isEmpty(string: object) {
                 result = isRequired ? .empty : .ok
             }
             else if (object! as NSString).length < min {
@@ -87,7 +87,7 @@ open class Validator: ValidatorType {
             }
         }
         catch {
-            SttLog.shared.error(message: "error \(error) in validate \(object!)", key: "SttValidationObject")
+            SttLog.error(message: "error \(error) in validate \(object!)", key: "SttValidationObject")
             result = .inCorrect
         }
         
@@ -95,7 +95,7 @@ open class Validator: ValidatorType {
         return result
     }
     
-    open func getValidationError(of validationResult: ValidationResult) throws -> String {
+    open func getValidationError(of validationResult: SttValidationResult) throws -> String {
         
         var result: String!
         

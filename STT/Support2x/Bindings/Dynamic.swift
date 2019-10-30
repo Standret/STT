@@ -35,33 +35,63 @@ public class Dynamic<Element> {
     public typealias Listener = (Element) -> Void
     
     private var disposeBag = DisposeBag()
-    private var element: BehaviorSubject<Element>
+    private var publisher: PublishSubject<Element>
     
+    private var lock = NSRecursiveLock()
+    
+    private var storeValue: Element
     public var value: Element {
-        get { return try! element.value() }
+        get {
+            lock.lock()
+            defer { lock.unlock() }
+            
+            return storeValue
+        }
         set {
-            element.onNext(newValue)
+            lock.lock()
+            storeValue = newValue
+            lock.unlock()
+            
+            publisher.onNext(newValue)
         }
     }
     
     public init(_ value: Element) {
-        element = BehaviorSubject<Element>(value: value)
+        storeValue = value
+        publisher = PublishSubject()
     }
     
+    deinit {
+        publisher.onCompleted()
+        publisher.dispose()
+    }
+    
+    ///
     /// Subscribe on changes and read current value
-    public func bind(_ listener: @escaping Listener) {
-        element.asObservable()
+    ///
+    @discardableResult
+    public func bind(_ listener: @escaping Listener) -> Disposable {
+        let disposable = publisher.asObservable()
             .subscribe(onNext: listener)
-            .disposed(by: disposeBag)
         
-        // listener(element.value)
+        listener(value)
+        
+        disposeBag.insert(disposable)
+        
+        return disposable
     }
     
+    ///
     /// Subscribe only on changes
-    public func addListener(_ listener: @escaping Listener) {
-        element.asObservable()
+    ///
+    @discardableResult
+    public func addListener(_ listener: @escaping Listener) -> Disposable {
+        let disposable = publisher.asObservable()
             .subscribe(onNext: listener)
-            .disposed(by: disposeBag)
+        
+        disposeBag.insert(disposable)
+        
+        return disposable
     }
     
     public func dispose() {
