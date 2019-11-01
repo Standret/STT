@@ -50,7 +50,7 @@ public class SttHanlderSearchBar: NSObject, UISearchBarDelegate {
         handlers[type]?.append(SttDelegatedCall(to: delegate, with: handler))
     }
     
-    public func addShouldReturnTarget<T: SttViewable>(type: SttActionSearchBar, delegate: T, handler: @escaping (T, UISearchBar) -> Bool) {
+    public func addShouldReturnTarget<T: Viewable>(type: SttActionSearchBar, delegate: T, handler: @escaping (T, UISearchBar) -> Bool) {
         
         if type != .shouldBeginEditing { fatalError("Incorrect type")}
         

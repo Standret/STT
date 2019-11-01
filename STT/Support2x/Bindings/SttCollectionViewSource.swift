@@ -30,6 +30,6 @@ import RxSwift
 import UIKit
 
 @available(swift, obsoleted: 5.0, renamed: "CollectionViewSource")
-open class SttCollectionViewSource<T: SttViewInjector> {
+open class SttCollectionViewSource<T: ViewInjector> {
     
 }

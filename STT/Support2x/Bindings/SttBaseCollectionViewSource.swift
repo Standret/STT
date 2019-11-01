@@ -28,6 +28,6 @@ import Foundation
 import UIKit
 
 @available(swift, obsoleted: 5.0, renamed: "BaseCollectionViewSource")
-open class SttBaseCollectionViewSource<TPresenter: SttViewInjector> {
+open class SttBaseCollectionViewSource<TPresenter: ViewInjector> {
     
 }

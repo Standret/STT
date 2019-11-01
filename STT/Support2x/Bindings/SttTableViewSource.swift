@@ -30,6 +30,6 @@ import UIKit
 import RxSwift
 
 @available(swift, obsoleted: 5.0, renamed: "TableViewSource")
-open class SttTableViewSource<TPresenter: SttViewInjector> {
+open class SttTableViewSource<TPresenter: ViewInjector> {
   
 }

@@ -29,7 +29,7 @@ import UIKit
 import TinyConstraints
 
 @IBDesignable
-open class SttInputView: UIView, SttViewable {
+open class SttInputView: UIView, Viewable {
     
     private(set) public var textView: UITextView!
     private(set) public var label: UILabel!

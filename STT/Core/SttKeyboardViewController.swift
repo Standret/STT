@@ -2,7 +2,7 @@
 //  SttKeyboardViewController.swift
 //  STT
 //
-//  Created by Peter Standret on 9/14/19.
+//  Created by Piter Standret on 1/12/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,29 +23,22 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
-
 import Foundation
 import UIKit
-
-///
-/// The view controller which can automaticly manage keyboard and resize view to new size
-///
+import RxSwift
 open class SttKeyboardViewController<Presenter: PresenterType>: SttViewController<Presenter>, KeyboardNotificationDelegate {
     
     open var isKeyboardAnimated = true
     open var useCancelGesture = true
     open var cancelsTouchesInView = true
     
-    public var keyboardConstraint: NSLayoutConstraint! {
-        didSet {
-            originalKeyboardConstant = keyboardConstraint.constant
-        }
-    }
-    private var originalKeyboardConstant: CGFloat = 0
-    
+    private var scrollAmount: CGFloat = 0
+    private var scrollAmountGeneral: CGFloat = 0
     private var moveViewUp: Bool = false
     private var isMovingUp: Bool = false
     private var isDisappearing: Bool = false
+    
+    private var statusAppDisposable: DisposeBag!
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -57,31 +50,21 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
         }
     }
     
+    private func subsribeOnBackground() {
+        statusAppDisposable = DisposeBag()
+        SttGlobalObserver.observableStatusApplication.subscribe(onNext: { [unowned self] (status) in
+            switch status {
+            case .didEnterBackgound:
+                KeyboardNotification.shared.removeObserver(delegate: self)
+            case .willEnterForeground:
+                KeyboardNotification.shared.addObserver(delegate: self)
+            default: break
+            }
+        }).disposed(by: statusAppDisposable)
+    }
+    
     open func shouldCloseKeyboard(sender: UIView?) -> Bool {
         return true
-    }
-    
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        guard keyboardConstraint.constant != (originalKeyboardConstant + KeyboardNotification.shared.heightKeyboard) else { return }
-        scrollTheView(move: KeyboardNotification.shared.isKeyboardShow, animated: false)
-    }
-    
-    override open func viewDidAppear(_ animated: Bool) {
-        isDisappearing = false
-        super.viewDidAppear(animated)
-        
-        KeyboardNotification.shared.addObserver(delegate: self)
-        GlobalObserver.shared.addObserver(delegate: self)
-    }
-    
-    override open func viewWillDisappear(_ animated: Bool) {
-        isDisappearing = true
-        super.viewWillDisappear(animated)
-        
-        KeyboardNotification.shared.removeObserver(delegate: self)
-        GlobalObserver.shared.removeObserver(delegate: self)
     }
     
     @objc
@@ -91,13 +74,58 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
         }
     }
     
-    // MARK: - implementation of KeyboardNotificationDelegate
+    private var originalViewSize = CGSize.zero
+    override open func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        guard originalViewSize.height < view.bounds.size.height else { return }
+        
+        originalViewSize = view.bounds.size
+    }
+    
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if viewRect != CGRect.zero && originalViewSize == view.frame.size {
+            view.frame = viewRect
+        }
+        
+        guard !isDisappearing && originalViewSize == view.frame.size  else { return }
+        
+        if KeyboardNotification.shared.isKeyboardShow {
+            self.keyboardWillShow(height: KeyboardNotification.shared.heightKeyboard)
+        }
+        else {
+            self.keyboardWillHide(height: KeyboardNotification.shared.heightKeyboard)
+        }
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        isDisappearing = false
+        super.viewDidAppear(animated)
+        
+        KeyboardNotification.shared.addObserver(delegate: self)
+        subsribeOnBackground()
+    }
+    
+    override open func viewWillDisappear(_ animated: Bool) {
+        isDisappearing = true
+        super.viewWillDisappear(animated)
+        
+        KeyboardNotification.shared.removeObserver(delegate: self)
+        statusAppDisposable = nil
+    }
+    
+    // MARK: - SttKeyboardNotificationDelegate
     
     open var callIfKeyboardIsShow: Bool { return true }
     open var isAnimatedKeyboard: Bool { return isKeyboardAnimated }
     
     open func keyboardWillShow(height: CGFloat) {
         if view != nil {
+            
+            scrollAmount = height - scrollAmountGeneral
+            scrollAmountGeneral = height
             
             moveViewUp = true
             scrollTheView(move: moveViewUp)
@@ -110,39 +138,31 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
         }
     }
     
-    private func scrollTheView(move: Bool, animated: Bool = true) {
+    private var viewRect = CGRect.zero
+    private func scrollTheView(move: Bool) {
         
         guard !isMovingUp else { return }
         isMovingUp = true
         
+        var frame = view.frame
         if move {
-            self.keyboardConstraint.constant = self.originalKeyboardConstant + KeyboardNotification.shared.heightKeyboard
+            frame.size.height -= scrollAmount
         }
         else {
-            self.keyboardConstraint.constant = self.originalKeyboardConstant
+            frame.size.height += scrollAmountGeneral
+            scrollAmountGeneral = 0
+            scrollAmount = 0
         }
-                
-        if animated && isAnimatedKeyboard {
+        
+        viewRect = frame
+        view.frame = frame
+        
+        if isAnimatedKeyboard {
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }
         }
         
         isMovingUp = false
-    }
-}
-
-// MARK: - implementation of GlobalObserverDelegate
-
-extension SttKeyboardViewController: GlobalObserverDelegate {
-    
-    public func applicationStatusChanged(with status: ApplicationStatus) {
-        switch status {
-        case .didEnterBackgound:
-            KeyboardNotification.shared.removeObserver(delegate: self)
-        case .willEnterForeground:
-            KeyboardNotification.shared.addObserver(delegate: self)
-        default: break
-        }
     }
 }

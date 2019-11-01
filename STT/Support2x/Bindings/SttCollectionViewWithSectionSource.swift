@@ -29,6 +29,6 @@ import UIKit
 import RxSwift
 
 @available(swift, obsoleted: 5.0, renamed: "CollectionViewWithSectionSource")
-open class SttCollectionViewWithSectionSource<TCell: SttViewInjector, TSection: SttViewInjector> {
+open class SttCollectionViewWithSectionSource<TCell: ViewInjector, TSection: ViewInjector> {
 
 }

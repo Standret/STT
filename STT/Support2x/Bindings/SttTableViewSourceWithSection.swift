@@ -29,6 +29,6 @@ import UIKit
 import RxSwift
 
 @available(swift, obsoleted: 5.0, renamed: "TableViewSourceWithSection")
-open class SttTableViewSourceWithSection<TCell: SttViewInjector, TSection: SttViewInjector> {
+open class SttTableViewSourceWithSection<TCell: ViewInjector, TSection: ViewInjector> {
     
 }

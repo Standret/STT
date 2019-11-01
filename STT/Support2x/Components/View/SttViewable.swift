@@ -27,22 +27,22 @@
 import Foundation
 import UIKit
 
-public typealias SttViewControlable = SttViewableListener
-public typealias SttViewControllerInjector = SttViewInjector & SttLifeCycleController & SttPresenterType
+public typealias ViewControlable = ViewableListener
+public typealias ViewControllerInjector = ViewInjector & LifeCycleController & SttPresenterType
 
-public protocol SttViewable: AnyObject { }
+public protocol Viewable: AnyObject { }
 
-public protocol SttViewableListener: SttViewable {
+public protocol ViewableListener: Viewable {
     func sendMessage(title: String, message: String?)
     func sendError(error: SttBaseErrorType)
     func sendError(title: String, description: String)
 }
 
-public protocol SttViewInjector {
-    func injectView(delegate: SttViewable)
+public protocol ViewInjector {
+    func injectView(delegate: Viewable)
 }
 
-public protocol SttLifeCycleController {
+public protocol LifeCycleController {
     
     func viewAppeared()
     func viewAppearing()

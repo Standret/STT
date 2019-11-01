@@ -26,9 +26,9 @@
 
 import Foundation
 
-public protocol Viewable: AnyObject { }
+//public protocol Viewable: AnyObject { }
 
-public protocol SttViewControllerType {
+public protocol ViewControllerType {
     
     associatedtype Presenter: PresenterType
     
@@ -38,7 +38,7 @@ public protocol SttViewControllerType {
     func bind()
 }
 
-public extension SttViewControllerType {
+public extension ViewControllerType {
     
     func style() { }
     func bind() { }

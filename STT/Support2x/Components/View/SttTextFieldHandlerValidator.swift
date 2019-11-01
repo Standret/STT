@@ -30,7 +30,7 @@ public class SttTextFieldHandlerValidator {
     
     private var onUpdateError: (() -> Void)!
     
-    public init<T: SttViewable>(delegate: T, inputBox: SttInputBox, handler: SttHandlerTextField, action: @escaping (T) -> Void) {
+    public init<T: Viewable>(delegate: T, inputBox: SttInputBox, handler: SttHandlerTextField, action: @escaping (T) -> Void) {
         var isError = false
         
         onUpdateError = {

@@ -46,7 +46,7 @@ public enum TypeCheckMarkVisiblity {
     case hidden
 }
 
-open class SttInputBox: UIView, SttViewable {
+open class SttInputBox: UIView, Viewable {
     
     public private(set) var textField: SttTextField!
     

@@ -28,7 +28,7 @@ import Foundation
 import UIKit
 
 @available(swift, obsoleted: 5.0, renamed: "BaseTableViewSource")
-open class SttBaseTableViewSource<TPresenter: SttViewInjector> {
+open class SttBaseTableViewSource<TPresenter: ViewInjector> {
     
 }
 
