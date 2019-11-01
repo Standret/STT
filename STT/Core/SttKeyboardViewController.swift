@@ -30,7 +30,7 @@ import UIKit
 ///
 /// The view controller which can automaticly manage keyboard and resize view to new size
 ///
-open class SttKeyboardViewController<Presenter: PresenterType>: SttViewController<Presenter> {
+open class SttKeyboardViewController<Presenter: PresenterType>: SttViewController<Presenter>, KeyboardNotificationDelegate {
     
     open var isKeyboardAnimated = true
     open var useCancelGesture = true
@@ -90,11 +90,8 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
             view.endEditing(true)
         }
     }
-}
-
-// MARK: - implementation of KeyboardNotificationDelegate
-
-extension SttKeyboardViewController: KeyboardNotificationDelegate {
+    
+    // MARK: - implementation of KeyboardNotificationDelegate
     
     open var callIfKeyboardIsShow: Bool { return true }
     open var isAnimatedKeyboard: Bool { return isKeyboardAnimated }

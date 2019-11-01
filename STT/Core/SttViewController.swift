@@ -30,13 +30,17 @@ import UIKit
 ///
 /// The view controller for auto manage presenter lifecycle
 ///
-open class SttViewController<Presenter: PresenterType>: UIViewController, SttViewControllerType {
+open class SttViewController<Presenter: PresenterType>: UIViewController, ViewControllerType {
     
     open var presenter: Presenter!
+    
+    open var customBackBarButton: Bool = false
+    open var hideNavigationBar = false
     
     override open func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewCreated()
+        navigationItem.hidesBackButton = customBackBarButton
     }
     
     private var willApearFirstStart = true
@@ -47,6 +51,9 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, SttVie
         guard willApearFirstStart else { return }
         willApearFirstStart = false
         bind()
+        
+        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: true)
+        navigationController?.navigationBar.isHidden = hideNavigationBar
     }
     
     override open func viewDidAppear(_ animated: Bool) {
