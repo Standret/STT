@@ -319,7 +319,7 @@ open class SttInputBox: UIView, Viewable {
         textField.height(40)
         
         textField.textChanged
-            .subscribe(onNext: { [weak self] in
+            .subscribe({ [weak self] in
                 guard let _self = self else { return }
                 
                 if !String.isEmpty($0) && !_self.textField.isEditing  {

@@ -30,6 +30,9 @@ import UIKit
 @IBDesignable
 open class SttTextField: UITextField {
     
+    private var textChangedPublisher = EventPublisher<String?>()
+    open var textChanged: STT.Event<String?> { textChangedPublisher }
+    
     @objc
     open dynamic var insets: UIEdgeInsets = UIEdgeInsets.zero
     
@@ -51,5 +54,11 @@ open class SttTextField: UITextField {
     private func insertRect(rect: CGRect, insets: UIEdgeInsets) -> CGRect {
         return CGRect(x: Double(rect.minX + insets.left), y: Double(rect.minY + insets.top),
                       width: Double(rect.width - insets.left - insets.right), height: Double(rect.height - insets.top - insets.bottom))
+    }
+    
+    override open var text: String? {
+        didSet {
+            textChangedPublisher.invoke(text)
+        }
     }
 }
