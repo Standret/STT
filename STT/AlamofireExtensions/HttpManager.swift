@@ -73,7 +73,8 @@ public class HttpManager: HttpManagerType {
                 parameters: parameter,
                 encoding: encoding,
                 headers: headers
-                ).response(completionHandler: { (response) in
+                ).validate()
+                .response(completionHandler: { (response) in
                     if let data = response.data, let response = response.response {
                         observer.onNext((response, data))
                         observer.onCompleted()
@@ -131,11 +132,12 @@ public class HttpManager: HttpManagerType {
             }, to: controller,
                method: method,
                headers: headers
-            ) { (encodingResult) in
-                
+                ) { (encodingResult) in
+                    
                 switch encodingResult {
                 case .success(let upload, _, _):
-                    upload.uploadProgress(closure: { (progress) in
+                    upload.validate()
+                        .uploadProgress(closure: { (progress) in
                         if let handler = progresHandler {
                             handler(Float(progress.fractionCompleted))
                         }
@@ -151,6 +153,7 @@ public class HttpManager: HttpManagerType {
                         }
                     })
                 case .failure(let encodingError):
+                    
                     observer.onError(SttError.unkown("\(encodingError)"))
                 }
             }
