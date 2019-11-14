@@ -214,4 +214,13 @@ open class SttBaseCollectionViewSource<TPresenter: SttViewInjector>: SttBaseScro
         return true
     }
     
+    @available(iOS 13.0, *)
+    open func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
 }
