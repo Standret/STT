@@ -29,7 +29,7 @@ import RxSwift
 
 open class SttPresenter<TDelegate> : SttViewControllerInjector {
     
-    private weak var _delegate: SttViewable!
+    private weak var _delegate: SttViewable?
     private var _notificationError: SttNotificationErrorServiceType?
     private var messageDisposable: Disposable?
     
@@ -46,6 +46,10 @@ open class SttPresenter<TDelegate> : SttViewControllerInjector {
         self._delegate = delegate
         
         viewDidInjected()
+    }
+    
+    public func clearDelegate() {
+        _delegate = nil
     }
     
     open func viewAppearing() { }

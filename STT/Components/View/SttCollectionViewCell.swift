@@ -35,6 +35,12 @@ open class SttCollectionViewCell<T: SttViewInjector>: UICollectionViewCell, SttV
         }
     }
     
+    override open func prepareForReuse() {
+        super.prepareForReuse()
+        
+        presenter.clearDelegate()
+    }
+    
     open func prepareBind() {
         presenter.injectView(delegate: self)
     }

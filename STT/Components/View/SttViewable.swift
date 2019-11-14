@@ -40,6 +40,7 @@ public protocol SttViewableListener: SttViewable {
 
 public protocol SttViewInjector {
     func injectView(delegate: SttViewable)
+    func clearDelegate()
 }
 
 public protocol SttLifeCycleController {
