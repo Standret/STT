@@ -29,6 +29,7 @@ import Foundation
 public enum TypeNavigation {
     case push
     case modality
+    case popOver
     /// parameter is overFullScreen
     case crossDisolve
 }
