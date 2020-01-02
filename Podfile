@@ -11,7 +11,7 @@ target 'STT' do
     pod 'Nimble'
   end
   
-  pod 'Alamofire', '~> 4.9.0'
+  pod 'Alamofire', '~> 5.0.0-rc.3'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'SDWebImage', '~> 5.0'

@@ -36,7 +36,7 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   # STT AlamofireExtensions
   s.subspec 'AlamofireExtensions' do |sp|
     sp.source_files = "STT/Core/*.swift", "STT/AlamofireExtensions/*.swift"
-    sp.dependency "Alamofire", "4.9.0"
+    sp.dependency "Alamofire", "~> 5.0.0-rc.3"
     sp.dependency "RxSwift", "~> 5"
   end
   

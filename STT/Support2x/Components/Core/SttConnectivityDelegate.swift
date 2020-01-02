@@ -40,9 +40,10 @@ public class SttConectivity {
     }
     
     init() {
-        networkManager!.listener = {
-            self.delegate?.connectivityChanged(status: $0)
+        self.delegate?.connectivityChanged(status: networkManager!.status)
+        
+        networkManager?.startListening { status in
+            self.delegate?.connectivityChanged(status: status)
         }
-        networkManager?.startListening()
     }
 }

@@ -29,10 +29,10 @@ import Alamofire
 
 public class SttNetworking {
     public static let sharedInstance = SttNetworking()
-    public var sessionManager: Alamofire.SessionManager // most of your web service clients will call through sessionManager
-    public var backgroundSessionManager: Alamofire.SessionManager // your web services you intend to keep running when the system backgrounds your app will use this
+    public var Session: Alamofire.Session // most of your web service clients will call through Session
+    public var backgroundSession: Alamofire.Session // your web services you intend to keep running when the system backgrounds your app will use this
     private init() {
-        self.sessionManager = Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
-        self.backgroundSessionManager = Alamofire.SessionManager(configuration: URLSessionConfiguration.background(withIdentifier: "com.lava.app.backgroundtransfer"))
+        self.Session = Alamofire.Session(configuration: URLSessionConfiguration.default)
+        self.backgroundSession = Alamofire.Session(configuration: URLSessionConfiguration.background(withIdentifier: "com.lava.app.backgroundtransfer"))
     }
 }

@@ -29,19 +29,19 @@ import Alamofire
 import RxSwift
 
 public class HttpManager: HttpManagerType {
-        
+    
     private let timeout: DispatchTimeInterval
     private let uploadTimeout: DispatchTimeInterval
     
-    private let requestSessionManager: SessionManager?
-    private let uploadSessionManager: SessionManager?
+    private let requestSessionManager: Session?
+    private let uploadSessionManager: Session?
     
     public init(
         timeout: DispatchTimeInterval,
         uploadTimeout: DispatchTimeInterval,
-        requestSessionManager: SessionManager? = nil,
-        uploadSessionManager: SessionManager? = nil
-        ) {
+        requestSessionManager: Session? = nil,
+        uploadSessionManager: Session? = nil
+    ) {
         
         self.timeout = timeout
         self.uploadTimeout = uploadTimeout
@@ -57,11 +57,11 @@ public class HttpManager: HttpManagerType {
         headers: HTTPHeaders?,
         encoding: ParameterEncoding,
         isAuthorized: Bool
-        ) -> Observable<(HTTPURLResponse, Data)> {
+    ) -> Observable<(HTTPURLResponse, Data)> {
         
         return Observable.create({ (observer) -> Disposable in
             
-            let manager = self.requestSessionManager ?? SessionManager.default
+            let manager = self.requestSessionManager ?? Session.default
             var headers = headers ?? [:]
             if isAuthorized {
                 headers["Authorization"] = ""
@@ -73,7 +73,7 @@ public class HttpManager: HttpManagerType {
                 parameters: parameter,
                 encoding: encoding,
                 headers: headers
-                ).validate()
+            ).validate()
                 .response(completionHandler: { (response) in
                     if let data = response.data, let response = response.response {
                         observer.onNext((response, data))
@@ -99,11 +99,11 @@ public class HttpManager: HttpManagerType {
         headers: HTTPHeaders?,
         isAuthorized: Bool,
         progresHandler: ((Float) -> Void)?
-        ) -> Observable<(HTTPURLResponse, Data)> {
+    ) -> Observable<(HTTPURLResponse, Data)> {
         
         return Observable.create({ (observer) -> Disposable in
             
-            let sessionManager = self.uploadSessionManager ?? SessionManager.default
+            let sessionManager = self.uploadSessionManager ?? Session.default
             var request: UploadRequest?
             
             var headers = headers ?? [:]
@@ -111,52 +111,52 @@ public class HttpManager: HttpManagerType {
                 headers["Authorization"] = ""
             }
             
-            sessionManager.upload(
-                multipartFormData: { (multipart) in
-                    
-                    parameters.forEach({
-                        multipart.append(
-                            $0.value.data(using: .utf8)!,
-                            withName: $0.key
-                        )
-                    })
-                    
-                    if let object = object {
-                        multipart .append(
-                            object.data,
-                            withName: object.name,
-                            fileName: object.fileName,
-                            mimeType: object.mimeType
-                        )
-                    }
+            request = sessionManager.upload(multipartFormData: { (multipart) in
+                
+                parameters.forEach({
+                    multipart.append(
+                        $0.value.data(using: .utf8)!,
+                        withName: $0.key
+                    )
+                })
+                
+                if let object = object {
+                    multipart .append(
+                        object.data,
+                        withName: object.name,
+                        fileName: object.fileName,
+                        mimeType: object.mimeType
+                    )
+                }
             }, to: controller,
                method: method,
-               headers: headers
-                ) { (encodingResult) in
-                    
-                switch encodingResult {
-                case .success(let upload, _, _):
-                    upload.validate()
-                        .uploadProgress(closure: { (progress) in
-                        if let handler = progresHandler {
-                            handler(Float(progress.fractionCompleted))
-                        }
-                    })
-                    
-                    request = upload.responseData(completionHandler: { (fullData) in
-                        if upload.response != nil && fullData.data != nil {
-                            observer.onNext((upload.response!, fullData.data!))
+               headers: headers,
+               interceptor: nil,
+               fileManager: .default)
+                .validate()
+                .uploadProgress(closure: { progress in
+                    if let handler = progresHandler {
+                        handler(Float(progress.fractionCompleted))
+                    }
+                })
+                .response(completionHandler: { (encodingResult) in
+                    switch encodingResult.result {
+                    case .success(let data):
+                        
+                        if encodingResult.response != nil && data != nil {
+                            observer.onNext((encodingResult.response!, data!))
                             observer.onCompleted()
                         }
                         else {
                             observer.onError(SttError.connectionError(.responseIsNil))
                         }
-                    })
-                case .failure(let encodingError):
+                        
+                    case .failure(let encodingError):
+                        
+                        observer.onError(SttError.unkown("\(encodingError)"))
+                    }
                     
-                    observer.onError(SttError.unkown("\(encodingError)"))
-                }
-            }
+                })
             
             return Disposables.create {
                 request?.cancel()
