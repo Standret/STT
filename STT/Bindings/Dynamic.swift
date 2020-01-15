@@ -2,7 +2,7 @@
 //  Dynamic.swift
 //  STT
 //
-//  Created by Peter Standret on 9/22/19.
+//  Created by Peter Standret on 2/7/19.
 //  Copyright © 2019 Peter Standret <pstandret@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -69,6 +69,7 @@ public class Dynamic<Element> {
     ///
     /// Subscribe on changes and read current value
     ///
+    @discardableResult
     public func bind(_ listener: @escaping Listener) -> Disposable {
         let disposable = publisher.asObservable()
             .subscribe(onNext: listener)
@@ -83,6 +84,7 @@ public class Dynamic<Element> {
     ///
     /// Subscribe only on changes
     ///
+    @discardableResult
     public func addListener(_ listener: @escaping Listener) -> Disposable {
         let disposable = publisher.asObservable()
             .subscribe(onNext: listener)
@@ -94,20 +96,5 @@ public class Dynamic<Element> {
     
     public func dispose() {
         disposeBag = DisposeBag()
-    }
-}
-
-extension Dynamic: Equatable where Element: Equatable {
-    
-    public static func == (lhs: Dynamic<Element>, rhs: Dynamic<Element>) -> Bool {
-        return lhs.value == rhs.value
-    }
-    
-    public static func == (lhs: Dynamic<Element>, rhs: Element) -> Bool {
-        return lhs.value == rhs
-    }
-    
-    public static func == (lhs: Element, rhs: Dynamic<Element>) -> Bool {
-        return lhs == rhs.value
     }
 }
