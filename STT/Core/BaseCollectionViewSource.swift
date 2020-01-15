@@ -222,4 +222,13 @@ open class BaseCollectionViewSource<Presenter: PresenterType>: ScrollViewHandler
     open func collectionView(_ collectionView: UICollectionView, shouldSpringLoadItemAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
         return true
     }
+    
+    @available(iOS 13.0, *)
+     open func collectionView(
+         _ collectionView: UICollectionView,
+         contextMenuConfigurationForItemAt indexPath: IndexPath,
+         point: CGPoint
+     ) -> UIContextMenuConfiguration? {
+         return nil
+     }
 }
