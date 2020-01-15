@@ -5,15 +5,21 @@ use_frameworks!
 target 'STT' do
   
   target 'STTTests' do
-    
+    pod 'RxTest'
+    pod 'RxBlocking'
+    pod 'Quick'
+    pod 'Nimble'
   end
   
-  pod 'RxSwift', '~> 5'
-  pod 'LightRoute', :git => 'https://github.com/SpectralDragon/LightRoute.git', :tag => '2.1.20'
-  pod 'Alamofire', '~> 4.8.2'
-  pod 'RxAlamofire'
+  pod 'Alamofire', '~> 4.9.0'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'SDWebImage', '~> 5.0'
+  
+  # Old for 2x
+  
   pod 'TinyConstraints'
-  pod 'KeychainSwift', '~> 16.0'
+  pod 'KeychainSwift'
 end
 
 
