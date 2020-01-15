@@ -49,3 +49,9 @@ public extension EventDisposable {
         })
     }
 }
+
+public extension Array where Element == EventDisposable {
+    func disposed(by bag: DisposeBag) {
+        self.forEach({ $0.disposed(by: bag) })
+    }
+}
