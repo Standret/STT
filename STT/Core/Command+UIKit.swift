@@ -52,7 +52,7 @@ public extension CommandType {
         
         let indicator = view.setIndicator()
         indicator.style = style
-        indicator.color = UIColor.white
+        indicator.color = color
         indicator.setNeedsDisplay()
         
         return self.observe(start: {
