@@ -47,13 +47,12 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.viewAppearing()
+        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: true)
+        navigationController?.navigationBar.isHidden = hideNavigationBar
         
         guard willApearFirstStart else { return }
         willApearFirstStart = false
         bind()
-        
-        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: true)
-        navigationController?.navigationBar.isHidden = hideNavigationBar
     }
     
     override open func viewDidAppear(_ animated: Bool) {
