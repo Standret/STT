@@ -43,16 +43,11 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
         navigationItem.hidesBackButton = customBackBarButton
     }
     
-    private var willApearFirstStart = true
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.viewAppearing()
         navigationController?.setNavigationBarHidden(hideNavigationBar, animated: true)
         navigationController?.navigationBar.isHidden = hideNavigationBar
-        
-        guard willApearFirstStart else { return }
-        willApearFirstStart = false
-        bind()
     }
     
     override open func viewDidAppear(_ animated: Bool) {
@@ -78,6 +73,7 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
         firstStart = false
         
         style()
+        bind()
     }
     
     ///
