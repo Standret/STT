@@ -152,12 +152,24 @@ public extension BindingSet {
         return self.bind(searchBar.rx.text.orEmpty)
     }
     
+    func bind(_ searchBar: UISearchBar) -> ControlPropertyContext<String?> {
+        return self.bind(searchBar.rx.text)
+    }
+    
     func bind(_ textField: UITextField) -> ControlPropertyContext<String> {
         return self.bind(textField.rx.text.orEmpty)
     }
     
+    func bind(_ textField: UITextField) -> ControlPropertyContext<String?> {
+        return self.bind(textField.rx.text)
+    }
+    
     func bind(_ textView: UITextView) -> ControlPropertyContext<String> {
         return self.bind(textView.rx.text.orEmpty)
+    }
+    
+    func bind(_ textView: UITextView) -> ControlPropertyContext<String?> {
+        return self.bind(textView.rx.text)
     }
     
     func bind(_ datePicker: UIDatePicker) -> ControlPropertyContext<Date> {
@@ -178,7 +190,7 @@ public extension Reactive where Base: UIView {
     func tap(numberOfTouches: Int = 1) -> ControlEvent<Void> {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.numberOfTouchesRequired = numberOfTouches
-        
+        self.base.isUserInteractionEnabled = true
         self.base.addGestureRecognizer(tapGesture)
         
         return ControlEvent(events: tapGesture.rx.event.map({ _ in () }))
@@ -187,7 +199,7 @@ public extension Reactive where Base: UIView {
     func longTap(minimumPressDuration: TimeInterval = 0.5) -> ControlEvent<Void> {
         let tapGesture = UILongPressGestureRecognizer()
         tapGesture.minimumPressDuration = minimumPressDuration
-        
+        self.base.isUserInteractionEnabled = true
         self.base.addGestureRecognizer(tapGesture)
         
         return ControlEvent(events: tapGesture.rx.event.map({ _ in () }))

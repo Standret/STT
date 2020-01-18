@@ -51,7 +51,7 @@ open class SttTextView: UITextView {
     }
     
     public var PlaceHolder: String {
-        get { return placeHolder! } // tyt force unwrap lol
+        get { return placeHolder ?? "" }
         set {
             if placeHolder != nil && isInitialized! {
                 fatalError("Placeholder must be initialize only one time and before textView appearing on screen")
