@@ -254,7 +254,7 @@ public extension HttpManagerType {
         ) -> Observable<(HTTPURLResponse, Data)> {
      
         return self.request(
-            .put,
+            .patch,
             controller: controller,
             parameter: object.getDictionary(),
             headers: headers,
