@@ -24,9 +24,12 @@ public extension CommandType {
         indicator.setNeedsDisplay()
         
         let title = button.titleLabel?.text
-        let image = button.image(for: .normal)
+        var image, disImage: UIImage?
 
         return self.observe(start: {
+            image = button.image(for: .normal)
+            disImage = button.image(for: .disabled)
+            button.setImage(nil, for: .normal)
             button.setImage(nil, for: .disabled)
             button.setTitle("", for: .disabled)
             button.setNeedsDisplay()
@@ -34,7 +37,8 @@ public extension CommandType {
             indicator.startAnimating()
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }) {
-            button.setImage(image, for: .disabled)
+            button.setImage(image, for: .normal)
+            button.setImage(disImage, for: .disabled)
             button.setTitle(title, for: .disabled)
             button.setNeedsDisplay()
             button.isEnabled = true
