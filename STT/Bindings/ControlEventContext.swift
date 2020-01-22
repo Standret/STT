@@ -26,18 +26,20 @@ public class ControlEventContext<EventType>: BindingContextType {
      
      ### Usage Example: ###
      ````
-     set.bind(String.self).forProperty { $0.viewElement.property = $1 }
-     .to(dynamicProperty)
+     set.bind(someButton).to(command, parameter: Any)
      
      ````
+        command.raiseCanExecute() used to get correct button state when binding command
      */
     @discardableResult
     public func to<T: CommandType>(_ command: T) -> ControlEventContext<EventType> {
         
         lazyApplier = { [unowned self] in
+            
+            command.raiseCanExecute()
+            
             let canNextDisp = command.canNext.subscribe({ [weak self] isEnabled in self?.control?.isEnabled = isEnabled })
             let subscriber = self.event.subscribe(onNext: { _ in command.execute() })
-            
             return Disposables.create {
                 canNextDisp.dispose()
                 subscriber.dispose()
@@ -56,11 +58,15 @@ public class ControlEventContext<EventType>: BindingContextType {
      .to(dynamicProperty)
      
      ````
+        command.raiseCanExecute() used to get correct button state when binding command
      */
     @discardableResult
     public func to<T: CommandType>(_ command: T, parameter: Any) -> ControlEventContext<EventType> {
         
         lazyApplier = { [unowned self] in
+            
+            command.raiseCanExecute(parameter: parameter)
+            
             let canNextDisp = command.canNext.subscribe({ [weak self] isEnabled in self?.control?.isEnabled = isEnabled })
             let subscriber = self.event.subscribe(onNext: { _ in command.execute(parameter: parameter) })
             
