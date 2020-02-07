@@ -46,8 +46,8 @@ public protocol CommandType: AnyObject {
     
     func raiseCanExecute(parameter: Any?)
     
-    func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable
-    func observe(handler: @escaping (Bool) -> Void) -> EventDisposable
+    func observe(invokeOnSubscribtion: Bool, start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable
+    func observe(invokeOnSubscribtion: Bool, handler: @escaping (Bool) -> Void) -> EventDisposable
     
     func changeState(state: CommandState)
 }
@@ -66,8 +66,12 @@ public extension CommandType {
         return self.raiseCanExecute(parameter: parameter)
     }
     
-    func observe(start: (() -> Void)? = nil, end: (() -> Void)? = nil) -> EventDisposable {
-        return self.observe(start: start, end: end)
+    func observe(invokeOnSubscribtion: Bool = true, start: (() -> Void)? = nil, end: (() -> Void)? = nil) -> EventDisposable {
+        return self.observe(invokeOnSubscribtion: invokeOnSubscribtion, start: start, end: end)
+    }
+    
+    func observe(invokeOnSubscribtion: Bool = true, handler: @escaping (Bool) -> Void) -> EventDisposable {
+        return self.observe(invokeOnSubscribtion: invokeOnSubscribtion, handler: handler)
     }
 }
 
@@ -144,12 +148,12 @@ open class Command: CommandType {
         return true
     }
     
-    public func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
-        return eventSubject.subscribe({ isStart in isStart ? start?() : end?() })
+    public func observe(invokeOnSubscribtion: Bool, start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
+        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, { isStart in isStart ? start?() : end?() })
     }
     
-    public func observe(handler: @escaping (Bool) -> Void) -> EventDisposable {
-        return eventSubject.subscribe(handler)
+    public func observe(invokeOnSubscribtion: Bool, handler: @escaping (Bool) -> Void) -> EventDisposable {
+        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, handler)
     }
     
     public func changeState(state: CommandState) {
@@ -234,12 +238,12 @@ open class CommandWithParameter<TParameter>: CommandType {
     }
     
     
-    public func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
-        return eventSubject.subscribe({ isStart in isStart ? start?() : end?() })
+    public func observe(invokeOnSubscribtion: Bool, start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
+        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, { isStart in isStart ? start?() : end?() })
     }
     
-    public func observe(handler: @escaping (Bool) -> Void) -> EventDisposable {
-        return eventSubject.subscribe(handler)
+    public func observe(invokeOnSubscribtion: Bool, handler: @escaping (Bool) -> Void) -> EventDisposable {
+        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, handler)
     }
     
     public func changeState(state: CommandState) {

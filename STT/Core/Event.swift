@@ -75,10 +75,12 @@ open class Event<Element> {
     ///
     /// Subsribe on new changes
     /// - Parameter queue: observation queue
+    /// - Parameter invokeOnSubscribtion: even should be emited at subsctibtion
     /// - Parameter observer: target changes observer
     ///
     open func subscribe(
         _ queue: DispatchQueue? = nil,
+        invokeOnSubscribtion: Bool = true,
         _ observer: @escaping Observer
         ) -> EventDisposable {
         
@@ -92,7 +94,7 @@ open class Event<Element> {
             self?.observers[id] = nil
         }
         
-        if hasBuffer, let element = lastElement {
+        if invokeOnSubscribtion, hasBuffer, let element = lastElement {
             if let queue = queue {
                 queue.async {
                     observer(element)
@@ -108,9 +110,13 @@ open class Event<Element> {
     
     ///
     /// Subsribe on new changes
+    /// - Parameter invokeOnSubscribtion: even should be emited at subsctibtion
     /// - Parameter observer: target changes observer
     ///
-    open func subscribe(_ observer: @escaping Observer) -> EventDisposable {
+    open func subscribe(
+        invokeOnSubscribtion: Bool = true,
+        _ observer: @escaping Observer
+        ) -> EventDisposable {
         
         lock.lock()
         defer { lock.unlock() }
@@ -122,7 +128,7 @@ open class Event<Element> {
             self?.observers[id] = nil
         }
         
-        if hasBuffer, let element = lastElement {
+        if invokeOnSubscribtion, hasBuffer, let element = lastElement {
            observer(element)
         }
         
