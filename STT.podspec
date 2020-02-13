@@ -24,23 +24,23 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   s.source_files = "STT/Core/*.swift"
   
   # STT Core
-  s.subspec 'Core' do |sp|
+  s.subspec 'Core' do |sp| # OK
     sp.source_files  = "STT/Core/*.swift"
   end
   
   # STT Extensions
-  s.subspec 'Extensions' do |sp|
+  s.subspec 'Extensions' do |sp| # OK
     sp.source_files  = "STT/Extensions/*.swift"
   end
 
   # STT RxExtensions
-    s.subspec 'RxExtensions' do |sp|
+  s.subspec 'RxExtensions' do |sp| # OK
     sp.source_files  = "STT/Core/*.swift", "STT/RxExtensions/*.swift"
   end
 
   # STT AlamofireExtensions
-  s.subspec 'AlamofireExtensions' do |sp|
-    sp.source_files = "STT/Core/*.swift", "STT/AlamofireExtensions/*.swift"
+  s.subspec 'AlamofireExtensions' do |sp| # OK
+    sp.source_files = "STT/Core/*.swift", "STT/Extensions/*.swift", "STT/AlamofireExtensions/*.swift"
     sp.dependency "Alamofire", "4.9.0"
     sp.dependency "RxSwift", "~> 5"
   end

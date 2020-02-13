@@ -36,7 +36,7 @@ public extension CommandType {
         color: UIColor = .gray
         ) -> EventDisposable {
         
-        let indicator = button.setIndicator()
+        let indicator = button.__setIndicator__()
         indicator.style = style
         indicator.color = color
         indicator.setNeedsDisplay()
@@ -72,7 +72,7 @@ public extension CommandType {
         color: UIColor = .gray
         ) -> EventDisposable {
         
-        let indicator = view.setIndicator()
+        let indicator = view.__setIndicator__()
         indicator.style = style
         indicator.color = color
         indicator.setNeedsDisplay()
@@ -102,7 +102,7 @@ public extension CommandType {
 // This method copy from STT/Extensions/UIViewExtensions
 fileprivate extension UIView {
 
-    func setIndicator(
+    func __setIndicator__(
         style: UIActivityIndicatorView.Style = .gray,
         color: UIColor = UIColor.gray
         ) -> UIActivityIndicatorView {
