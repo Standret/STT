@@ -23,6 +23,11 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   s.source       = { :git => "https://github.com/Standret/STT.git", :tag => "#{s.version}" }
   s.source_files = "STT/Core/*.swift"
   
+  # STT Core
+  s.subspec 'Core' do |sp|
+    sp.source_files  = "STT/Core/*.swift"
+  end
+  
   # STT Extensions
   s.subspec 'Extensions' do |sp|
     sp.source_files  = "STT/Extensions/*.swift"
