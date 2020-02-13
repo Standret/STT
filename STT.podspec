@@ -46,15 +46,15 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   end
   
   # STT SDWebImageExtensions
-  s.subspec 'SDWebImageExtensions' do |sp|
+  s.subspec 'SDWebImageExtensions' do |sp| # OK
     sp.source_files = "STT/SDWebImageExtensions/*.swift"
     sp.dependency "SDWebImage", "~> 5.0.0"
   end
   
   # STT Bindings
-  s.subspec 'Bindings' do |sp|
-      sp.source_files = "STT/Bindings/*.swift"
-      sp.dependency "RxCocoa", "~> 5"
+  s.subspec 'Bindings' do |sp| # OK
+    sp.source_files = "STT/Core/*.swift", "STT/Bindings/*.swift"
+    sp.dependency "RxCocoa", "~> 5"
   end
   
   # STT NotificationBanner
