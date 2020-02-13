@@ -36,6 +36,7 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   # STT RxExtensions
   s.subspec 'RxExtensions' do |sp|
     sp.source_files  = "STT/Core/*.swift", "STT/RxExtensions/*.swift"
+    sp.dependency "RxSwift", "~> 5"
   end
 
   # STT AlamofireExtensions
@@ -77,5 +78,8 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
       sp.source_files = "STT/Core/*.swift", "STT/Bindings/*.swift", "STT/Extensions/*.swift", "STT/RxExtensions/*.swift", "STT/UIElements/*.swift", "STT/Support2x/Bindings/*.swift", "STT/Support2x/Components/*.swift", "STT/Support2x/Components/Core/*.swift", "STT/Support2x/Components/View/*.swift"
       sp.dependency "TinyConstraints"
       sp.dependency "KeychainSwift"
+      sp.dependency "RxSwift", "~> 5"
+      sp.dependency "RxCocoa", "~> 5"
+      sp.dependency "Alamofire", "4.9.0"
   end
 end
