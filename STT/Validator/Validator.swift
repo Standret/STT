@@ -23,6 +23,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
+
 import Foundation
 
 open class Validator: ValidatorType {
@@ -64,7 +65,7 @@ open class Validator: ValidatorType {
         var result: ValidationResult = .ok
         
         do {
-            if String.isEmpty(object) {
+            if String.__isEmpty__(object) {
                 result = isRequired ? .empty : .ok
             }
             else if (object! as NSString).length < min {
@@ -87,7 +88,7 @@ open class Validator: ValidatorType {
             }
         }
         catch {
-            SttLog.shared.error(message: "error \(error) in validate \(object!)", key: "SttValidationObject")
+            print("[SttValidationObject] error \(error) in validate \(object!)")
             result = .inCorrect
         }
         
@@ -111,5 +112,14 @@ open class Validator: ValidatorType {
         }
         
         return result
+    }
+}
+
+fileprivate extension String {
+    ///
+    /// Check string for nil or empty
+    ///
+    static func __isEmpty__(_ string: String?) -> Bool {
+        return (string ?? "").isEmpty
     }
 }
