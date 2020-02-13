@@ -30,8 +30,6 @@ import UIKit
 public typealias ViewControlable = ViewableListener
 public typealias ViewControllerInjector = ViewInjector & LifeCycleController & SttPresenterType
 
-public protocol Viewable: AnyObject { }
-
 public protocol ViewableListener: Viewable {
     func sendMessage(title: String, message: String?)
     func sendError(error: SttBaseErrorType)

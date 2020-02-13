@@ -24,35 +24,35 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   s.source_files = "STT/Core/*.swift"
   
   # STT Core
-  s.subspec 'Core' do |sp| # OK
+  s.subspec 'Core' do |sp|
     sp.source_files  = "STT/Core/*.swift"
   end
   
   # STT Extensions
-  s.subspec 'Extensions' do |sp| # OK
+  s.subspec 'Extensions' do |sp|
     sp.source_files  = "STT/Extensions/*.swift"
   end
 
   # STT RxExtensions
-  s.subspec 'RxExtensions' do |sp| # OK
+  s.subspec 'RxExtensions' do |sp|
     sp.source_files  = "STT/Core/*.swift", "STT/RxExtensions/*.swift"
   end
 
   # STT AlamofireExtensions
-  s.subspec 'AlamofireExtensions' do |sp| # OK
+  s.subspec 'AlamofireExtensions' do |sp|
     sp.source_files = "STT/Core/*.swift", "STT/Extensions/*.swift", "STT/AlamofireExtensions/*.swift"
     sp.dependency "Alamofire", "4.9.0"
     sp.dependency "RxSwift", "~> 5"
   end
   
   # STT SDWebImageExtensions
-  s.subspec 'SDWebImageExtensions' do |sp| # OK
+  s.subspec 'SDWebImageExtensions' do |sp|
     sp.source_files = "STT/SDWebImageExtensions/*.swift"
     sp.dependency "SDWebImage", "~> 5.0.0"
   end
   
   # STT Bindings
-  s.subspec 'Bindings' do |sp| # OK
+  s.subspec 'Bindings' do |sp|
     sp.source_files = "STT/Core/*.swift", "STT/Bindings/*.swift"
     sp.dependency "RxCocoa", "~> 5"
   end
@@ -64,17 +64,17 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   
   # STT Validator
   s.subspec 'Validator' do |sp|
-      sp.source_files = "STT/Core/*.swift", "STT/Validator/*.swift"
+      sp.source_files = "STT/Validator/*.swift"
   end
   
   # STT UIElements
   s.subspec 'UIElements' do |sp|
-      sp.source_files = "STT/UIElements/*.swift"
+      sp.source_files = "STT/Core/*.swift", "STT/UIElements/*.swift"
   end
   
   # STT Support2x
   s.subspec 'Support2x' do |sp|
-      sp.source_files = "STT/Support2x/Bindings/*.swift", "STT/Support2x/Components/*.swift", "STT/Support2x/Components/Core/*.swift", "STT/Support2x/Components/View/*.swift"
+      sp.source_files = "STT/Core/*.swift", "STT/Bindings/*.swift", "STT/Extensions/*.swift", "STT/RxExtensions/*.swift", "STT/UIElements/*.swift", "STT/Support2x/Bindings/*.swift", "STT/Support2x/Components/*.swift", "STT/Support2x/Components/Core/*.swift", "STT/Support2x/Components/View/*.swift"
       sp.dependency "TinyConstraints"
       sp.dependency "KeychainSwift"
   end
