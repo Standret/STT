@@ -24,7 +24,6 @@
 //  SOFTWARE.
 //
 
-
 import Foundation
 
 public enum SttError: ErrorType {

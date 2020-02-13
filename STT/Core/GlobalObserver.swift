@@ -28,7 +28,7 @@ import Foundation
 
 ///
 /// The enum describe different application status
-//
+///
 public enum ApplicationStatus {
     case willBecomeInActive
     case didEnterBackgound
