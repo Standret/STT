@@ -80,3 +80,26 @@ public extension CommandType {
         return (disposable: refreshControl.useCommand(self, parameter: parameter), refreshControl: refreshControl)
     }
 }
+
+// This method copy from STT/Extensions/UIViewExtensions
+fileprivate extension UIView {
+
+    func setIndicator(
+        style: UIActivityIndicatorView.Style = .gray,
+        color: UIColor = UIColor.gray
+        ) -> UIActivityIndicatorView {
+        
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        indicator.style = style
+        indicator.color = color
+        
+        self.addSubview(indicator)
+        
+        indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        indicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        
+        return indicator
+    }
+}

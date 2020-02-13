@@ -26,7 +26,7 @@
 
 import Foundation
 
-//public protocol Viewable: AnyObject { }
+public protocol Viewable: AnyObject { }
 
 public protocol ViewControllerType {
     
