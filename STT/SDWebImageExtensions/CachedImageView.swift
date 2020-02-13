@@ -14,7 +14,7 @@ public class CachedImageView: UIImageView {
     public var imageData: Image? {
         didSet {
             self.sd_cancelCurrentImageLoad()
-            if let imageUrl = imageData?.url, !String.isWhiteSpace(imageUrl) {
+            if let imageUrl = imageData?.url, !String.__isWhiteSpace__(imageUrl) {
                 self.loadImage(
                     url: imageUrl,
                     placeholder: placeholderType.name,
@@ -31,4 +31,11 @@ public class CachedImageView: UIImageView {
     }
 
     public var placeholderType: ImagePlaceholderType = .usual
+}
+
+// Copy from STT/Extensions/StringExtensions
+fileprivate extension String {
+    static func __isWhiteSpace__(_ string: String?) -> Bool {
+        return (string ?? "").trimmingCharacters(in: .whitespaces).isEmpty
+    }
 }

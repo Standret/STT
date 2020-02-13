@@ -119,10 +119,9 @@ public extension UIView {
     }
     
     ///
-    /// Set gradient for current view in 0 position
-    /// - Parameter color1: first color
-    /// - Parameter color2: second color
-    /// - Parameter isVertical: determine gradient direction
+    /// Set indicator for current view in
+    /// - Parameter style: UIActivityIndicatorView.Style
+    /// - Parameter color: spinner color
     ///
     func setIndicator(
         style: UIActivityIndicatorView.Style = .gray,
