@@ -158,14 +158,15 @@ open class ObservableCollection<Element>: Collection {
     
     private var isPerformingBatchUpdates = false
     open func performBatchUpdates(_ updates: (ObservableCollection<Element>) -> Void) {
-        lock.lock()
+        guard !isPerformingBatchUpdates else { fatalError("performBatchUpdates can be executed synchronisly") }
         isPerformingBatchUpdates = true
-        defer { lock.unlock() }
         updates(self)
         isPerformingBatchUpdates = false
         
         // collection was updated send reload data event
         // TODO:(Standret, romanKovalchuk) look at the effort to add support for, insertions, deletions, modifications
+        lock.lock()
+        defer { lock.unlock() }
         notify(([], .reload))
     }
     
