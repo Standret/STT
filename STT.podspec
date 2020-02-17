@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "STT"
-  s.version      = "3.0.0-rc.1"
+  s.version      = "3.0.0-rc.2"
   s.summary      = "Simple reusable code with RxViper architecture provided by Standret, LightSide and Adnrew"
 
   s.description  = <<-DESC
@@ -26,6 +26,11 @@ This project is inspaired by MvvmCross [MvvmCross](https://github.com/MvvmCross/
   # STT Core
   s.subspec 'Core' do |sp|
     sp.source_files  = "STT/Core/*.swift"
+  end
+  
+  # STT Core/Event
+  s.subspec 'Event' do |sp|
+    sp.source_files  = "STT/Core/Event.swift"
   end
   
   # STT Extensions

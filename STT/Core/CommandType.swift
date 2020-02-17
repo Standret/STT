@@ -45,8 +45,8 @@ public protocol CommandType: AnyObject {
     
     func raiseCanExecute(parameter: Any?)
     
-    func observe(invokeOnSubscribtion: Bool, start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable
-    func observe(invokeOnSubscribtion: Bool, handler: @escaping (Bool) -> Void) -> EventDisposable
+    func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable
+    func observe(handler: @escaping (Bool) -> Void) -> EventDisposable
     
     func changeState(state: CommandState)
 }
@@ -65,20 +65,20 @@ public extension CommandType {
         return self.raiseCanExecute(parameter: parameter)
     }
     
-    func observe(invokeOnSubscribtion: Bool = true, start: (() -> Void)? = nil, end: (() -> Void)? = nil) -> EventDisposable {
-        return self.observe(invokeOnSubscribtion: invokeOnSubscribtion, start: start, end: end)
+    func observe(start: (() -> Void)? = nil, end: (() -> Void)? = nil) -> EventDisposable {
+        return self.observe(start: start, end: end)
     }
     
-    func observe(invokeOnSubscribtion: Bool = true, handler: @escaping (Bool) -> Void) -> EventDisposable {
-        return self.observe(invokeOnSubscribtion: invokeOnSubscribtion, handler: handler)
+    func observe(handler: @escaping (Bool) -> Void) -> EventDisposable {
+        return self.observe(handler: handler)
     }
 }
 
 
 open class Command: CommandType {
     
-    private var canNextSubject = EventPublisher<Bool>(hasBuffer: true)
-    internal var eventSubject = EventPublisher<Bool>(hasBuffer: true)
+    private var canNextSubject = EventPublisher<Bool>(hasBuffer: false)
+    internal var eventSubject = EventPublisher<Bool>(hasBuffer: false)
     
     private var executeHandler: (() -> Void)
     private var canExecuteHandler: (() -> Bool)?
@@ -147,12 +147,12 @@ open class Command: CommandType {
         return true
     }
     
-    public func observe(invokeOnSubscribtion: Bool, start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
-        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, { isStart in isStart ? start?() : end?() })
+    public func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
+        return eventSubject.subscribe({ isStart in isStart ? start?() : end?() })
     }
     
-    public func observe(invokeOnSubscribtion: Bool, handler: @escaping (Bool) -> Void) -> EventDisposable {
-        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, handler)
+    public func observe(handler: @escaping (Bool) -> Void) -> EventDisposable {
+        return eventSubject.subscribe(handler)
     }
     
     public func changeState(state: CommandState) {
@@ -163,8 +163,8 @@ open class Command: CommandType {
 
 open class CommandWithParameter<TParameter>: CommandType {
     
-    private var canNextSubject = EventPublisher<Bool>(hasBuffer: true)
-    private var eventSubject = EventPublisher<Bool>(hasBuffer: true)
+    private var canNextSubject = EventPublisher<Bool>(hasBuffer: false)
+    private var eventSubject = EventPublisher<Bool>(hasBuffer: false)
     
     private var executeHandler: ((TParameter) -> Void)
     internal var canExecuteHandler: ((TParameter) -> Bool)?
@@ -237,12 +237,12 @@ open class CommandWithParameter<TParameter>: CommandType {
     }
     
     
-    public func observe(invokeOnSubscribtion: Bool, start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
-        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, { isStart in isStart ? start?() : end?() })
+    public func observe(start: (() -> Void)?, end: (() -> Void)?) -> EventDisposable {
+        return eventSubject.subscribe({ isStart in isStart ? start?() : end?() })
     }
     
-    public func observe(invokeOnSubscribtion: Bool, handler: @escaping (Bool) -> Void) -> EventDisposable {
-        return eventSubject.subscribe(invokeOnSubscribtion: invokeOnSubscribtion, handler)
+    public func observe(handler: @escaping (Bool) -> Void) -> EventDisposable {
+        return eventSubject.subscribe(handler)
     }
     
     public func changeState(state: CommandState) {
