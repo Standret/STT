@@ -144,25 +144,45 @@ open class ObservableCollection<Element>: Collection {
         get {
             lock.lock()
             defer { lock.unlock() }
-            
             return datas[index]
         }
         set(newValue) {
             lock.lock()
             datas[index] = newValue
             lock.unlock()
-            
             notify(([index], .update))
         }
     }
     
+    ///
+    /// Begins a series of modification methods for collection.
+    ///
+    open func beginUpdates() {
+        isPerformingBatchUpdates = true
+    }
+    
+    ///
+    /// Ends and commits all modifications for collection and publish reload event
+    ///
+    open func endUpdates() {
+        guard isPerformingBatchUpdates else { fatalError("endUpdates nothing to commit") }
+        isPerformingBatchUpdates = false
+        commitChanges()
+    }
+    
+    ///
+    /// Performs updates block emiting event just after all actions are finished
+    ///
     private var isPerformingBatchUpdates = false
     open func performBatchUpdates(_ updates: (ObservableCollection<Element>) -> Void) {
         guard !isPerformingBatchUpdates else { fatalError("performBatchUpdates can be executed synchronisly") }
         isPerformingBatchUpdates = true
         updates(self)
         isPerformingBatchUpdates = false
-        
+        commitChanges()
+    }
+    
+    private func commitChanges() {
         // collection was updated send reload data event
         // TODO:(Standret, romanKovalchuk) look at the effort to add support for, insertions, deletions, modifications
         lock.lock()
