@@ -27,8 +27,8 @@
 import Foundation
 
 public struct ErrorMessage {
-    let title: String
-    let description: String
+    public let title: String
+    public let description: String
     
     public init(
         title: String,
