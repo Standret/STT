@@ -216,4 +216,12 @@ open class BaseTableViewSource<Presenter: PresenterType>: ScrollViewHandler, UIT
     open func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         return nil
     }
+    
+    // MARK - Context Menu
+    
+    @available(iOS 13.0, *)
+    open func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? { return nil }
+    
+    @available(iOS 13.0, *)
+    open func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) { }
 }

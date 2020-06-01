@@ -231,4 +231,11 @@ open class BaseCollectionViewSource<Presenter: PresenterType>: ScrollViewHandler
      ) -> UIContextMenuConfiguration? {
          return nil
      }
+    
+    @available(iOS 13.0, *)
+    open func collectionView(
+        _ collectionView: UICollectionView,
+        willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
+        animator: UIContextMenuInteractionCommitAnimating
+    ) { }
 }
