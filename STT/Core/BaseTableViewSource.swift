@@ -220,8 +220,14 @@ open class BaseTableViewSource<Presenter: PresenterType>: ScrollViewHandler, UIT
     // MARK - Context Menu
     
     @available(iOS 13.0, *)
-    open func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? { return nil }
+    open func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? { nil }
     
     @available(iOS 13.0, *)
     open func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) { }
+    
+    @available(iOS 13.0, *)
+    open func tableView(_ tableView: UITableView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? { nil }
+    
+    @available(iOS 13.0, *)
+    open func tableView(_ tableView: UITableView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? { nil }
 }
