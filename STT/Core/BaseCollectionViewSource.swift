@@ -228,7 +228,18 @@ open class BaseCollectionViewSource<Presenter: PresenterType>: ScrollViewHandler
          _ collectionView: UICollectionView,
          contextMenuConfigurationForItemAt indexPath: IndexPath,
          point: CGPoint
-     ) -> UIContextMenuConfiguration? {
-         return nil
-     }
+     ) -> UIContextMenuConfiguration? { nil }
+    
+    @available(iOS 13.0, *)
+    open func collectionView(
+        _ collectionView: UICollectionView,
+        willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
+        animator: UIContextMenuInteractionCommitAnimating
+    ) { }
+    
+    @available(iOS 13.0, *)
+    open func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? { nil }
+    
+    @available(iOS 13.0, *)
+    open func collectionView(_ collectionView: UICollectionView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? { nil }
 }

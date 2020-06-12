@@ -35,19 +35,23 @@ public enum CollectionObserverType {
 
 open class ObservableCollection<Element>: Collection {
     
-    private var datas = [Element]()
+    public typealias CollectionChanges = ([Int], CollectionObserverType)
     
+    private var datas = [Element]()
     private var lock = NSRecursiveLock()
     
-    private var notifyPublisher = EventPublisher<([Int], CollectionObserverType)>()
-    public var collectionChanges: Event<([Int], CollectionObserverType)> { return notifyPublisher }
+    private var notifyPublisher = EventPublisher<CollectionChanges>()
+    public var collectionChanges: Event<CollectionChanges> { notifyPublisher }
     
-    public var count: Int { return datas.count }
-    public var capacity: Int { return datas.capacity }
-    public var startIndex: Int { return datas.startIndex }
-    public var endIndex: Int { return datas.endIndex }
+    public var count: Int { datas.count }
+    public var capacity: Int { datas.capacity }
+    public var startIndex: Int { datas.startIndex }
+    public var endIndex: Int { datas.endIndex }
     
-    open var array: [Element] { return datas }
+    public var first: Element? { datas.first }
+    public var last: Element? { datas.last }
+
+    open var array: [Element] { datas }
     
     public init() { }
     public init(_ data: [Element]) {
@@ -71,8 +75,9 @@ open class ObservableCollection<Element>: Collection {
         datas.append(newElement)
         lock.unlock()
         
-        notifyPublisher.invoke(([datas.count - 1], .insert))
+        notify(([datas.count - 1], .insert))
     }
+    
     open func append(contentsOf sequence: [Element]) {
         guard sequence.count > 0 else { return }
         
@@ -81,7 +86,7 @@ open class ObservableCollection<Element>: Collection {
         datas.append(contentsOf: sequence)
         lock.unlock()
         
-        notifyPublisher.invoke((Array(startIndex..<datas.count), .insert))
+        notify((Array(startIndex..<datas.count), .insert))
     }
     
     open func insert(_ newElement: Element, at index: Int) {
@@ -89,14 +94,15 @@ open class ObservableCollection<Element>: Collection {
         datas.insert(newElement, at: index)
         lock.unlock()
         
-        notifyPublisher.invoke(([index], .insert))
+        notify(([index], .insert))
     }
+    
     open func insert(contentsOf: [Element], at index: Int) {
         lock.lock()
         datas.insert(contentsOf: contentsOf, at: index)
         lock.unlock()
         
-        notifyPublisher.invoke((Array(index..<(index + contentsOf.count)), .insert))
+        notify((Array(index..<(index + contentsOf.count)), .insert))
     }
     
     open func index(where predicate: (Element) throws -> Bool) rethrows -> Int? {
@@ -111,8 +117,9 @@ open class ObservableCollection<Element>: Collection {
         datas.remove(at: index)
         lock.unlock()
         
-        notifyPublisher.invoke(([index], .delete))
+        notify(([index], .delete))
     }
+    
     open func removeAll() {
         guard datas.count > 0 else { return }
         
@@ -120,8 +127,9 @@ open class ObservableCollection<Element>: Collection {
         datas.removeAll()
         lock.unlock()
         
-        notifyPublisher.invoke(([], .reload))
+        notify(([], .reload))
     }
+    
     open func removeAll(where closure: (Element) -> Bool) {
         guard datas.count > 0 else { return }
         
@@ -129,35 +137,81 @@ open class ObservableCollection<Element>: Collection {
         self.datas.removeAll(where: closure)
         lock.unlock()
         
-        notifyPublisher.invoke(([], .reload))
-    }
-    
-    open func lastOrNil() -> Element? {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        return datas.last
-    }
-    open func firstOrNil() -> Element? {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        return datas.first
+        notify(([], .reload))
     }
     
     open subscript(index: Int) -> Element {
         get {
             lock.lock()
             defer { lock.unlock() }
-            
             return datas[index]
         }
         set(newValue) {
             lock.lock()
             datas[index] = newValue
             lock.unlock()
-            
-            notifyPublisher.invoke(([index], .update))
+            notify(([index], .update))
         }
+    }
+    
+    ///
+    /// Begins a series of modification methods for collection.
+    ///
+    open func beginUpdates() {
+        isPerformingBatchUpdates = true
+    }
+    
+    ///
+    /// Ends and commits all modifications for collection and publish reload event
+    ///
+    open func endUpdates() {
+        guard isPerformingBatchUpdates else { fatalError("endUpdates nothing to commit") }
+        isPerformingBatchUpdates = false
+        commitChanges()
+    }
+    
+    ///
+    /// Performs updates block emiting event just after all actions are finished
+    ///
+    private var isPerformingBatchUpdates = false
+    open func performBatchUpdates(_ updates: (ObservableCollection<Element>) -> Void) {
+        guard !isPerformingBatchUpdates else { fatalError("performBatchUpdates can be executed synchronisly") }
+        isPerformingBatchUpdates = true
+        updates(self)
+        isPerformingBatchUpdates = false
+        commitChanges()
+    }
+    
+    private func commitChanges() {
+        // collection was updated send reload data event
+        // TODO:(Standret, romanKovalchuk) look at the effort to add support for, insertions, deletions, modifications
+        lock.lock()
+        defer { lock.unlock() }
+        notify(([], .reload))
+    }
+    
+    private func notify(_ changes: CollectionChanges) {
+        // if changes were commited inside updates block we do not need to publish separate event
+        guard !isPerformingBatchUpdates else { return }
+        // publish event to view
+        notifyPublisher.invoke(changes)
+    }
+    
+    // MARK: - deprecated
+    
+    @available(swift, deprecated: 5.0, renamed: "last")
+    open func lastOrNil() -> Element? {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        return datas.last
+    }
+    
+    @available(swift, deprecated: 5.0, renamed: "first")
+    open func firstOrNil() -> Element? {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        return datas.first
     }
 }

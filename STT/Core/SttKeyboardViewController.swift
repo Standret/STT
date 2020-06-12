@@ -102,9 +102,6 @@ open class SttKeyboardViewController<Presenter: PresenterType>: SttViewControlle
         KeyboardNotification.shared.removeObserver(delegate: self)
         GlobalObserver.shared.removeObserver(delegate: self)
     }
-}
-
-extension SttKeyboardViewController {
     
     open var callIfKeyboardIsShow: Bool { return true }
     open var isAnimatedKeyboard: Bool { return isKeyboardAnimated }
