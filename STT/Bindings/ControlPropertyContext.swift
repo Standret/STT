@@ -42,7 +42,7 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
      ````
      */
     @discardableResult
-    open func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+    open func map<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
         -> ControlPropertyContext<Converter.TIn>
         where Converter.TOut == Element, Converter.TIn: Equatable {
             
@@ -135,5 +135,15 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
         }
         
         return lazyApplier()
+    }
+}
+
+extension ControlPropertyContext {
+    @available(swift, deprecated: 5.0, renamed: "map(_:parameter:)")
+    @discardableResult
+    func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+        -> ControlPropertyContext<Converter.TIn>
+        where Converter.TOut == Element, Converter.TIn: Equatable {
+            self.map(converter, parameter: parameter)
     }
 }

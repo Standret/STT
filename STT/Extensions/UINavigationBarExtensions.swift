@@ -31,15 +31,36 @@ public extension UINavigationBar {
     
     ///
     /// Make navigation bar transparent.
-    /// - Parameter tint: tint color (default is .white).
+    /// - Parameter tint: tint color if nil set nothing
     ///
-    func makeTransparent(withTint tint: UIColor = .white) {
-        isTranslucent = true
-        backgroundColor = .clear
-        barTintColor = .clear
-        setBackgroundImage(UIImage(), for: .default)
-        tintColor = tint
-        titleTextAttributes = [.foregroundColor: tint]
-        shadowImage = UIImage()
+    func makeTransparent(withTint tint: UIColor? = nil) {
+        var titleAttributes: [NSAttributedString.Key: Any]?
+        if let tint = tint {
+            titleAttributes = [
+               .foregroundColor: tint as Any,
+           ]
+        }
+        
+        self.isTranslucent = true
+        if #available(iOS 13.0, *) {
+            if let titleAttributes = titleAttributes {
+                self.standardAppearance.titleTextAttributes = titleAttributes
+                self.standardAppearance.largeTitleTextAttributes = titleAttributes
+            }
+            self.standardAppearance.backgroundColor = .clear
+            self.standardAppearance.backgroundEffect = nil
+            self.standardAppearance.shadowColor = .clear
+            self.standardAppearance.shadowImage = UIImage()
+            self.standardAppearance.backgroundImage = UIImage()
+        } else {
+            if let titleAttributes = titleAttributes {
+                self.tintColor = tint
+                self.largeTitleTextAttributes = titleAttributes
+            }
+            self.backgroundColor = .clear
+            self.barTintColor = .clear
+            self.setBackgroundImage(UIImage(), for: .default)
+            self.shadowImage = UIImage()
+        }
     }
 }

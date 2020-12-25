@@ -28,7 +28,7 @@ public class ValueCombiner<Element1, Element2>: BindingContextType {
         self.property2 = property2
     }
     
-    public func combine<Result>(_ selector: @escaping (Element1, Element2) -> Result) -> BinderContext<Result> {
+    public func flatMap<Result>(_ selector: @escaping (Element1, Element2) -> Result) -> BinderContext<Result> {
         
         let newProperty = Dynamic<Result>(selector(property1.value, property2.value))
         
@@ -84,7 +84,7 @@ public class Value3Combiner<Element1, Element2, Element3>: BindingContextType {
         self.property3 = property3
     }
     
-    public func combine<Result>(_ selector: @escaping (Element1, Element2, Element3) -> Result) -> BinderContext<Result> {
+    public func flatMap<Result>(_ selector: @escaping (Element1, Element2, Element3) -> Result) -> BinderContext<Result> {
         
         let newProperty = Dynamic<Result>(selector(property1.value, property2.value, property3.value))
         
@@ -143,7 +143,7 @@ public class Value4Combiner<Element1, Element2, Element3, Element4>: BindingCont
         self.property4 = property4
     }
     
-    public func combine<Result>(_ selector: @escaping (Element1, Element2, Element3, Element4) -> Result) -> BinderContext<Result> {
+    public func flatMap<Result>(_ selector: @escaping (Element1, Element2, Element3, Element4) -> Result) -> BinderContext<Result> {
         
         let newProperty = Dynamic<Result>(selector(property1.value, property2.value, property3.value, property4.value))
         
@@ -177,5 +177,26 @@ public class Value4Combiner<Element1, Element2, Element3, Element4>: BindingCont
         let lazyApplierDisp = lazzyApplier()
         
         return Disposables.create(innerContextDisp, lazyApplierDisp)
+    }
+}
+
+public extension ValueCombiner {
+    @available(swift, deprecated: 5.0, renamed: "flatMap(_:parameter:)")
+    func combine<Result>(_ selector: @escaping (Element1, Element2) -> Result) -> BinderContext<Result> {
+        return self.flatMap(selector)
+    }
+}
+
+public extension Value3Combiner {
+    @available(swift, deprecated: 5.0, renamed: "flatMap(_:parameter:)")
+    func combine<Result>(_ selector: @escaping (Element1, Element2, Element3) -> Result) -> BinderContext<Result> {
+        return self.flatMap(selector)
+    }
+}
+
+public extension Value4Combiner {
+    @available(swift, deprecated: 5.0, renamed: "flatMap(_:parameter:)")
+    func combine<Result>(_ selector: @escaping (Element1, Element2, Element3, Element4) -> Result) -> BinderContext<Result> {
+        return self.flatMap(selector)
     }
 }

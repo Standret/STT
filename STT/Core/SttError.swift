@@ -26,32 +26,30 @@
 
 import Foundation
 
-public enum SttError: ErrorType {
+public enum SttError: Error, LocalizedError {
     
     case apiError(ApiError)
     case connectionError(ConnectionError)
     case jsonConvert(String)
     case unkown(String)
     
-    public var message: ErrorMessage {
-        var result: ErrorMessage
+    // TODO: BELOW CODE AS BACKWARD COMPATABILITY WITH 3.x will be completely removed in 4.x
+    
+    public var errorDescription: String? {
         switch self {
-        case .apiError(let error):
-            result = error.message
-        case .connectionError(let error):
-            result = error.message
-        case .jsonConvert(let debugDescription):
-            result = ErrorMessage(
-                title: "Json convert",
-                description: debugDescription
-            )
-        case .unkown(let message):
-            result = ErrorMessage(
-                title: message,
-                description: "UNKNOWN"
-            )
+        case .apiError(let error): return error.localizedDescription
+        case .connectionError(let error): return error.localizedDescription
+        case .jsonConvert: return "JSON CONVERT"
+        case .unkown(let title): return title
         }
-        
-        return result
+    }
+    
+    public var failureReason: String? {
+        switch self {
+        case .apiError(let error): return error.failureReason
+        case .connectionError(let error): return error.failureReason
+        case .jsonConvert(let failureReason): return failureReason
+        case .unkown: return nil
+        }
     }
 }

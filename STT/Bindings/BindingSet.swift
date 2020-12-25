@@ -58,15 +58,13 @@ public protocol BindingContextType {
  ````
  */
 public class BindingSet<T: AnyObject>: BindingContextType {
-    
-    private unowned var parent: T
-    
+
     private var sets = [BindingContextType]()
     private var disposable: Disposable?
-    
-    public init (_ parent: T) {
-        self.parent = parent
-    }
+
+    @available(swift, deprecated: 5.0)
+    public init(_ parent: T) { }
+    public init() { }
     
     deinit {
         disposable?.dispose()
@@ -112,7 +110,7 @@ public class BindingSet<T: AnyObject>: BindingContextType {
     }
     
     public func bind<Element>(_ value: Dynamic<Element?>, fallbackValue: Element) -> BinderContext<Element> {
-        let context = BinderContext(value).withConverter({ $0 ?? fallbackValue })
+        let context = BinderContext(value).map({ $0 ?? fallbackValue })
         sets.append(context)
         return context
     }

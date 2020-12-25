@@ -137,7 +137,7 @@ open class Command: CommandType {
             executeHandler()
         }
         else {
-            SttLog.shared.trace(message: "Command could not be execute. Can execute return: \(canExecute())", key: "SttComand")
+            SttLog.shared.verbose("Command could not be execute. Can execute return: \(canExecute())")
         }
     }
     public func canExecute() -> Bool {
@@ -223,10 +223,7 @@ open class CommandWithParameter<TParameter>: CommandType {
             executeHandler(parametr)
         }
         else {
-            SttLog.shared.trace(
-                message: "Command could not be execute. Can execute return with parametr \(parametr) return: \(canExecute(parametr: parametr))",
-                key: "SttComand"
-            )
+            SttLog.shared.verbose("Command could not be execute. Can execute return with parametr \(parametr) return: \(canExecute(parametr: parametr))")
         }
     }
     public func canExecute(parametr: TParameter) -> Bool {

@@ -89,6 +89,7 @@ public class FloatingNotificationBanner: UIView, NotificationBannerType {
     
     public var title: String { return lblTitle.text ?? "" }
     public var descriptionText: String? { return lblDescription.text }
+    public var debugDescriptionText: String?
     
     /// The type of haptic to generate when a banner is displayed
     public var haptic: BannerHaptic = .heavy
@@ -110,7 +111,7 @@ public class FloatingNotificationBanner: UIView, NotificationBannerType {
     
     /// Closure that will be executed if the notification banner is tapped
     public lazy var onTap: (() -> Void) = { [unowned self] in
-        let alertController = UIAlertController(title: self.lblTitle.text, message: self.lblDescription.text, preferredStyle: .alert)
+        let alertController = UIAlertController(title: self.lblTitle.text, message: (self.lblDescription.text ?? "") + "\n-----------\n" + (self.debugDescriptionText ?? ""), preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         UIApplication.shared.appWindow.rootViewController?.present(alertController, animated: true, completion: nil)
@@ -147,10 +148,12 @@ public class FloatingNotificationBanner: UIView, NotificationBannerType {
     public init(style: BannerStyle,
          title: String?,
          description: String?,
+         debugDescription: String?,
          bannerAppearance: BannerAppearanceType) {
         
         self.style = style
         self.bannerAppearance = bannerAppearance
+        self.debugDescriptionText = debugDescription
         
         super.init(frame: .zero)
         
