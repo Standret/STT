@@ -78,19 +78,31 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
             var readDisposable: Disposable? = nil
             var writeDisposable: Disposable? = nil
             
+            // In case when we have two way binding we don't need update element with existing value
+            var isUpdating: Bool = false
             // from dynamic to control property
             switch self.bindingMode {
             case .readBind, .twoWayBind:
-                readDisposable = value.bind({ [unowned self] in self.property.onNext($0) })
+                readDisposable = value.bind({ [unowned self] in
+                    guard !isUpdating else { return }
+                    self.property.onNext($0)
+                })
             case .readListener, .twoWayListener:
-                readDisposable = value.addListener({ [unowned self] in self.property.onNext($0) })
+                readDisposable = value.addListener({ [unowned self] in
+                    guard !isUpdating else { return }
+                    self.property.onNext($0)
+                })
             default: break
             }
             
             switch self.bindingMode {
             case .twoWayBind, .twoWayListener, .write:
                 writeDisposable = self.property.filter({ $0 != value.value })
-                    .subscribe(onNext: { value.value = $0 })
+                    .subscribe(onNext: {
+                        isUpdating = true
+                        value.value = $0
+                        isUpdating = false
+                    })
             default: break
             }
             
