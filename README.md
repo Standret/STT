@@ -6,7 +6,7 @@ STT is a collection of useful tools for iOS app development based on iOS 11 and 
 
 ## Dependencies
 
-* Core - main layer which contains all that you need to start app development
+* [Core](https://github.com/Standret/STT/blob/feature/3.0/Docs/Core.md) - main layer which contains all that you need to start app development
 * Bindings - collection of MVVM binding for UIKit elements based on Rx-Cocoa
 * NotificationBanner - in-app messages to push messages, warnings and errors for user
 * RxExtensions - collection of useful extensions for RxSwift
