@@ -189,6 +189,8 @@
 		50106A2B2237E49E002C634A /* STTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STTTests.swift; sourceTree = "<group>"; };
 		50106A2D2237E49E002C634A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53F8A824E1A8CBCDC76B947A /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
+		7D1431562865FC08009FA2F1 /* Core.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Core.md; sourceTree = "<group>"; };
+		7D1431572865FFC5009FA2F1 /* Architecture.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Architecture.md; sourceTree = "<group>"; };
 		7D6F4713232CECFD00E86338 /* STT.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STT.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		7DE8741F233798860086F166 /* BinderContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderContextTests.swift; sourceTree = "<group>"; };
 		7DE8742B2337F3C30086F166 /* ControlPropertyContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPropertyContextTests.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 		50106A132237E49E002C634A = {
 			isa = PBXGroup;
 			children = (
+				7D1431552865FBF3009FA2F1 /* Docs */,
 				7D6F4713232CECFD00E86338 /* STT.podspec */,
 				50106A1F2237E49E002C634A /* STT */,
 				50106A2A2237E49E002C634A /* STTTests */,
@@ -444,6 +447,15 @@
 				C32EB240A1918CE97D6E61AE /* Pods-STT-STTTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		7D1431552865FBF3009FA2F1 /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				7D1431562865FC08009FA2F1 /* Core.md */,
+				7D1431572865FFC5009FA2F1 /* Architecture.md */,
+			);
+			path = Docs;
 			sourceTree = "<group>";
 		};
 		7DF6D1B123F5A13A0024415C /* Support2x */ = {
