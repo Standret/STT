@@ -36,6 +36,7 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
     
     open var customBackBarButton: Bool = false
     open var hideNavigationBar = false
+    open var animateBarChange = true
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +78,7 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
     
     
     open func updateNavBarVisibility() {
-        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: false)
+        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: animateBarChange)
         navigationController?.navigationBar.isHidden = hideNavigationBar
     }
     
