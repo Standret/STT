@@ -46,8 +46,7 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.viewAppearing()
-        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: true)
-        navigationController?.navigationBar.isHidden = hideNavigationBar
+        updateNavBarVisibility()
     }
     
     override open func viewDidAppear(_ animated: Bool) {
@@ -74,6 +73,12 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
         
         style()
         bind()
+    }
+    
+    
+    open func updateNavBarVisibility() {
+        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: false)
+        navigationController?.navigationBar.isHidden = hideNavigationBar
     }
     
     ///
