@@ -36,8 +36,8 @@ public protocol ServerErrorType: Decodable {
     var description: String { get }
 }
 
-/// Conform error to this protocol if yoi wan't to use custom error message
-/// By default no one error conform to this
+/// Conform error to this protocol if you wan't to use custom error message
+/// By default, errors don't conform to this
 public protocol SttTrackableError: Error {
     var title: String { get }
     var description: String? { get }

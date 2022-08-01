@@ -107,7 +107,9 @@ public class Value3Combiner<Element1, Element2, Element3>: BindingContextType {
             }
         }
         
-        return BinderContext<Result>(newProperty)
+        let binder = BinderContext<Result>(newProperty)
+        innerContext = binder
+        return binder
     }
     
     public func apply() -> Disposable {
@@ -168,7 +170,9 @@ public class Value4Combiner<Element1, Element2, Element3, Element4>: BindingCont
             }
         }
         
-        return BinderContext<Result>(newProperty)
+        let binder = BinderContext<Result>(newProperty)
+        innerContext = binder
+        return binder
     }
     
     public func apply() -> Disposable {

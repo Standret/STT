@@ -111,7 +111,11 @@ public class FloatingNotificationBanner: UIView, NotificationBannerType {
     
     /// Closure that will be executed if the notification banner is tapped
     public lazy var onTap: (() -> Void) = { [unowned self] in
-        let alertController = UIAlertController(title: self.lblTitle.text, message: (self.lblDescription.text ?? "") + "\n-----------\n" + (self.debugDescriptionText ?? ""), preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: self.lblTitle.text,
+            message: (self.lblDescription.text ?? "") + "\n-----------\n" + (self.debugDescriptionText ?? ""),
+            preferredStyle: .alert
+        )
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         UIApplication.shared.appWindow.rootViewController?.present(alertController, animated: true, completion: nil)

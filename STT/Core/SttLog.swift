@@ -124,8 +124,10 @@ open class SttLog: SttLogType {
     private init() { }
 
     public func log(_ closure: () -> Any?, level: SttLogLevel, functionName: String, fileName: String, lineNumber: Int) {
-        guard destinations.isEnabledFor(level: level) else { return }
-        guard let closureResult = closure() else { return }
+        guard destinations.isEnabledFor(level: level),
+              let closureResult = closure() else {
+                  return
+              }
         let formatedFileName = fileName.split(separator: "/").last ?? ""
         NSLog("[\(level.description)] [\(threadName())] [\(formatedFileName):\(lineNumber)] \(functionName) > \(closureResult)")
     }
