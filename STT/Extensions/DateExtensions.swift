@@ -149,6 +149,17 @@ public extension Date {
     }
     
     ///
+    /// Return string representation of date with specific format which is the best for current user locale
+    /// - Parameter format: format of date for DateFormatter
+    ///
+    func toLocalizedString(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate(format)
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    ///
     /// Return specific date
     ///
     static func from(year: Int, month: Int, day: Int) -> Date? {
@@ -160,5 +171,17 @@ public extension Date {
         dateComponents.day = day
         
         return gregorianCalendar.date(from: dateComponents)
+    }
+    
+    ///
+    /// Detect if time format is in 12hr or 24hr format
+    ///
+    func is12hClockFormat() -> Bool {
+        let formatString = DateFormatter.dateFormat(
+            fromTemplate: "j",
+            options: 0,
+            locale: Locale.current
+        )!
+        return formatString.contains("a")
     }
 }

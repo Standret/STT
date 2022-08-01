@@ -26,34 +26,30 @@
 
 import Foundation
 
-public enum ConnectionError: ErrorType {
+public enum ConnectionError: Error, LocalizedError {
     
     case timeout
     case noInternetConnection
     case responseIsNil
     case other(String)
     
-    public var message: ErrorMessage {
-        var result: ErrorMessage
+    // TODO: BELOW CODE AS BACKWARD COMPATABILITY WITH 3.x will be completely removed in 4.x
+    
+    public var localizedDescription: String {
         switch self {
-        case .noInternetConnection:
-            result = ErrorMessage(
-                title: "No internet connection",
-                description: "Check your settings or repeat later"
-            )
-        case .timeout:
-            result = ErrorMessage(
-                title: "Couldn't connect to server",
-                description: "There was a problem of loading data. Check your Internet connection and try again."
-            )
-        case .responseIsNil:
-            result = ErrorMessage(
-                title: "Request timeout",
-                description: "Please try again"
-            )
-        case .other(let message):
-            result = ErrorMessage(title: message, description: "UNKNOWN")
+        case .noInternetConnection: return "No internet connection"
+        case .timeout: return "Couldn't connect to server"
+        case .responseIsNil: return "Request timeout"
+        case .other(let title): return title
         }
-        return result
+    }
+    
+    public var failureReason: String? {
+        switch self {
+        case .noInternetConnection: return "Check your settings or repeat later"
+        case .timeout: return "There was a problem of loading data. Check your Internet connection and try again."
+        case .responseIsNil: return "Please try again"
+        case .other: return nil
+        }
     }
 }

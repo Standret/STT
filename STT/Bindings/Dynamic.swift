@@ -66,6 +66,16 @@ public class Dynamic<Element> {
         publisher.dispose()
     }
     
+    public func set(value: Element, notify: Bool) {
+        lock.lock()
+        storeValue = value
+        lock.unlock()
+        
+        if notify {
+            publisher.onNext(value)
+        }
+    }
+    
     ///
     /// Subscribe on changes and read current value
     ///

@@ -45,7 +45,7 @@ public class BinderContext<Element>: BindingContextType {
      ````
      */
     @discardableResult
-    open func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+    open func map<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
         -> BinderContext<Converter.TOut> where Converter.TIn == Element {
             
             let newProperty = Dynamic(converter.convert(value: self.property.value, parameter: parameter))
@@ -88,7 +88,7 @@ public class BinderContext<Element>: BindingContextType {
      ````
      */
     @discardableResult
-    open func withConverter<TOut>(_ converter: @escaping (Element) -> TOut)
+    open func map<TOut>(_ converter: @escaping (Element) -> TOut)
         -> BinderContext<TOut> {
             
             let newProperty = Dynamic(converter(self.property.value))
@@ -122,15 +122,15 @@ public class BinderContext<Element>: BindingContextType {
      ````
      */
     @discardableResult
-    public func to(_ binder: Binder<Element>) -> BindingContextType {
+    public func to(_ binders: Binder<Element>...) -> BindingContextType {
         
         lazyApplier = { [unowned self] in
             
             switch self.bindingMode {
             case .readBind, .twoWayBind:
-                return self.property.bind(binder.onNext)
+                return Disposables.create(binders.map({ self.property.bind($0.onNext) }))
             case .readListener, .twoWayListener:
-                return self.property.addListener(binder.onNext)
+                return Disposables.create(binders.map({ self.property.addListener($0.onNext) }))
             default:
                 fatalError("Incorrect type")
             }
@@ -150,15 +150,15 @@ public class BinderContext<Element>: BindingContextType {
      ````
      */
     @discardableResult
-    public func to(_ binder: Binder<Element?>) -> BindingContextType {
+    public func to(_ binders: Binder<Element?>...) -> BindingContextType {
         
         lazyApplier = { [unowned self] in
             
             switch self.bindingMode {
             case .readBind, .twoWayBind:
-                return self.property.bind(binder.onNext)
+                return Disposables.create(binders.map({ self.property.bind($0.onNext) }))
             case .readListener, .twoWayListener:
-                return self.property.addListener(binder.onNext)
+                return Disposables.create(binders.map({ self.property.addListener($0.onNext) }))
             default:
                 fatalError("Incorrect type")
             }
@@ -244,7 +244,7 @@ public extension BinderContext where Element == Int {
     @discardableResult
     func to(_ binder: Binder<String>) -> BindingContextType {
         return self
-            .withConverter({ String($0) })
+            .map({ String($0) })
             .to(binder)
     }
     
@@ -285,6 +285,21 @@ public extension BinderContext where Element == String {
 public extension BinderContext where Element == Bool {
     
     func withNegativeConverter() -> BinderContext<Element> {
-        return self.withConverter({ !$0 })
+        return self.map({ !$0 })
+    }
+}
+
+public extension BinderContext {
+    @available(swift, deprecated: 5.0, renamed: "map(_:)")
+    @discardableResult
+    func withConverter<TOut>(_ converter: @escaping (Element) -> TOut) -> BinderContext<TOut> {
+        self.map(converter)
+    }
+
+    @available(swift, deprecated: 5.0, renamed: "map(_:parameter:)")
+    @discardableResult
+    func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+        -> BinderContext<Converter.TOut> where Converter.TIn == Element {
+            self.map(converter, parameter: parameter)
     }
 }

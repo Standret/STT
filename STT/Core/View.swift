@@ -28,7 +28,7 @@ import Foundation
 
 public protocol Viewable: AnyObject { }
 
-public protocol ViewControllerType {
+public protocol ViewControllerType: AnyObject {
     
     associatedtype Presenter: PresenterType
     

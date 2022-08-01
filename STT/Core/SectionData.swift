@@ -35,4 +35,8 @@ public struct SectionData<CellPresenter: PresenterType, SectionPresenter: Presen
         self.section = section
         self.cells = cells
     }
+
+    public init(section: SectionPresenter, cells: [CellPresenter]) {
+        self.init(section: section, cells: ObservableCollection(cells))
+    }
 }

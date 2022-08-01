@@ -26,32 +26,29 @@
 
 import Foundation
 
-public enum ApiError: ErrorType {
+public enum ApiError: Error, LocalizedError {
     
     case badRequest(ServerErrorType)
     case internalServerError(String)
     case unknown(Int, String?)
     
-    public var message: ErrorMessage {
-        
-        var result: ErrorMessage
+    // TODO: BELOW CODE AS BACKWARD COMPATABILITY WITH 3.x will be completely removed in 4.x
+    
+    // title
+    public var errorDescription: String? {
         switch self {
-        case .badRequest(let error):
-            result = ErrorMessage(
-                title: "Bad request",
-                description: error.description
-            )
-        case .internalServerError(let message):
-            result = ErrorMessage(
-                title: "Internal Server Error",
-                description: message)
-            
-        case .unknown(let code, let description):
-            result = ErrorMessage(
-                title: "Unkown API Error with code: \(code)",
-                description: description ?? "UNKNOWN"
-            )
+        case .badRequest: return "Bad request"
+        case .internalServerError: return "Internal Server Error"
+        case .unknown(let code, _): return "Unkown API Error with code: \(code)"
         }
-        return result
+    }
+    
+    // description
+    public var failureReason: String? {
+        switch self {
+        case .badRequest(let error): return error.description
+        case .internalServerError(let message): return message
+        case .unknown(_, let description): return description
+        }
     }
 }

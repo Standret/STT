@@ -56,10 +56,17 @@ public struct LogMessage: Equatable {
 }
 
 public protocol MessengerType: class {
-    
     var messages: Event<LogMessage> { get }
-    
     func publish(message: LogMessage)
+}
+
+public extension MessengerType {
+    func error(title: String, description: String? = nil, debugDescription: String? = nil) {
+        self.publish(message: .init(type: .message, title: title, description: description, debugDescription: debugDescription))
+    }
+    func messege(title: String, description: String? = nil) {
+        self.publish(message: .init(type: .message, title: title, description: description, debugDescription: nil))
+    }
 }
 
 open class Messenger: MessengerType {

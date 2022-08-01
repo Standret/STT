@@ -29,6 +29,29 @@ import RxSwift
 
 public extension MessengerType {
     
+    func trackError<T>(in observable: Observable<T>, debugDescription: String?) -> Observable<T> {
+        return observable.do(onError: { error in
+            var title = error.localizedDescription
+            var description: String?
+            var debugDescription: String?
+            if let error = error as? SttTrackableError {
+                title = error.title
+                description = error.description
+                debugDescription = error.debugDescription
+            } else if let error = error as? LocalizedError {
+                description = error.failureReason
+            }
+            
+            self.publish(message: .init(
+                type: .error,
+                title: title,
+                description: description,
+                debugDescription: debugDescription ?? "\(error as NSError)"
+                ))
+        })
+    }
+    
+    @available(swift, deprecated: 5.0, message: "Use trackError(in observable:) instead")
     func useError<T>(
         observable: Observable<T>,
         ignoreBadRequest: Bool = false,
@@ -73,8 +96,8 @@ public extension MessengerType {
                 else {
                     self.publish(message: LogMessage(
                         type: .error,
-                        title: error.message.title,
-                        description: error.message.description,
+                        title: error.localizedDescription,
+                        description: error.failureReason,
                         debugDescription: "\(error)"
                         )
                     )
@@ -95,6 +118,11 @@ public extension MessengerType {
 
 public extension Observable {
     
+    func trackError(service: MessengerType, debugDescription: String? = nil) -> Observable<Element> {
+        service.trackError(in: self, debugDescription: debugDescription)
+    }
+    
+    @available(swift, deprecated: 5.0, message: "Use trackError(in observable:) instead")
     func useError(
         service: MessengerType,
         ignoreBadRequest: Bool = false,

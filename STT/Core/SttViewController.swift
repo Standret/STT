@@ -88,3 +88,65 @@ open class SttViewController<Presenter: PresenterType>: UIViewController, ViewCo
     ///
     open func bind() { }
 }
+
+///
+/// The view controller for auto manage presenter lifecycle
+///
+open class SttTabBarController<Presenter: PresenterType>: UITabBarController, ViewControllerType {
+
+    open var presenter: Presenter!
+
+    open var customBackBarButton: Bool = false
+    open var hideNavigationBar = false
+
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+       // presenter.viewCreated()
+        navigationItem.hidesBackButton = customBackBarButton
+    }
+
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewAppearing()
+        navigationController?.setNavigationBarHidden(hideNavigationBar, animated: true)
+        navigationController?.navigationBar.isHidden = hideNavigationBar
+    }
+
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presenter.viewAppeared()
+    }
+
+    override open func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        presenter.viewDisappearing()
+    }
+
+    override open func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        presenter.viewDisappeared()
+    }
+
+    private var firstStart = true
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard firstStart else { return }
+        firstStart = false
+
+        style()
+        bind()
+    }
+
+    ///
+    /// manage apearance of view
+    /// - Important: do not call basic version
+    ///
+    open func style() { }
+
+    ///
+    /// manage all subsribtions
+    /// - Important: do not call basic version. Call before style()
+    ///
+    open func bind() { }
+}

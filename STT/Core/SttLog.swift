@@ -27,86 +27,135 @@
 import Foundation
 
 public protocol SttLogType {
-    
-    var logInSystem: Bool { get }
-    
-    func trace(message: String, key: String)
-    func warning(message: String, key: String)
-    func error(message: String, key: String)
+    var destinations: SttLogLevel { get set }
+    func log(_ closure: () -> Any?, level: SttLogLevel, functionName: String, fileName: String, lineNumber: Int)
+}
+
+public extension SttLogType {
+    func verbose(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .verbose, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func debug(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .debug, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func info(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .info, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func notice(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .notice, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func warning(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .warning, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func error(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .error, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func alert(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .alert, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+    func emergency(_ closure: @autoclosure () -> Any?, functionName: StaticString = #function, fileName: StaticString = #file, lineNumber: Int = #line) {
+        self.log(closure, level: .emergency, functionName: String(functionName), fileName: String(fileName), lineNumber: lineNumber)
+    }
+
+    // deprecated
+    @available(swift, obsoleted: 5.0)
+    var logInSystem: Bool { false }
+
+    @available(swift, obsoleted: 5.0, renamed: "verbose(_functionName:fileName:lineNumber:)")
+    func trace(message: String, key: String) { }
+    @available(swift, obsoleted: 5.0, renamed: "verbose(_functionName:fileName:lineNumber:)")
+    func warning(message: String, key: String) { }
+    @available(swift, obsoleted: 5.0, renamed: "verbose(_functionName:fileName:lineNumber:)")
+    func error(message: String, key: String) { }
+}
+
+public enum SttLogLevel: Int, CaseIterable {
+    case verbose
+    case debug
+    case info
+    case notice
+    case warning
+    case error
+    case severe // aka critical
+    case alert
+    case emergency
+    case none
+
+    public var description: String {
+        switch self {
+        case .verbose:
+            return "Verbose"
+        case .debug:
+            return "Debug"
+        case .info:
+            return "Info"
+        case .notice:
+            return "Notice"
+        case .warning:
+            return "Warning"
+        case .error:
+            return "Error"
+        case .severe:
+            return "Severe"
+        case .alert:
+            return "Alert"
+        case .emergency:
+            return "Emergency"
+        case .none:
+            return "None"
+        }
+    }
+
+    func isEnabledFor(level: SttLogLevel) -> Bool {
+        level.rawValue >= self.rawValue
+    }
 }
 
 open class SttLog: SttLogType {
-    
+
     public static func register(logger: SttLogType) {
         shared = logger
     }
     
     public static var shared: SttLogType = SttLog()
+
+    public var destinations: SttLogLevel = .verbose
     
     private init() { }
-    
-    open var logInSystem = true
-    
-    open func trace(message: String, key: String) {
-        log(type: "trace", message: message, key: key)
+
+    public func log(_ closure: () -> Any?, level: SttLogLevel, functionName: String, fileName: String, lineNumber: Int) {
+        guard destinations.isEnabledFor(level: level),
+              let closureResult = closure() else {
+                  return
+              }
+        let formatedFileName = fileName.split(separator: "/").last ?? ""
+        NSLog("[\(level.description)] [\(threadName())] [\(formatedFileName):\(lineNumber)] \(functionName) > \(closureResult)")
     }
-    open func warning(message: String, key: String) {
-        log(type: "warning", message: message, key: key)
-    }
-    open func error(message: String, key: String) {
-        log(type: "error", message: message, key: key)
-    }
-    
-    private func log(type: String, message: String, key: String) {
-        
-        if logInSystem {
-            NSLog("<\(key)> \(message)")
+
+    private func threadName() -> String {
+        var result: String
+        if Thread.isMainThread {
+            result = "main"
         }
         else {
-            print("[\(type)][\(SttLogDateConverter().convert(value: Date()))] <\(key)> \(message)")
+            if let threadName = Thread.current.name, !threadName.isEmpty {
+                result = threadName
+            }
+            else if let queueName = String(validatingUTF8: __dispatch_queue_get_label(nil)), !queueName.isEmpty {
+                result = queueName
+            }
+            else {
+                result = String(format: "[%p] ", Thread.current)
+            }
         }
-    }
-    
-    // MARK: - Obsoleted
-    
-    @available(swift, obsoleted: 5.0, message: "instead of static use shared property")
-    public static var logInSystem = true
-    
-    open class func trace(message: String, key: String) {
-        log(type: "trace", message: message, key: key)
-    }
-    open class func warning(message: String, key: String) {
-        log(type: "warning", message: message, key: key)
-    }
-    open class func error(message: String, key: String) {
-        log(type: "error", message: message, key: key)
-    }
-    
-    fileprivate class func log(type: String, message: String, key: String) {
-        fatalError()
+        return result
     }
 }
 
-internal class SttLogDateConverter: ConverterType {
-    
-    func convert(value: Date, parameter: Any?) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "MM-dd-yyyy HH:mm:ss:SSSS"
-        
-        return formatter.string(from: value)
-    }
-}
-
-internal class DateConverter: ConverterType {
-    
-    func convert(value: Date, parameter: Any?) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "MM/dd/yyyy"
-        
-        return formatter.string(from: value)
+fileprivate extension String {
+    init(_ staticString: StaticString) {
+        self = staticString.withUTF8Buffer {
+            String(decoding: $0, as: UTF8.self)
+        }
     }
 }

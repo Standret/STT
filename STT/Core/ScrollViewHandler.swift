@@ -60,9 +60,9 @@ open class EndScrollHandler<Target: UIScrollView>: ScrollViewHandlerType {
         if (scrollView.contentSize.height > scrollView.bounds.height) {
             if (y > height) {
                 if (!inPosition) {
+                    inPosition = true
                     handlers.forEach({ $0.callback(scrollView as! Target) })
                 }
-                inPosition = true
             }
             else {
                 inPosition = false

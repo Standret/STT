@@ -215,3 +215,12 @@ open class ObservableCollection<Element>: Collection {
         return datas.first
     }
 }
+
+public extension ObservableCollection {
+    func replaceData(with data: [Element]) {
+        self.performBatchUpdates { (collection) in
+            collection.removeAll()
+            collection.append(contentsOf: data)
+        }
+    }
+}

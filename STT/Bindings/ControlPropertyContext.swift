@@ -42,7 +42,7 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
      ````
      */
     @discardableResult
-    open func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+    open func map<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
         -> ControlPropertyContext<Converter.TIn>
         where Converter.TOut == Element, Converter.TIn: Equatable {
             
@@ -78,19 +78,31 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
             var readDisposable: Disposable? = nil
             var writeDisposable: Disposable? = nil
             
+            // In case when we have two way binding we don't need update element with existing value
+            var isUpdating: Bool = false
             // from dynamic to control property
             switch self.bindingMode {
             case .readBind, .twoWayBind:
-                readDisposable = value.bind({ [unowned self] in self.property.onNext($0) })
+                readDisposable = value.bind({ [unowned self] in
+                    guard !isUpdating else { return }
+                    self.property.onNext($0)
+                })
             case .readListener, .twoWayListener:
-                readDisposable = value.addListener({ [unowned self] in self.property.onNext($0) })
+                readDisposable = value.addListener({ [unowned self] in
+                    guard !isUpdating else { return }
+                    self.property.onNext($0)
+                })
             default: break
             }
             
             switch self.bindingMode {
             case .twoWayBind, .twoWayListener, .write:
                 writeDisposable = self.property.filter({ $0 != value.value })
-                    .subscribe(onNext: { value.value = $0 })
+                    .subscribe(onNext: {
+                        isUpdating = true
+                        value.value = $0
+                        isUpdating = false
+                    })
             default: break
             }
             
@@ -135,5 +147,15 @@ public class ControlPropertyContext<Element: Equatable>: BindingContextType {
         }
         
         return lazyApplier()
+    }
+}
+
+extension ControlPropertyContext {
+    @available(swift, deprecated: 5.0, renamed: "map(_:parameter:)")
+    @discardableResult
+    func withConverter<Converter: ConverterType>(_ converter: Converter, parameter: Any? = nil)
+        -> ControlPropertyContext<Converter.TIn>
+        where Converter.TOut == Element, Converter.TIn: Equatable {
+            self.map(converter, parameter: parameter)
     }
 }

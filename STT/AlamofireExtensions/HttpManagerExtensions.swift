@@ -63,7 +63,7 @@ public extension ObservableType where Element == (HTTPURLResponse, Data) {
                         observer.onNext(jsonObject)
                     }
                     catch {
-                        SttLog.shared.error(message: "\(error)", key: "JSONCONVERT")
+                        SttLog.shared.error("[JSONCONVERT] \(error)")
                         observer.onError(SttError.jsonConvert("\(error)"))
                     }
                 case 400:
@@ -110,7 +110,7 @@ public extension ObservableType where Element == (HTTPURLResponse, Data) {
                         observer.onNext(jsonObject)
                     }
                     catch {
-                        SttLog.shared.error(message: "\(error)", key: "JSONCONVERT")
+                        SttLog.shared.error("[JSONCONVERT] \(error)")
                         observer.onError(SttError.jsonConvert("\(error)"))
                     }
                 case 400:
