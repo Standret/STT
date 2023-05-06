@@ -11,14 +11,14 @@ target 'STT' do
     pod 'Nimble'
   end
   
-  pod 'Alamofire', '~> 4.9.0'
+  pod 'Alamofire', '4.9.0'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'SDWebImage', '~> 5.0'
   
   # Old for 2x
   
-  pod 'TinyConstraints'
+  pod 'TinyConstraints' , :git => ’https://github.com/shamanGOD/TinyConstraints.git', :commit => '9c99729'
   pod 'KeychainSwift'
 end
 
