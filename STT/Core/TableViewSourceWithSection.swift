@@ -57,9 +57,7 @@ open class TableViewSourceWithSection<CellPresenter: PresenterType, SectionPrese
 
         subCollectionDisposeBag.removeAll()
         
-        disposable = collection.collectionChanges.subscribe({ [weak self] _ in self?.subsribeOnChange() })
-        
-        subsribeOnChange()
+        subscribeOnChanges()
     }
     
     override open func presenter(at indexPath: IndexPath) -> CellPresenter {
@@ -83,42 +81,70 @@ open class TableViewSourceWithSection<CellPresenter: PresenterType, SectionPrese
         return cell
     }
     
-    private func subsribeOnChange() {
+//    private func subsribeOnSectionChange(in sections: IndexSet? = nil) {
+//        lock.lock()
+//        defer { lock.unlock() }
+//        
+//        let indexes = sections.flatMap { Array($0) } ?? Array(0..<collection.count)
+//        // all table has been reloaded - remove previous subscribtions
+//        if sections == nil {
+//            subCollectionDisposeBag.removeAll()
+//        }
+//        
+//        for index in indexes {
+//            collection[index].cells.collectionChanges.subscribe { [weak self] changes in
+//                guard let self = self else { return }
+//                
+//                // update count data
+//                self.countData = self.collection.map({ $0.cells.count })
+//                for change in changes {
+//                    switch change {
+//                    case .reload:
+//                        self.tableView.reloadSections(IndexSet(integer: index), with: self.useAnimation ? .fade : .none)
+//                    case .delete(let indexes):
+//                        self.tableView.deleteRows(at: indexes.map({ .init(row: $0, section: index) }), with: self.useAnimation ? .left : .none)
+//                    case .insert(let indexes):
+//                        self.tableView.insertRows(at: indexes.map({ .init(row: $0, section: index) }), with: self.useAnimation ? .middle : .none)
+//                    case .update(let indexes):
+//                        self.tableView.reloadRows(at: indexes.map({ .init(row: $0, section: index) }), with: self.useAnimation ? .fade : .none)
+//                    }
+//                }
+//            }
+//            .add(to: &subCollectionDisposeBag)
+//        }
+//    }
+    
+    func subscribeOnChanges() {
         lock.lock()
         defer { lock.unlock() }
         
-        subCollectionDisposeBag.removeAll()
-        for index in 0..<collection.count {
-            collection[index].cells.collectionChanges.subscribe({ [weak self] (indexes, type) in
-                self?.countData = self?.collection.map({ $0.cells.count })
-                if self?.maxAnimationCount ?? 0 < indexes.count {
-                    self?.tableView.reloadData()
-                }
-                else {
-                    switch type {
+        countData = collection.map({ $0.cells.count })
+        disposable = collection.collectionChanges.subscribe { [weak self] transaction in
+            guard let self = self else { return }
+            print("\(transaction.changes) - \(self.useAnimation)")
+            self.tableView.performBatchUpdates {
+                for change in transaction.changes {
+                    switch change {
                     case .reload:
-                        self?.tableView.reloadData()
-                    case .delete:
-                        self?.tableView.deleteRows(
-                            at: indexes.map({ IndexPath(row: $0, section: index) }),
-                            with: self!.useAnimation ? .left : .none
-                        )
-                    case .insert:
-                        self?.tableView.insertRows(
-                            at: indexes.map({ IndexPath(row: $0, section: index) }),
-                            with: self!.useAnimation ? .middle : .none
-                        )
-                    case .update:
-                        self?.tableView.reloadRows(
-                            at: indexes.map({ IndexPath(row: $0, section: index) }),
-                            with: self!.useAnimation ? .fade : .none
-                        )
+                        self.tableView.reloadData()
+                    case .updateSections(let indexes):
+                        self.tableView.reloadSections(IndexSet(indexes), with: self.useAnimation ? .fade : .none)
+                    case .deleteSections(let indexes):
+                        self.tableView.deleteSections(IndexSet(indexes), with: self.useAnimation ? .fade : .none)
+                    case .insertSections(let indexes):
+                        self.tableView.insertSections(IndexSet(indexes), with: self.useAnimation ? .fade : .none)
+                    case .update(let indexes):
+                        self.tableView.reloadRows(at: indexes, with: self.useAnimation ? .fade : .none)
+                    case .delete(let indexes):
+                        self.tableView.deleteRows(at: indexes, with: self.useAnimation ? .fade : .none)
+                    case .insert(let indexes):
+                        self.tableView.insertRows(at: indexes, with: self.useAnimation ? .fade : .none)
                     }
                 }
-            }).add(to: &subCollectionDisposeBag)
+                self.countData = self.collection.map({ $0.cells.count })
+            } completion: { success in
+                transaction.completion(success)
+            }
         }
-        
-        countData = collection.map({ $0.cells.count })
-        tableView.reloadData()
     }
 }

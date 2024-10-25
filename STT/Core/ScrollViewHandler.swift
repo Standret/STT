@@ -145,8 +145,7 @@ extension ScrollViewHandler {
     /// Add end scrolled handler
     ///
     public func addEndScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
-        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [ScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(
+        container[.scrollViewDidScroll, default: []].append(
             EndScrollHandler(
                 delegate: delegate,
                 { (delegate, _) in callback(delegate) },
@@ -159,8 +158,7 @@ extension ScrollViewHandler {
     /// Add top scrolled handler
     ///
     public func addTopScrollHandler<T: UIViewController>(delegate: T, callback: @escaping (T) -> Void, callBackEndPixel: Int = 150) {
-        self.container[.scrollViewDidScroll] = self.container[.scrollViewDidScroll] ?? [ScrollViewHandlerType]()
-        self.container[.scrollViewDidScroll]!.append(
+        container[.scrollViewDidScroll, default: []].append(
             TopScrollHandler(
                 delegate: delegate,
                 { (delegate, _) in callback(delegate) },

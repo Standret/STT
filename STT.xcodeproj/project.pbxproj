@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		50106A272237E49E002C634A /* STT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50106A1D2237E49E002C634A /* STT.framework */; };
 		50106A2C2237E49E002C634A /* STTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50106A2B2237E49E002C634A /* STTTests.swift */; };
 		7D6F4714232CECFD00E86338 /* STT.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 7D6F4713232CECFD00E86338 /* STT.podspec */; };
+		7D7AA31F2CCC308F0025DE48 /* Concurency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7AA31E2CCC308F0025DE48 /* Concurency.swift */; };
 		7DE87420233798860086F166 /* BinderContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8741F233798860086F166 /* BinderContextTests.swift */; };
 		7DE8742C2337F3C30086F166 /* ControlPropertyContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8742B2337F3C30086F166 /* ControlPropertyContextTests.swift */; };
 		7DF6D25B23F5A13A0024415C /* SttBaseErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF6D1B423F5A13A0024415C /* SttBaseErrorType.swift */; };
@@ -190,6 +191,7 @@
 		50106A2D2237E49E002C634A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53F8A824E1A8CBCDC76B947A /* Pods-STT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STT.debug.xcconfig"; path = "Target Support Files/Pods-STT/Pods-STT.debug.xcconfig"; sourceTree = "<group>"; };
 		7D6F4713232CECFD00E86338 /* STT.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STT.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		7D7AA31E2CCC308F0025DE48 /* Concurency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concurency.swift; sourceTree = "<group>"; };
 		7DE8741F233798860086F166 /* BinderContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderContextTests.swift; sourceTree = "<group>"; };
 		7DE8742B2337F3C30086F166 /* ControlPropertyContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPropertyContextTests.swift; sourceTree = "<group>"; };
 		7DF6D1B423F5A13A0024415C /* SttBaseErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SttBaseErrorType.swift; sourceTree = "<group>"; };
@@ -654,6 +656,7 @@
 		7DF6D23223F5A13A0024415C /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7D7AA31E2CCC308F0025DE48 /* Concurency.swift */,
 				7DF6D23323F5A13A0024415C /* SectionData.swift */,
 				7DF6D23423F5A13A0024415C /* KeyboardLayoutConstraint.swift */,
 				7DF6D23523F5A13A0024415C /* View.swift */,
@@ -935,6 +938,7 @@
 				7DF6D2DA23F5A13A0024415C /* CollectionViewWithSectionSource.swift in Sources */,
 				7DF6D2EF23F5A13A0024415C /* CollectionViewSource.swift in Sources */,
 				7DF6D2BA23F5A13A0024415C /* ArrayExtensions.swift in Sources */,
+				7D7AA31F2CCC308F0025DE48 /* Concurency.swift in Sources */,
 				7DF6D2B223F5A13A0024415C /* Dynamic.swift in Sources */,
 				7DF6D26B23F5A13A0024415C /* SttNetworking.swift in Sources */,
 				7DF6D2B123F5A13A0024415C /* ControlPropertyContext.swift in Sources */,

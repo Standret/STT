@@ -59,26 +59,28 @@ open class CollectionViewSource<Presenter: PresenterType>: BaseCollectionViewSou
         self.collection = collection
         countData = collection.count
         collectionView.reloadData()
-        
-        disposable = collection.collectionChanges.subscribe({ [weak self] (indexes, type) in
-            if type == .reload {
-                self?.countData = collection.count
-                self?.collectionView.reloadData()
-            }
-            self?.collectionView.performBatchUpdates({ [weak self] in
-                switch type {
-                case .delete:
-                    self?.collectionView.deleteItems(at: indexes.map({ IndexPath(row: $0, section: 0) }))
-                    self?.countData = collection.count
-                case .insert:
-                    self?.collectionView.insertItems(at: indexes.map({ IndexPath(row: $0, section: 0) }))
-                    self?.countData = collection.count
-                case .update:
-                    self?.collectionView.reloadItems(at: indexes.map({ IndexPath(row: $0, section: 0) }))
-                default: break
-                }
-            })
-        })
+        fatalError("to be implemented and tested")
+//        disposable = collection.collectionChanges.subscribe({ [weak self] changes in
+//            if changes.count == 1 && changes[0] == .reload {
+//                self?.countData = collection.count
+//                self?.collectionView.reloadData()
+//            }
+//            self?.collectionView.performBatchUpdates({ [weak self] in
+//                for change in changes {
+//                    switch change {
+//                    case .delete(let indexes):
+//                        self?.collectionView.deleteItems(at: indexes.map({ IndexPath(row: $0, section: 0) }))
+//                        self?.countData = collection.count
+//                    case .insert(let indexes):
+//                        self?.collectionView.insertItems(at: indexes.map({ IndexPath(row: $0, section: 0) }))
+//                        self?.countData = collection.count
+//                    case .update(let indexes):
+//                        self?.collectionView.reloadItems(at: indexes.map({ IndexPath(row: $0, section: 0) }))
+//                    default: break
+//                    }
+//                }
+//            })
+//        })
     }
     
     override open func presenter(at indexPath: IndexPath) -> Presenter {

@@ -26,6 +26,8 @@
 
 import Foundation
 
+let sttCoreQueue = DispatchQueue(label: "com.pstandret.stt.core")
+
 open class EventDisposable {
     
     private let _dispose: () -> ()
@@ -63,7 +65,7 @@ open class Event<Element> {
     private var uniqueID = (0...).makeIterator()
     
     fileprivate var lock = NSRecursiveLock()
-    fileprivate var observers: [Int: (Observer, DispatchQueue?)] = [:]
+    fileprivate var observers: ThreadSafe<[Int: (Observer, DispatchQueue?)]> = ThreadSafe([:])
     
     fileprivate var hasBuffer: Bool = false
     fileprivate var lastElement: Element?
@@ -86,10 +88,12 @@ open class Event<Element> {
         defer { lock.unlock() }
         
         let id = uniqueID.next()!
-        observers[id] = (observer, queue)
+        observers.write { $0[id] = (observer, queue) }
         
         let disposable = EventDisposable { [weak self] in
-            self?.observers[id] = nil
+            sttCoreQueue.async { [weak self] in
+                self?.observers.write { $0[id] = nil }
+            }
         }
         
         if hasBuffer, let element = lastElement {
@@ -119,10 +123,12 @@ open class Event<Element> {
         defer { lock.unlock() }
         
         let id = uniqueID.next()!
-        observers[id] = (observer, nil)
+        observers.write { $0[id] = (observer, nil) }
         
         let disposable = EventDisposable { [weak self] in
-            self?.observers[id] = nil
+            sttCoreQueue.async { [weak self] in
+                self?.observers.write { $0[id] = nil }
+            }
         }
         
         if hasBuffer, let element = lastElement {
@@ -146,7 +152,7 @@ open class EventPublisher<Element>: Event<Element> {
         defer { lock.unlock() }
         
         lastElement = element
-        observers.values.forEach { observer, dispatchQueue in
+        observers.value.values.forEach { observer, dispatchQueue in
             if let dispatchQueue = dispatchQueue {
                 dispatchQueue.async {
                     observer(element)
@@ -165,6 +171,8 @@ open class EventPublisher<Element>: Event<Element> {
         lock.lock()
         defer { lock.unlock() }
         
-        observers = [Int: (Observer, DispatchQueue?)]()
+        sttCoreQueue.async { [weak self] in
+            self?.observers.write { $0 = [Int: (Observer, DispatchQueue?)]() }
+        }
     }
 }

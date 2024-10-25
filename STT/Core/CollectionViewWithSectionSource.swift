@@ -35,7 +35,6 @@ open class CollectionViewWithSectionSource<CellPresenter: PresenterType, Section
     private var collection: CollectionType!
     
     private var disposable: EventDisposable?
-    private var subCollectionDisposeBag = [EventDisposable]()
     
     private var lock = NSRecursiveLock()
 
@@ -55,12 +54,8 @@ open class CollectionViewWithSectionSource<CellPresenter: PresenterType, Section
         defer { lock.unlock() }
         
         self.collection = collection
-        
-        subCollectionDisposeBag.removeAll()
-        
-        disposable = collection.collectionChanges.subscribe({ [weak self] _ in self?.subsribeOnChange() })
-        
-        subsribeOnChange()
+                        
+        subsribeOnChanges()
     }
     
     override open func presenter(at indexPath: IndexPath) -> CellPresenter {
@@ -100,32 +95,29 @@ open class CollectionViewWithSectionSource<CellPresenter: PresenterType, Section
         return cell
     }
     
-    private func subsribeOnChange() {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        subCollectionDisposeBag.removeAll()
-        for index in 0..<collection.count {
-            collection[index].cells.collectionChanges.subscribe({ [weak self] (indexes, type) in
-                self?.collectionView.performBatchUpdates({ [weak self] in
-                    switch type {
-                    case .reload:
-                        self?.countData = self?.collection.map({ $0.cells.count })
-                        self?.collectionView.reloadSections(IndexSet(arrayLiteral: index))
-                    case .delete:
-                        self?.collectionView.deleteItems(at: indexes.map({ IndexPath(row: $0, section: index) }))
-                        self?.countData = self?.collection.map({ $0.cells.count })
-                    case .insert:
-                        self?.collectionView.insertItems(at: indexes.map({ IndexPath(row: $0, section: index) }))
-                        self?.countData = self?.collection.map({ $0.cells.count })
-                    case .update:
-                        self?.collectionView.reloadItems(at: indexes.map({ IndexPath(row: $0, section: index) }))
-                    }
-                })
-            }).add(to: &subCollectionDisposeBag)
-        }
-        
-        countData = collection.map({ $0.cells.count })
-        collectionView.reloadData()
+    private func subsribeOnChanges() {
+//        lock.lock()
+//        defer { lock.unlock() }
+//        
+//        collection.collectionChanges.subscribe({ [weak self] changes in
+//            fatalError("To be implemented and tested")
+//            for change in changes {
+//                switch change {
+//                case .reload:
+//                    self?.countData = self?.collection.map({ $0.cells.count })
+//                    self?.collectionView.reloadSections(IndexSet(arrayLiteral: index))
+//                case .delete(let indexes):
+//                    self?.collectionView.deleteItems(at: indexes)
+//                    self?.countData = self?.collection.map({ $0.cells.count })
+//                case .insert(let indexes):
+//                    self?.collectionView.insertItems(at: indexes)
+//                    self?.countData = self?.collection.map({ $0.cells.count })
+//                case .update(let indexes):
+//                    self?.collectionView.reloadItems(at: indexes)
+//                }
+//            }
+//        }
+//        countData = collection.map({ $0.cells.count })
+//        collectionView.reloadData()
     }
 }

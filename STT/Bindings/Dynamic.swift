@@ -66,6 +66,16 @@ public class Dynamic<Element> {
         publisher.dispose()
     }
     
+    public func set(value: Element, notify: Bool) {
+        lock.lock()
+        storeValue = value
+        lock.unlock()
+        
+        if notify {
+            publisher.onNext(value)
+        }
+    }
+    
     ///
     /// Subscribe on changes and read current value
     ///
@@ -90,6 +100,10 @@ public class Dynamic<Element> {
         disposeBag.insert(disposable)
         
         return disposable
+    }
+    
+    public func link(disposable: Disposable) {
+        disposeBag.insert(disposable)
     }
     
     public func dispose() {

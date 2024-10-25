@@ -26,17 +26,21 @@
 
 import Foundation
 
-public struct SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType> {
+public class SectionData<CellPresenter: PresenterType, SectionPresenter: PresenterType>: CollectionChangeObservable {
     
     public let section: SectionPresenter
     public let cells: ObservableCollection<CellPresenter>
+    
+    public var collectionChanges: Event<ObservableCollectionChangeTransaction> {
+        cells.collectionChanges
+    }
     
     public init(section: SectionPresenter, cells: ObservableCollection<CellPresenter>) {
         self.section = section
         self.cells = cells
     }
 
-    public init(section: SectionPresenter, cells: [CellPresenter]) {
+    public convenience init(section: SectionPresenter, cells: [CellPresenter]) {
         self.init(section: section, cells: ObservableCollection(cells))
     }
 }

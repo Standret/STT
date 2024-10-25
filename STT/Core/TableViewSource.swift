@@ -56,34 +56,38 @@ open class TableViewSource<Presenter: PresenterType>: BaseTableViewSource<Presen
         self.countData = collection.count
         self.tableView.reloadData()
         
-        disposable = collection.collectionChanges.subscribe({ [weak self] (indexes, type) in
-            if self?.maxAnimationCount ?? 0 < indexes.count || type == .reload {
+        disposable = collection.collectionChanges.subscribe({ [weak self] transaction in
+            if transaction.changes.count == 1 && transaction.changes[0] == .reload {
                 self?.countData = collection.count
                 self?.tableView.reloadData()
             }
             else {
-                self?.tableView.performBatchUpdates({ [weak self] in
-                    switch type {
-                    case .delete:
-                        self?.tableView.deleteRows(
-                            at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                            with: self!.useAnimation ? .left : .none
-                        )
-                        self?.countData = collection.count
-                    case .insert:
-                        self?.tableView.insertRows(
-                            at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                            with: self!.useAnimation ? .automatic : .none
-                        )
-                        self?.countData = collection.count
-                    case .update:
-                        self?.tableView.reloadRows(
-                            at: indexes.map({ IndexPath(row: $0, section: 0) }),
-                            with: self!.useAnimation ? .fade : .none
-                        )
-                    default: break
+                self?.tableView.performBatchUpdates { [weak self] in
+                    for change in transaction.changes {
+                        switch change {
+                        case .delete(let indexes):
+                            self?.tableView.deleteRows(
+                                at: indexes,
+                                with: self!.useAnimation ? .left : .none
+                            )
+                            self?.countData = collection.count
+                        case .insert(let indexes):
+                            self?.tableView.insertRows(
+                                at: indexes,
+                                with: self!.useAnimation ? .automatic : .none
+                            )
+                            self?.countData = collection.count
+                        case .update(let indexes):
+                            self?.tableView.reloadRows(
+                                at: indexes,
+                                with: self!.useAnimation ? .fade : .none
+                            )
+                        default: break
+                        }
                     }
-                    }, completion: nil)
+                } completion: { success in
+                    transaction.completion(success)
+                }
             }
         })
     }

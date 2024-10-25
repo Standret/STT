@@ -33,7 +33,7 @@ public extension AVAsset {
     ///
     /// return URL of asset
     ///
-    var url: URL? {
+    var assetURL: URL? {
         return (self as? AVURLAsset)?.url
     }
     

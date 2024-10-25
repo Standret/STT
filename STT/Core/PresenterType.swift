@@ -26,7 +26,7 @@
 
 import Foundation
 
-public protocol PresenterType {
+public protocol PresenterType: AnyObject {
     
     associatedtype View
     

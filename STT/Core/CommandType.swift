@@ -80,7 +80,7 @@ open class Command: CommandType {
     private var canNextSubject = EventPublisher<Bool>(hasBuffer: false)
     internal var eventSubject = EventPublisher<Bool>(hasBuffer: false)
     
-    private var executeHandler: (() -> Void)
+    private var executeHandler: (() -> Void)!
     private var canExecuteHandler: (() -> Bool)?
     
     public var canNext: Event<Bool> { return canNextSubject }
@@ -114,6 +114,28 @@ open class Command: CommandType {
         }
         
         isExecuting = false
+    }
+    
+    public init(
+        handler: @escaping () async throws -> Void,
+        handlerCanExecute: @escaping () -> Bool = { true }
+    ) {
+        executeHandler = { [weak self] in
+            self?.changeState(state: .start)
+            Task { @MainActor [weak self] in
+                do {
+                    try await handler()
+                } catch {
+                    throw error
+                }
+                self?.changeState(state: .end)
+            }
+        }
+        
+        canExecuteHandler = { [weak self] in
+            guard let self else { return false }
+            return handlerCanExecute() && (self.allowConcurentExecution || !self.isExecuting)
+        }
     }
     
     deinit {
@@ -166,7 +188,7 @@ open class CommandWithParameter<TParameter>: CommandType {
     private var canNextSubject = EventPublisher<Bool>(hasBuffer: false)
     private var eventSubject = EventPublisher<Bool>(hasBuffer: false)
     
-    private var executeHandler: ((TParameter) -> Void)
+    private var executeHandler: ((TParameter) -> Void)!
     internal var canExecuteHandler: ((TParameter) -> Bool)?
     
     public var canNext: Event<Bool> { return canNextSubject }
@@ -200,6 +222,28 @@ open class CommandWithParameter<TParameter>: CommandType {
         }
         
         isExecuting = false
+    }
+    
+    public init(
+        handler: @escaping (TParameter) async throws -> Void,
+        handlerCanExecute: @escaping (TParameter) -> Bool = { _ in true }
+    ) {
+        executeHandler = { [weak self] parameter in
+            self?.changeState(state: .start)
+            Task { @MainActor [weak self] in
+                do {
+                    try await handler(parameter)
+                } catch {
+                    throw error
+                }
+                self?.changeState(state: .end)
+            }
+        }
+        
+        canExecuteHandler = { [weak self] parameter in
+            guard let `self` = self else { return false }
+            return handlerCanExecute(parameter) && (self.allowConcurentExecution || !self.isExecuting)
+        }
     }
     
     deinit {

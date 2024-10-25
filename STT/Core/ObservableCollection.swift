@@ -26,22 +26,48 @@
 
 import Foundation
 
-public enum CollectionObserverType {
-    case delete
-    case insert
-    case update
-    case reload
+public struct ObservableCollectionChangeTransaction {
+    
+    public enum Change: Hashable {
+        case deleteSections(indexes: [Int])
+        case insertSections(indexes: [Int])
+        case updateSections(indexes: [Int])
+        
+        case delete(indexes: [IndexPath])
+        case insert(indexes: [IndexPath])
+        case update(indexes: [IndexPath])
+        case reload
+        
+        func change(with section: Int) -> Change {
+            switch self {
+            case .reload: return .reload
+            case .delete(let indexes):
+                return .delete(indexes: indexes.map { IndexPath(row: $0.row, section: section) })
+            case .insert(let indexes):
+                return .insert(indexes: indexes.map { IndexPath(row: $0.row, section: section) })
+            case .update(let indexes):
+                return .update(indexes: indexes.map { IndexPath(row: $0.row, section: section) })
+            default:
+                fatalError()
+            }
+        }
+    }
+
+    let changes: [Change]
+    let completion: (Bool) -> Void
 }
 
-open class ObservableCollection<Element>: Collection {
-    
-    public typealias CollectionChanges = ([Int], CollectionObserverType)
+public protocol CollectionChangeObservable {
+    var collectionChanges: Event<ObservableCollectionChangeTransaction> { get }
+}
+
+open class ObservableCollection<Element: AnyObject>: Collection, CollectionChangeObservable {
     
     private var datas = [Element]()
     private var lock = NSRecursiveLock()
     
-    private var notifyPublisher = EventPublisher<CollectionChanges>()
-    public var collectionChanges: Event<CollectionChanges> { notifyPublisher }
+    private var notifyPublisher = EventPublisher<ObservableCollectionChangeTransaction>()
+    public var collectionChanges: Event<ObservableCollectionChangeTransaction> { notifyPublisher }
     
     public var count: Int { datas.count }
     public var capacity: Int { datas.capacity }
@@ -52,6 +78,12 @@ open class ObservableCollection<Element>: Collection {
     public var last: Element? { datas.last }
 
     open var array: [Element] { datas }
+    
+    private var isPerformingBatchUpdates = false
+    private var notifyChangesQueue: [ObservableCollectionChangeTransaction.Change] = []
+    
+    // reflect all changes if collection has as elements other ObservableCollection
+    private var subCollectionDisposables: [EventDisposable?] = []
     
     public init() { }
     public init(_ data: [Element]) {
@@ -73,36 +105,76 @@ open class ObservableCollection<Element>: Collection {
     open func append(_ newElement: Element) {
         lock.lock()
         datas.append(newElement)
+        subscribeOnElementIfNeeded(newElement) {
+            subCollectionDisposables.append($0)
+        }
         lock.unlock()
-        
-        notify(([datas.count - 1], .insert))
+
+        if isElementObservableCollection() {
+            notify(.insertSections(indexes: [datas.count - 1]))
+        } else {
+            notify(.insert(indexes: [IndexPath(row: datas.count - 1, section: 0)]))
+        }
     }
     
-    open func append(contentsOf sequence: [Element]) {
-        guard sequence.count > 0 else { return }
-        
+    open func append(contentsOf newElements: [Element]) {
+        guard !newElements.isEmpty else { return }
+
         lock.lock()
         let startIndex = datas.count
-        datas.append(contentsOf: sequence)
-        lock.unlock()
+        datas.append(contentsOf: newElements)
         
-        notify((Array(startIndex..<datas.count), .insert))
+        for element in newElements {
+            subscribeOnElementIfNeeded(element) {
+                subCollectionDisposables.append($0)
+            }
+        }
+        lock.unlock()
+
+        let insertedIndexes = Array(startIndex..<datas.count)
+        if isElementObservableCollection() {
+            notify(.insertSections(indexes: insertedIndexes))
+        } else {
+            notify(.insert(indexes: insertedIndexes.map({ IndexPath(row: $0, section: 0) })))
+        }
     }
     
     open func insert(_ newElement: Element, at index: Int) {
         lock.lock()
         datas.insert(newElement, at: index)
+        subscribeOnElementIfNeeded(newElement) {
+            subCollectionDisposables.insert($0, at: index)
+        }
         lock.unlock()
-        
-        notify(([index], .insert))
+
+        if isElementObservableCollection() {
+            notify(.insertSections(indexes: [index]))
+        } else {
+            notify(.insert(indexes: [IndexPath(row: index, section: 0)]))
+        }
     }
     
-    open func insert(contentsOf: [Element], at index: Int) {
+    open func insert(contentsOf newElements: [Element], at index: Int) {
+        guard !newElements.isEmpty else { return }
+        
         lock.lock()
-        datas.insert(contentsOf: contentsOf, at: index)
+        datas.insert(contentsOf: newElements, at: index)
+        
+        var disposables: [EventDisposable] = []
+        for element in newElements {
+            subscribeOnElementIfNeeded(element) {
+                disposables.append($0)
+            }
+        }
+        subCollectionDisposables.insert(contentsOf: disposables, at: index)
         lock.unlock()
         
-        notify((Array(index..<(index + contentsOf.count)), .insert))
+        let insertedIndexes = Array(index..<(index + newElements.count))
+        if isElementObservableCollection() {
+            notify(.insertSections(indexes: insertedIndexes))
+        } else {
+            notify(.insert(indexes: insertedIndexes.map { IndexPath(row: $0, section: 0) }))
+        }
     }
     
     open func index(where predicate: (Element) throws -> Bool) rethrows -> Int? {
@@ -115,29 +187,58 @@ open class ObservableCollection<Element>: Collection {
     open func remove(at index: Int) {
         lock.lock()
         datas.remove(at: index)
+        if isElementObservableCollection() {
+            subCollectionDisposables.remove(at: index)
+        }
         lock.unlock()
         
-        notify(([index], .delete))
+        if isElementObservableCollection() {
+            notify(.deleteSections(indexes: [index]))
+        } else {
+            notify(.delete(indexes: [IndexPath(row: index, section: 0)]))
+        }
     }
     
     open func removeAll() {
-        guard datas.count > 0 else { return }
+        guard !datas.isEmpty else { return }
         
         lock.lock()
+        let countBeforeRemoval = datas.count
         datas.removeAll()
+        subCollectionDisposables.removeAll()
         lock.unlock()
         
-        notify(([], .reload))
+        let indexesToRemove = Array(0..<countBeforeRemoval)
+        if isElementObservableCollection() {
+            notify(.deleteSections(indexes: indexesToRemove))
+        } else {
+            notify(.delete(indexes: indexesToRemove.map { IndexPath(row: $0, section: 0) }))
+        }
     }
     
     open func removeAll(where closure: (Element) -> Bool) {
         guard datas.count > 0 else { return }
         
         lock.lock()
-        self.datas.removeAll(where: closure)
+        let indexesToRemove = datas.enumerated().compactMap({
+            if closure($0.element) {
+                return $0.offset
+            }
+            return nil
+        })
+        datas.removeAll(where: closure)
+        // only update subCollectionDisposables if Element is also observable collection and a subscribtion exists
+        if isElementObservableCollection() {
+            indexesToRemove.forEach({ subCollectionDisposables[$0] = nil })
+            subCollectionDisposables.removeAll(where: { $0 == nil })
+        }
         lock.unlock()
         
-        notify(([], .reload))
+        if isElementObservableCollection() {
+            notify(.deleteSections(indexes: indexesToRemove))
+        } else {
+            notify(.delete(indexes: indexesToRemove.map({ IndexPath(row: $0, section: 0) })))
+        }
     }
     
     open subscript(index: Int) -> Element {
@@ -149,8 +250,16 @@ open class ObservableCollection<Element>: Collection {
         set(newValue) {
             lock.lock()
             datas[index] = newValue
+            subscribeOnElementIfNeeded(newValue) {
+                subCollectionDisposables[index] = $0
+            }
             lock.unlock()
-            notify(([index], .update))
+            
+            if isElementObservableCollection() {
+                notify(.updateSections(indexes: [index]))
+            } else {
+                notify(.update(indexes: [IndexPath(row: index, section: 0)]))
+            }
         }
     }
     
@@ -164,63 +273,75 @@ open class ObservableCollection<Element>: Collection {
     ///
     /// Ends and commits all modifications for collection and publish reload event
     ///
-    open func endUpdates() {
+    open func endUpdates(reload: Bool = true, completion: @escaping (Bool) -> Void = { _ in }) {
         guard isPerformingBatchUpdates else { fatalError("endUpdates nothing to commit") }
         isPerformingBatchUpdates = false
-        commitChanges()
+        commitChanges(reload: reload, completion: completion)
     }
     
     ///
     /// Performs updates block emiting event just after all actions are finished
     ///
-    private var isPerformingBatchUpdates = false
-    open func performBatchUpdates(_ updates: (ObservableCollection<Element>) -> Void) {
+    open func performBatchUpdates(reload: Bool = true, _ updates: (ObservableCollection<Element>) -> Void, completion: @escaping (Bool) -> Void = { _ in }) {
         guard !isPerformingBatchUpdates else { fatalError("performBatchUpdates can be executed synchronisly") }
         isPerformingBatchUpdates = true
         updates(self)
         isPerformingBatchUpdates = false
-        commitChanges()
+        commitChanges(reload: reload, completion: completion)
     }
     
-    private func commitChanges() {
+    private func commitChanges(reload: Bool = true, completion: @escaping (Bool) -> Void) {
         // collection was updated send reload data event
         // TODO:(Standret, romanKovalchuk) look at the effort to add support for, insertions, deletions, modifications
         lock.lock()
         defer { lock.unlock() }
-        notify(([], .reload))
+        
+        if reload {
+            notify(.reload)
+        } else {
+            notify(notifyChangesQueue, completion: completion)
+        }
+        
+        notifyChangesQueue = []
     }
     
-    private func notify(_ changes: CollectionChanges) {
+    private func notify(_ change: ObservableCollectionChangeTransaction.Change, completion: @escaping (Bool) -> Void = { _ in }) {
+        self.notify([change], completion: completion)
+    }
+    
+    private func notify(_ changes: [ObservableCollectionChangeTransaction.Change], completion: @escaping (Bool) -> Void = { _ in }) {
         // if changes were commited inside updates block we do not need to publish separate event
-        guard !isPerformingBatchUpdates else { return }
+        guard !isPerformingBatchUpdates else {
+            notifyChangesQueue.append(contentsOf: changes)
+            return
+        }
         // publish event to view
-        notifyPublisher.invoke(changes)
+        notifyPublisher.invoke(ObservableCollectionChangeTransaction(changes: changes, completion: completion))
     }
     
-    // MARK: - deprecated
-    
-    @available(swift, deprecated: 5.0, renamed: "last")
-    open func lastOrNil() -> Element? {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        return datas.last
+    private func subscribeOnElementIfNeeded(_ element: Element, disposeSave: (EventDisposable) -> Void) {
+        guard let collection = element as? CollectionChangeObservable else { return }
+        disposeSave(collection.collectionChanges.subscribe { [unowned self] transaction in
+            self.reflect(transaction: transaction, for: element)
+        })
     }
     
-    @available(swift, deprecated: 5.0, renamed: "first")
-    open func firstOrNil() -> Element? {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        return datas.first
+    private func reflect(transaction: ObservableCollectionChangeTransaction, for element: Element) {
+        guard let index = datas.firstIndex(where: { $0 === element }) else { return }
+        notify(transaction.changes.map({ $0.change(with: index) }), completion: transaction.completion)
+    }
+    
+    private func isElementObservableCollection() -> Bool {
+        return Element.self is CollectionChangeObservable.Type
     }
 }
 
 public extension ObservableCollection {
-    func replaceData(with data: [Element]) {
-        self.performBatchUpdates { (collection) in
+    
+    func replaceData(with data: [Element], completion: @escaping (Bool) -> Void = { _ in }) {
+        self.performBatchUpdates(reload: false, { (collection) in
             collection.removeAll()
             collection.append(contentsOf: data)
-        }
+        }, completion: completion)
     }
 }

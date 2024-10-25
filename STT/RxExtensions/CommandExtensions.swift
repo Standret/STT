@@ -50,6 +50,14 @@ public extension CommandType {
             }
         })
     }
+    
+    func bindState(to command: CommandType) -> EventDisposable {
+        return self.observe { [weak command] in
+            command?.changeState(state: .start)
+        } end: { [weak command] in
+            command?.changeState(state: .end)
+        }
+    }
 }
 
 public extension Observable {

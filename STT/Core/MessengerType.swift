@@ -62,7 +62,7 @@ public protocol MessengerType: class {
 
 public extension MessengerType {
     func error(title: String, description: String? = nil, debugDescription: String? = nil) {
-        self.publish(message: .init(type: .message, title: title, description: description, debugDescription: debugDescription))
+        self.publish(message: .init(type: .error, title: title, description: description, debugDescription: debugDescription))
     }
     func messege(title: String, description: String? = nil) {
         self.publish(message: .init(type: .message, title: title, description: description, debugDescription: nil))
